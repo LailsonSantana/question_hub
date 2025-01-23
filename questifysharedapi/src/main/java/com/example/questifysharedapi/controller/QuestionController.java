@@ -42,7 +42,14 @@ public class QuestionController {
 
     @GetMapping("/filter")
     public ResponseEntity<List<QuestionRecordDTO>> filterQuestions(@RequestParam String discipline){
-        List<QuestionRecordDTO> qdto =questionService.filterQuestions(discipline);
+        List<QuestionRecordDTO> qdto = questionService.filterQuestions(discipline);
+        return ResponseEntity.ok(qdto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<QuestionRecordDTO>> getQuestionsById(@PathVariable Long id){
+
+        List<QuestionRecordDTO> qdto = questionService.getAllByUser(id);
         return ResponseEntity.ok(qdto);
     }
 }

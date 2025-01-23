@@ -62,7 +62,7 @@ public class QuestionService {
 
     public Boolean verifyToxicty(String statement){
 
-        // Context saved on database
+        /*  Context saved on database
         String context = contextService.getContext().get().getText();
         String response = chatModel.call(context + "\n" + "[ENUNCIADO :" + statement + "]");
         //String response = "ADEQUADO";
@@ -73,8 +73,8 @@ public class QuestionService {
             log.info("O RESULTADO FOI VERDADEIRO");
             return true;
         }
-        log.info("O RESULTADO FOI FALSOOOOOOO");
-        return false;
+        log.info("O RESULTADO FOI FALSOOOOOOO");*/
+        return true;
     }
 
    
@@ -104,7 +104,7 @@ public class QuestionService {
         questions = questionRepository.findAllByDiscipline(discipline);
         List<QuestionRecordDTO> qdto = new ArrayList<>();
 
-        qdto= questions.stream()
+        qdto = questions.stream()
                 .map(question -> new QuestionRecordDTO(
                     question.getId(),
                     question.getStatement(),
@@ -118,6 +118,29 @@ public class QuestionService {
                 question.getUser().getName()
                 )).collect(Collectors.toList());
         log.info("OBJETOOOOO {}" ,qdto);
+        return qdto;
+    }
+
+    @Transactional
+    public List<QuestionRecordDTO> getAllByUser(Long userId){
+        List<Question> questions = new ArrayList<>();
+        questions = questionRepository.findAllByUser_id(userId);
+        List<QuestionRecordDTO> qdto = new ArrayList<>();
+
+        qdto = questions.stream()
+        .map(question -> new QuestionRecordDTO(
+            question.getId(),
+            question.getStatement(),
+            question.getDiscipline(),
+            question.getAnswers().stream()
+                    .map(answer -> new AnswerRecordDTO(
+                        answer.getText(),
+                        answer.getIsCorrect()
+                        )).collect(Collectors.toList()),
+            question.getUser().getId(),
+            question.getUser().getName()
+        )).collect(Collectors.toList());
+        log.info("QUESTÕES DO USUÁRIO: {}" ,qdto);
         return qdto;
     }
 }

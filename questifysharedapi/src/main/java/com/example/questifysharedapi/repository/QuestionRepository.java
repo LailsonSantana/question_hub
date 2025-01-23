@@ -9,5 +9,6 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Question,Long> {
 
     List<Question> findAllByDiscipline(String name);
+    List<Question> findAllByUser_id(Long userId);
 
 }

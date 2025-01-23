@@ -46,7 +46,7 @@ public class UserControllerTest {
     @Test
     public void testSaveUser_Success() throws Exception {
         UserRecordDTO userRecordDTO = new UserRecordDTO(
-                2L,"Paulo","paulo1@gmail.com","paulo123", User.Role.STUDENT,1L);
+                2L,"Paulo","paulo1@gmail.com","paulo123", "STUDENT",1L);
         User user = new User();
         when(userService.saveUser(any(UserRecordDTO.class))).thenReturn(user);
 

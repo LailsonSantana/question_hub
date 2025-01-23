@@ -1,5 +1,6 @@
 package com.example.questifysharedapi.controller;
 
+import com.example.questifysharedapi.dto.CredentialsDTO;
 import com.example.questifysharedapi.dto.UserRecordDTO;
 import com.example.questifysharedapi.exception.InappropriateContentException;
 import com.example.questifysharedapi.model.User;
@@ -39,6 +40,17 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @PostMapping("/auth")
+    public ResponseEntity autheticate(@RequestBody CredentialsDTO credentials){
+        var token = userService.authenticate(credentials.getEmail(), credentials.getPassword());
+
+        if(token == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/setContext")
