@@ -24,6 +24,7 @@ export default function InicialPage() {
         setHasMounted(true);
     }, []);
 
+
     const schema = z.object({
         alt1: z.string().nonempty("Esse campo não pode ficar vazio"),
         alt2: z.string().nonempty("Esse campo não pode ficar vazio"),

@@ -20,6 +20,37 @@ class QuestionService{
         return await response.json();
     }
 
+    async getByUser(userId: number): Promise<Question[]>{
+      const response = await fetch(`http://localhost:8080/api/questions/${userId}`);
+      if (!response.ok) {
+        throw new Error('Erro ao buscar questões');
+      }
+      const data: Question[] = await response.json();
+      return data;
+    }
+
+    // Originalmente era Promise<Question[]>  
+    async getQuestionByUser(id : number) : Promise<string>{
+      const userSession = this.auth.getUserSession()
+          const response = await fetch(`${this.baseUrl}/?${encodeURIComponent(id)}`, {
+            method: 'GET',
+            headers: {
+              "Authorization": `Bearer ${userSession?.accessToken}`,
+            },
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro ao obter disciplinas');
+          
+        }
+        else{
+          const responseData = await response.json();
+          console.log('Resposta do servidor:', responseData);
+        }
+
+        return response.headers.get('location') ?? '';
+    }
+
     async filterQuestions(discipline : string): Promise<string>{
 
         console.log("DISCIPLINA ENVIADA :" , discipline)

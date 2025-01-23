@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useFormik } from 'formik';
 import { formScheme, formValidationScheme, LoginForm } from "../formulario/formScheme";
 import { AccessToken, Credentials } from "@/resources/user/user.resource";
+import { InputText } from "@/components/input";
 
 export default function LoginPage() {
 
@@ -16,10 +17,9 @@ export default function LoginPage() {
 
     const { values, handleChange, handleSubmit, errors, resetForm } = useFormik<LoginForm>({
         initialValues: formScheme,
-        //validationSchema: formValidationScheme,
+        validationSchema: formValidationScheme,
         onSubmit: onSubmit
     });
-
 
     async function onSubmit(values: LoginForm){
         
@@ -46,30 +46,42 @@ export default function LoginPage() {
                         de conhecimento em um ambiente autosustentável e colaborativo. Crie sua conta e comece agora mesmo!
                     </p>*/}
                     <div className="items-center">
-                        <img src="https://cdn.dribbble.com/userupload/10846737/file/original-7ee25fe929f1d993a2716f984ff0d86c.jpg?resize=1024x768&vertical=center" alt="Imagem ilustrativa" className="w-full h-92 object-cover rounded-md" />
+                        <img src="/assets/login.png"  alt="Imagem ilustrativa" className="w-full h-92 object-cover rounded-md" />
                     </div>
                     
                 </div>
 
-                {/* Seção de cadastro */}
+                {/* Seção de login */}
                 <section className="w-1/2 h-full flex items-center justify-center bg-containerColor rounded-r-md p-8 shadow-md">
                     <div className="w-3/4">
-                        <h1 className="text-center font-bold text-2xl mb-6">LOGIN</h1>
+                        <h1 className="text-[rgb(77,68,130)] text-center font-bold text-3xl mb-16">LOGIN</h1>
                         
                         <form onSubmit={handleSubmit}>
                             
                             <div className="mb-6">
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                                <input name="email" onChange={handleChange} value={values.email} type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="nome@email.com" required />
+                                <InputText style='w-full' 
+                                        id='email'
+                                        value={values.email}
+                                        onChange={handleChange} 
+                                        placeholder="nome@email.com"
+                                        />
+                                        
+                                 {/*<input id="email" value={values.email} onChange={handleChange}  type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="nome@email.com" required />*/}
                             </div>
 
                             <div className="mb-6">
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Senha</label>
-                                <input name="password" onChange={handleChange} value={values.password} type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="•••••••••" required />
+                                <InputText style='w-full' 
+                                       type="password"
+                                       id='password'
+                                       value={values.password}
+                                       onChange={handleChange}
+                                       placeholder="•••••••••" />
+                                {/*<input id="password" value={values.password} onChange={handleChange}  type="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="•••••••••" required />*/}
                             </div>
 
-
-                            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5">
+                            <button type="submit" className="text-white bg-[#7D6ED4] hover:bg-titllecolor focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5">
                                 Entrar
                             </button>
 

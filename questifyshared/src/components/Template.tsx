@@ -25,7 +25,7 @@ export const Template: React.FC<TemplateProps> = (props: TemplateProps) => {
         <>  <div className="min-h-screen bg-[#f5f3ff]">
                 <Header/>
 
-                    <div className="container mx-auto mt-8 sm:px-4 md:px-8 lg:px-16">
+                    <div className="container mx-auto mt-8 sm:px-4 md:px-8 lg:px-16 flex-grow">
                         {props.children}
                     </div>
                     

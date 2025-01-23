@@ -16,7 +16,7 @@ interface TextEditorProps {
     onValidationError?: (error: string) => void; // Callback para erro de validação
 }
 
-const TextEditor: React.FC<TextEditorProps> = ({ onChange, onValidationError }) => {
+const TextEditor: React.FC<TextEditorProps> = ({ onChange, onValidationError}) => {
     
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const isMounted = useRef(false);
@@ -30,31 +30,35 @@ const TextEditor: React.FC<TextEditorProps> = ({ onChange, onValidationError }) 
 
     // Função para capturar mudanças no estado do editor
     const onEditorStateChange = (newState: EditorState) => {
-        if (!isMounted.current) return;
+        if (!isMounted.current) return false;
         setEditorState(newState);
         const contentState = newState.getCurrentContent();
         validateContent(contentState); // Valida o conteúdo sempre que o estado do editor muda
     };
+    
 
-    // Função para validar o conteúdo
+    // Função para validar o conteúdo (PROBLEMA NÃO ESTÁ AQUI)
     const validateContent = (content: ContentState) => {
-        if (!isMounted.current) return;
+        if (!isMounted.current) return true;
         const plainText = content.getPlainText().trim(); // Extrai o texto sem formatação
         if (!plainText) {
             onValidationError?.('O texto não pode estar vazio.'); // Chama o callback se definido
-            console.log("PARECE QUE TEMOS UM TEXTO VAZIO");
-            return;
+            console.log("PARECE QUE TEMOS UM TEXTO VAZIO")
+            return false;
         }
         onChange(JSON.stringify(convertToRaw(content))); // Envia o conteúdo se válido
+        return true;
     };
+    
 
     return (
         <div className="border border-gray-300 rounded shadow-inner bg-white w-10/12 h-full m-auto">
+            {/*style={{ width: '580px', height: '460px' }}*/}
             <div className="text-editor h-full">
                 <div className="editor h-full overflow-y-auto p-6">
                     <Editor
                         editorState={editorState}
-                        onEditorStateChange={onEditorStateChange}
+                        //onEditorStateChange={onEditorStateChange}
                         placeholder="Digite o enunciado da sua questão aqui:"
                         toolbar={{
                             options: ['inline', 'list', 'textAlign', 'link', 'history'],
@@ -68,7 +72,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ onChange, onValidationError }) 
 };
 
 export default TextEditor;
-
 
 
 
