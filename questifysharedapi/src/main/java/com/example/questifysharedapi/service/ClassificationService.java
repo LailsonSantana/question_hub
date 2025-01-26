@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,11 +46,11 @@ public class ClassificationService {
             if (existingClassification.isPresent()) {
                 // If already a classification update the note
                 classification = existingClassification.get();
-                classification.setNota(classificationRecordDTO.nota());
+                classification.setRating(classificationRecordDTO.rating());
             } else {
                 // Otherwise makes a new classification
                 classification = new Classification();
-                classification.setNota(classificationRecordDTO.nota());
+                classification.setRating(classificationRecordDTO.rating());
                 classification.setQuestion(question);
                 classification.setUser(user);
             }
@@ -63,12 +64,32 @@ public class ClassificationService {
     }
 
     @Transactional
-    public ClassificationRecordDTO getClassificationByUserAndQuestion(Long userId , Long questionId){
-        Optional<Classification> classification = classificationRepository.findByUserIdAndQuestionId(userId,questionId);
-        Classification classification1 = classification.get();
-        return new ClassificationRecordDTO(
-                    classification1.getUser().getId(),
-                    classification1.getQuestion().getId() ,
-                    classification1.getNota());
+    public Double getClassificationByUserAndQuestion(Long userId , Long questionId){
+        Optional<Classification> existingClassification = classificationRepository.findByUserIdAndQuestionId(userId,questionId);
+
+        if(existingClassification.isPresent()){
+            Classification classification = existingClassification.get();
+            log.info("Foi encontrada uma classificação de valor {}",classification.getRating());
+            return classification.getRating();
+        }
+        log.info("NADA FOI ENCONTRADO {} - {}" , userId , questionId);
+        return 0.0; 
+    }
+
+    public void calculateMedia(Long questionId){
+
+        Optional<List<Classification>> opClassifications = classificationRepository.findAllByQuestionId(questionId);
+
+        if(opClassifications.isPresent()){
+            List<Classification> classifications = opClassifications.get();
+            Double media = 0.0;
+            for(Classification c : classifications){
+                media = c.getRating() + media;
+            }
+            media = media / classifications.size();
+            for(Classification c : classifications){
+                
+            } 
+        }
     }
 }

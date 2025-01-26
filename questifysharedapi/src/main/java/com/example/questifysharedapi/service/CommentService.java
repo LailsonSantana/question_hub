@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +33,7 @@ public class CommentService {
     public Comment saveComment(CommentRecordDTO commentRecordDTO){
         Comment comment = new Comment();
         comment.setText(commentRecordDTO.text());
+
         log.info("O ID da questão É {}",commentRecordDTO.questionId());
         Optional<Question> optionalQuestion = questionRepository.findById(commentRecordDTO.questionId());
         Question question = questionRepository.findById(commentRecordDTO.questionId()).get();
@@ -63,8 +66,16 @@ public class CommentService {
                         comment.getText(),
                         comment.getUser().getId(),
                         comment.getQuestion().getId(),
-                        comment.getUser().getName()
+                        comment.getUser().getName(),
+                        formatDate(comment.getCreatedAt())
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public String formatDate(LocalDateTime date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy 'às' HH:mm");
+        String formattedDate = date.format(formatter);
+
+        return formattedDate;
     }
 }

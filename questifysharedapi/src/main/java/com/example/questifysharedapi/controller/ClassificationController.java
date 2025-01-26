@@ -27,8 +27,8 @@ public class ClassificationController {
 
     }
 
-    @GetMapping("/{questionId}/{userId}")
-    public ResponseEntity<ClassificationRecordDTO> getClassificationByUserAndQuestion(@PathVariable Long questionId ,
+    @GetMapping("/{userId}/{questionId}")
+    public ResponseEntity<Double> getClassificationByUserAndQuestion(@PathVariable Long questionId ,
                                                                                       @PathVariable Long userId){
         log.info("ESSE MÉTODO FOI CHAMADO");
         return ResponseEntity.ok(classificationService.getClassificationByUserAndQuestion(questionId,userId));

@@ -24,5 +24,5 @@ public class Classification {
     private Question question;
 
     @Column
-    private double nota;
+    private double rating;
 }
