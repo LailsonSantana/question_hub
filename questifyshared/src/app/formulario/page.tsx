@@ -19,9 +19,22 @@ export default function InicialPage() {
     const service = useQuestionService();
     const [hasMounted, setHasMounted] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [dados, setDados] = useState({});
 
     useEffect(() => {
         setHasMounted(true);
+
+        const params = new URLSearchParams(window.location.search); // Obtém a query string da URL
+        const id = params.get("id");
+        const statement = params.get("statement")
+        const discipline = params.get("discipline");
+        const answers = params.get("answers")
+        
+        
+        // Atualiza o estado com os dados
+        setDados({ id , discipline , statement , answers });
+        console.table(dados)
+        
     }, []);
 
 
@@ -39,6 +52,7 @@ export default function InicialPage() {
         mode: 'all',
         reValidateMode: 'onChange',
         resolver: zodResolver(schema)
+        
     });
 
     const { handleSubmit, watch, setValue, reset,  formState: { errors } } = methods;
@@ -150,7 +164,7 @@ export default function InicialPage() {
                                                 isSelected={correctAnswer === 'alt4'}
                                                 onSelect={() => onSelectAlternative('alt4')}
                                                 justification={correctAnswer === 'alt4' ? justification : ''}
-                                                setJustification={setJustification}
+                                                setJustification={setJustification}  
                                             />
                                             <FieldError error={errors.alt4?.message} />
                 

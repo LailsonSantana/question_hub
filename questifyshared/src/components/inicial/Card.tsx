@@ -10,9 +10,9 @@ interface ClassCardProps {
 
 const ClassCard: React.FC<ClassCardProps> = ({ title, label, imageUrl , onClick }) => {
   return (
-    <div className="p-4 border border-gray-300 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-in-out bg-containerColor text-white">
+    <div className="p-4 border border-gray-300 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 ease-in-out text-white bg-containerColor">
       {/* Imagem */}
-      <div className="h-72 overflow-hidden rounded-t-lg shadow-md border border-gray-200">
+      <div className="h-72 overflow-hidden rounded-t-lg shadow-md border border-gray-200 bg-white">
         <img
           src={imageUrl}
           alt={title}

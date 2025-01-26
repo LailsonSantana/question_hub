@@ -41,6 +41,7 @@ export default function QuestoesPage(){
                                    enunciado={question.statement} 
                                    answers={question.answers}
                                    discipline={question.discipline}
+                                   userId={question.userId!}
                                    nameUser={question.nameUser}>
                 </QuestionComponent>
             </div>        

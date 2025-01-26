@@ -51,7 +51,8 @@ class AuthService{
                 id: decodedToken.id
                 
             };
-            console.log("User ID:", userSessionToken.id);
+            //const tokenPayload = JSON.parse(atob(token.accessToken.split('.')[1]));
+            //console.log("Payload eh :",tokenPayload);
             this.setUserSession(userSessionToken)
         }
     }
@@ -71,6 +72,7 @@ class AuthService{
             }
 
             const token: UserSessionToken = JSON.parse(authString);
+            //console.log("O token retornado eh : " ,token)
             return token;
         }catch(Error){return null}
         

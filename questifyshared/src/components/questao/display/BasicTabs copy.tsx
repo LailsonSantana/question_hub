@@ -11,9 +11,8 @@ import { CommentResponse } from '@/resources/comment/commentResponse.resource';
 import { useAuth } from '@/resources'
 import { useClassificationService } from '@/resources/classification/classification.service';
 import { Classification } from '@/resources/classification/classification.resource';
+import QuestionComponent from './QuestionComponent';
 import Informativo from '@/components/formulario/Informativo';
-import { Question } from '@/resources/question/question.resource';
-
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -45,11 +44,11 @@ function a11yProps(index: number) {
 }
 
 interface BasicTabsProps {
-  question: Question;
+  questionId: number;
 }
 
 
-export default function BasicTabs({ question }: BasicTabsProps) {
+export default function BasicTabs({ questionId }: BasicTabsProps) {
   const [value, setValue] = React.useState(1);
   const [comments, setComments] = React.useState<CommentRequest[]>([]);
   const useServiceComment = useCommentService();
@@ -62,14 +61,10 @@ export default function BasicTabs({ question }: BasicTabsProps) {
     setValue(newValue);
   };
 
-
-
   async function searchComments() {
-    const result = await useServiceComment.getAllComents(question.id!);
+    const result = await useServiceComment.getAllComents(questionId);
     setComments(result);
-    console.log("Questão completa")
-    console.table(question)
-    //console.table(result)
+    console.table(result)
   }
 
 
@@ -105,7 +100,7 @@ export default function BasicTabs({ question }: BasicTabsProps) {
         {
           text: comment.text,
           nameUser: userSession?.name!, 
-          questionId: question.id!
+          questionId: questionId
         },
       ]);
     } catch (error) {
@@ -119,17 +114,6 @@ export default function BasicTabs({ question }: BasicTabsProps) {
       searchComments();
     }
   }, [value]);
-
-  const query = new URLSearchParams(
-    Object.entries(question).map(([key, value]) => [key, String(value)])
-  ).toString();
-
-  //const query = new URLSearchParams({
-    //id: String(question.id),
-    //discipline: question.discipline,
-    //statement: question.statement,
-    //answers: JSON.stringify(question.answers) // Serializa o array
-//}).toString();
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -145,25 +129,21 @@ export default function BasicTabs({ question }: BasicTabsProps) {
           <Informativo text='Você terá a possibilidade de fazer mudanças nessa questão , vale ressaltar que após às mudanças
           a sua versão será considerada uma versão alternativa da questão principal.'
           />
-          {/*<a href="http://localhost:3000/formulario" className="text-blue-600 hover:underline m-4">Clique aqui para fazer alterações nessa questão .</a>*/}
+          <a href="http://localhost:3000/formulario" className="text-blue-600 hover:underline m-4">Clique aqui para fazer alterações nessa questão .</a>
         </div>
         {/*<textarea className="textarea" placeholder="Write your thoughts here..."></textarea>*/}
-        <a href={`/formulario?${query}`}>Editar Formulário</a>
-
-
-        
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={1}>
         <div className="mr-8 mb-8">
-          <InputComment onClick={saveComment} questionId={question.id!} userId={userId!} />
+          <InputComment onClick={saveComment} questionId={questionId} userId={userId!} />
         </div>
 
         <section className="grid grid-cols-1 space-y-10">{mapperComments()}</section>
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={2}>
-        <RateComponent onClick={saveClassification} userId={userId!} questionId={question.id!}/>
+        <RateComponent onClick={saveClassification} userId={userId!} questionId={questionId}/>
       </CustomTabPanel>
     </Box>
   );

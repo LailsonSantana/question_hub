@@ -20,7 +20,6 @@
     "jwt-decode": "^4.0.0",
     "next": "15.1.4",
     "questifyshared": "file:",
-    "react": "^18",
     "react-dom": "^18",
     "react-draft-wysiwyg": "^1.15.0",
     "react-hook-form": "^7.53.0",

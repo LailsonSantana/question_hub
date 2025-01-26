@@ -36,6 +36,7 @@ export default function AdministradorPage() {
     const user: User = { email: values.email, name: values.name, password: values.password , role: values.role }
     console.log("O ENVIO FOI REALIZADO")
       try {
+      
         await auth.save(user);
         notification.notify("Success on saving user!", "success");
         resetForm();

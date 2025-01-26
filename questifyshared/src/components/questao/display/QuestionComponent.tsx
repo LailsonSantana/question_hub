@@ -6,6 +6,7 @@ import { RenderIf } from "../../Template";
 import Cabecalho from "./Cabecalho";
 import BasicTabs from "./BasicTabs";
 import ButtonB from "@/components/button/Button";
+import { Question } from "@/resources/question/question.resource";
 
 interface Answer{
     text: string;
@@ -16,6 +17,7 @@ interface QuestionComponentProps{
     enunciado: string
     answers: Answer[]
     nameUser: string
+    userId: number;
     discipline: string
 }
 
@@ -24,7 +26,7 @@ const indexToLetter = (index: number): string => {
 };
 
 
-export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciado,answers,nameUser,discipline} : QuestionComponentProps) => {
+export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciado,answers,nameUser,userId,discipline} : QuestionComponentProps) => {
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -82,7 +84,7 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
             </div>
 
             <div className="border border-gray-300 rounded p-4 shadow-md bg-[#FFFDF2]">
-                <BasicTabs questionId={id}></BasicTabs>
+                <BasicTabs question={new Question(id,enunciado,discipline,answers,userId,nameUser)}></BasicTabs>
             </div>
         </div>
     )

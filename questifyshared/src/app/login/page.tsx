@@ -23,7 +23,7 @@ export default function LoginPage() {
 
     async function onSubmit(values: LoginForm){
         
-        console.log("Valores enviados:", values);
+        console.log("Valores enviados 1:", values);
         const credentials: Credentials = { email: values.email, password: values.password }
         try {
             const accessToken: AccessToken = await auth.authenticate(credentials);
