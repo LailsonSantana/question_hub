@@ -47,9 +47,16 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<QuestionRecordDTO>> getQuestionsById(@PathVariable Long id){
-
+    public ResponseEntity<List<QuestionRecordDTO>> getQuestionsByUserId(@PathVariable Long id){
+        log.info("FOI CHAMADO O MÉTODO BY USER ID");
         List<QuestionRecordDTO> qdto = questionService.getAllByUser(id);
+        return ResponseEntity.ok(qdto);
+    }
+
+    @GetMapping("questionId/{id}")
+    public ResponseEntity<QuestionRecordDTO> getQuestionsById(@PathVariable Long id){
+        log.info("FOI CHAMADO O MÉTODO QUESTION BY ID");
+        QuestionRecordDTO qdto = questionService.getQuestionById(id);
         return ResponseEntity.ok(qdto);
     }
 }

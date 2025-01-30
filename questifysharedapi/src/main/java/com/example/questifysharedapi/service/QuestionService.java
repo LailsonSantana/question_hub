@@ -4,6 +4,7 @@ import com.example.questifysharedapi.dto.AnswerRecordDTO;
 import com.example.questifysharedapi.dto.QuestionRecordDTO;
 import com.example.questifysharedapi.exception.InappropriateContentException;
 import com.example.questifysharedapi.model.Answer;
+import com.example.questifysharedapi.model.Classification;
 import com.example.questifysharedapi.model.Context;
 import com.example.questifysharedapi.model.Question;
 import com.example.questifysharedapi.repository.AnswerRepository;
@@ -141,6 +142,20 @@ public class QuestionService {
             question.getUser().getName()
         )).collect(Collectors.toList());
         log.info("QUESTÕES DO USUÁRIO: {}" ,qdto);
+        return qdto;
+    }
+
+    @Transactional 
+    public QuestionRecordDTO getQuestionById(Long questionId){
+        Question question = new Question();
+        Optional<Question> existingQuestion = questionRepository.findById(questionId);
+        question = existingQuestion.get();
+        List<AnswerRecordDTO> answerRecordDTOs = question.getAnswers().stream()
+        .map(answer -> new AnswerRecordDTO(answer.getText(), answer.getIsCorrect()))
+        .collect(Collectors.toList());
+        QuestionRecordDTO qdto = new QuestionRecordDTO(questionId, question.getStatement(), question.getDiscipline(), 
+        answerRecordDTOs, question.getUser().getId(), question.getUser().getName());
+        
         return qdto;
     }
 }
