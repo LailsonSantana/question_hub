@@ -51,6 +51,31 @@ class QuestionService{
         return response.headers.get('location') ?? '';
     }
 
+    async getQuestionById(id: number): Promise<Question> {
+      const userSession = this.auth.getUserSession();
+  
+      // Corrigindo a URL: não é necessário usar encodeURIComponent para o id na query
+      const response = await fetch(`${this.baseUrl}/questionId/${id}`, {
+          method: 'GET',
+          headers: {
+              "Authorization": `Bearer ${userSession?.accessToken}`,
+          },
+      });
+  
+      // Verifica se a resposta foi bem-sucedida
+      if (!response.ok) {
+          throw new Error('Erro ao obter a questão');
+      }
+  
+      // Converte a resposta para JSON
+      const responseData = await response.json();
+      console.log('Resposta do servidor:', responseData);
+  
+      // Retorna o objeto Question
+      return responseData as Question;
+  }
+    
+
     async filterQuestions(discipline : string): Promise<string>{
 
         console.log("DISCIPLINA ENVIADA :" , discipline)

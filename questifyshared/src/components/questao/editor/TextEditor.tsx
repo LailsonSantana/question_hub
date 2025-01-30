@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ContentState, EditorState, convertToRaw } from 'draft-js';
 import dynamic from 'next/dynamic';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -17,41 +17,42 @@ interface TextEditorProps {
 }
 
 const TextEditor: React.FC<TextEditorProps> = ({ onChange, onValidationError }) => {
-    
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
-    const isMounted = useRef(false);
+    const [isMounted, setIsMounted] = useState(false);
 
+    // Verifica se o componente está montado
     useEffect(() => {
-        isMounted.current = true;
+        setIsMounted(true);
         return () => {
-            isMounted.current = false;
+            setIsMounted(false);
         };
     }, []);
 
     // Função para capturar mudanças no estado do editor
     const onEditorStateChange = (newState: EditorState) => {
-        if (!isMounted.current) return;
+        if (!isMounted) return; // Não atualiza o estado se o componente não estiver montado
         setEditorState(newState);
-        const contentState = newState.getCurrentContent();
-        validateContent(contentState); // Valida o conteúdo sempre que o estado do editor muda
     };
 
-    // Função para validar o conteúdo
-    const validateContent = (content: ContentState) => {
-        if (!isMounted.current) return;
-        const plainText = content.getPlainText().trim(); // Extrai o texto sem formatação
+    // Valida o conteúdo sempre que o estado do editor muda
+    useEffect(() => {
+        if (!isMounted) return; // Não valida se o componente não estiver montado
+
+        const contentState = editorState.getCurrentContent();
+        const plainText = contentState.getPlainText().trim(); // Extrai o texto sem formatação
+
         if (!plainText) {
             onValidationError?.('O texto não pode estar vazio.'); // Chama o callback se definido
-            console.log("PARECE QUE TEMOS UM TEXTO VAZIO");
             return;
         }
-        onChange(JSON.stringify(convertToRaw(content))); // Envia o conteúdo se válido
-    };
+
+        onChange(JSON.stringify(convertToRaw(contentState))); // Envia o conteúdo se válido
+    }, [editorState, onChange, onValidationError, isMounted]);
 
     return (
-        <div className="border border-gray-300 rounded shadow-inner bg-white w-10/12 h-full m-auto">
-            <div className="text-editor h-full">
-                <div className="editor h-full overflow-y-auto p-6">
+        <div className="border border-gray-300 rounded shadow-inner bg-white max-w-2xl mx-auto">
+            <div className="text-editor">
+                <div className="editor p-6">
                     <Editor
                         editorState={editorState}
                         onEditorStateChange={onEditorStateChange}
@@ -68,7 +69,3 @@ const TextEditor: React.FC<TextEditorProps> = ({ onChange, onValidationError }) 
 };
 
 export default TextEditor;
-
-
-
-

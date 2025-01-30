@@ -1,5 +1,3 @@
-import { convertFromRaw } from 'draft-js';
-import { stateToHTML } from 'draft-js-export-html';
 import React from 'react';
 
 interface EnunciadoProps {
@@ -8,13 +6,15 @@ interface EnunciadoProps {
 
 const Enunciado: React.FC<EnunciadoProps> = ({text}) => {
 
-  const contentState = convertFromRaw(JSON.parse(text)); // Aqui assumo que `text` é o JSON salvo
-  const htmlContent = stateToHTML(contentState);
+  //const contentState = convertFromRaw(JSON.parse(text)); // Aqui assumo que `text` é o JSON salvo
+  //const htmlContent = stateToHTML(contentState);
+  const textContent = text.replace(/<[^>]+>/g, '');
+
   return (
 
     <div>
-      <span className='text-md font-bold' dangerouslySetInnerHTML={{ __html: htmlContent }} />
-        {/*<span>{text}</span>*/}
+      {/*<<span className='text-md font-bold' dangerouslySetInnerHTML={{ __html: htmlContent }} />*/}
+        {<span>{textContent}</span>}
     </div>
   );
 };

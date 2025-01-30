@@ -1,4 +1,3 @@
-import { FieldError } from '@/components/input';
 import React, { useState } from 'react';
 
 interface InputAlternativaProps {
@@ -25,7 +24,6 @@ const InputAlternativa: React.FC<InputAlternativaProps> = ({
           {...register(name)}
           autoComplete='off'
         />
-
 
         <div className="flex items-center">
           <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 mr-2">Correta</label>

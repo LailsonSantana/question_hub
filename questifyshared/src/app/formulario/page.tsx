@@ -1,44 +1,34 @@
 'use client';
 
-import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useQuestionService } from "@/resources";
-import { Answer, Question } from "@/resources/question/question.resource";
 import { Template } from "@/components/Template";
 import InputAlternativa from "@/components/questao/create/InputAlternativa";
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldError } from "./FieldError";
-import TextEditor from "@/components/questao/editor/TextEditor";
 import ButtonB from "@/components/button/Button";
 import Selecionador from "@/components/questao/create/Selecionador";
 import ContainerForm from "@/components/formulario/ContainerForm";
+import Tiptap from "@/components/questao/tiptap/Tiptap";
+import { FormProvider, useForm } from "react-hook-form";
 
-export default function InicialPage() {
+export default function FormularioPage() {
     const [enunciado, setEnunciado] = useState("");
     const service = useQuestionService();
     const [hasMounted, setHasMounted] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [dados, setDados] = useState({});
+    const queryString = window.location.search;
+    const searchParams = new URLSearchParams(queryString);
+    const id = searchParams.get("id");
 
     useEffect(() => {
-        setHasMounted(true);
-
-        const params = new URLSearchParams(window.location.search); // Obtém a query string da URL
-        const id = params.get("id");
-        const statement = params.get("statement")
-        const discipline = params.get("discipline");
-        const answers = params.get("answers")
-        
-        
-        // Atualiza o estado com os dados
-        setDados({ id , discipline , statement , answers });
-        console.table(dados)
-        
+        setHasMounted(true);  
     }, []);
 
 
     const schema = z.object({
+        statement: z.string().nonempty("Esse campo não pode ficar vazio"),
         alt1: z.string().nonempty("Esse campo não pode ficar vazio"),
         alt2: z.string().nonempty("Esse campo não pode ficar vazio"),
         alt3: z.string().nonempty("Esse campo não pode ficar vazio"),
@@ -48,14 +38,46 @@ export default function InicialPage() {
         correctAnswer: z.string().nonempty("A justificativa não pode ficar vazia")
     });
 
+    type FormProps = z.infer<typeof schema>;
+
+
     const methods = useForm<FormProps>({
-        mode: 'all',
-        reValidateMode: 'onChange',
-        resolver: zodResolver(schema)
-        
+        mode: "all",
+        reValidateMode: "onChange",
+        resolver: zodResolver(schema),
+        defaultValues: {statement: "",},
     });
 
-    const { handleSubmit, watch, setValue, reset,  formState: { errors } } = methods;
+
+    const { handleSubmit, watch, setValue, reset, control,   formState: { errors } } = methods;
+
+    useEffect(() => {
+        if(id){
+            const fetchData = async () => {
+                try {
+                    const response = await service.getQuestionById(1); // Substitua pelo ID correto
+                    reset({ 
+                        statement: response.statement || "hh",
+                        alt1: response.answers[0]?.text || "",
+                        alt2: response.answers[1]?.text || "",
+                        alt3: response.answers[2]?.text || "",
+                        alt4: response.answers[3]?.text || "",
+                        alt5: response.answers[4]?.text || "",
+                        select: response.discipline || "",
+                        correctAnswer: response.answers.find(a => a.isCorrect)?.text || ""
+                    });
+                    setValue("statement", response.statement || "hh");
+                    console.log("O ENUNCIADO É :" , response.statement)
+                } catch (error) {
+                    console.error("Erro ao carregar a questão:", error);
+                }
+            };
+            fetchData();
+        }else{
+            console.log("NADA DE ID")
+        }
+    }, [id, reset, setValue]);
+
 
     const correctAnswer = watch('correctAnswer');
     
@@ -66,40 +88,34 @@ export default function InicialPage() {
     const [justification, setJustification] = useState('');
 
     const handleSave = async (data: FormProps) => {
-        console.log(data);
+        console.log("Handle save acabou de ser chamado");
 
-        const answers: Answer[] = [
-            { text: data.alt1, isCorrect: correctAnswer === 'alt1' },
-            { text: data.alt2, isCorrect: correctAnswer === 'alt2' },
-            { text: data.alt3, isCorrect: correctAnswer === 'alt3' },
-            { text: data.alt4, isCorrect: correctAnswer === 'alt4' },
-            { text: data.alt5, isCorrect: correctAnswer === 'alt5' },
+        const answers = [
+            { text: data.alt1, isCorrect: correctAnswer === "alt1" },
+            { text: data.alt2, isCorrect: correctAnswer === "alt2" },
+            { text: data.alt3, isCorrect: correctAnswer === "alt3" },
+            { text: data.alt4, isCorrect: correctAnswer === "alt4" },
+            { text: data.alt5, isCorrect: correctAnswer === "alt5" },
         ];
 
-        const dados: Question = {
-            statement: enunciado,
+        const dados = {
+            statement: data.statement,
             discipline: data.select,
             answers: answers,
             userId: 1,
-            nameUser: "Nome do Usuário"
+            nameUser: "Nome do Usuário",
         };
 
         try {
-            const location = await service.save(dados);
+            await service.save(dados);
             alert("Pergunta salva com sucesso!");
+            reset(); // Reseta o formulário
         } catch (error) {
             console.error("Erro ao salvar a pergunta:", error);
             alert("Erro ao salvar a pergunta.");
         }
-
-        reset();
     };
-
-    type FormProps = z.infer<typeof schema>;
-
-    if (!hasMounted) {
-        return null;
-    }
+    
 
     const handleValidationError = (errorMessage: string) => {
         setError(errorMessage);
@@ -123,8 +139,10 @@ export default function InicialPage() {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <TextEditor onChange={setEnunciado} onValidationError={handleValidationError} />
-                                        {error && <div className="error-message text-red-500">{error}</div>}
+                                        
+                                        <Tiptap value={watch("statement")} onChange={(value) => setValue("statement", value)} onKeyDown={(e) => e.stopPropagation()}/>
+                                        {/*<TextEditor onChange={setEnunciado} onValidationError={handleValidationError} />
+                                        {error && <div className="error-message text-red-500">{error}</div>}*/}
                                     </div>
                                 </ContainerForm>
                             

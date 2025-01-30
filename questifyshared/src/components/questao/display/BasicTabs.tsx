@@ -120,16 +120,10 @@ export default function BasicTabs({ question }: BasicTabsProps) {
     }
   }, [value]);
 
-  const query = new URLSearchParams(
-    Object.entries(question).map(([key, value]) => [key, String(value)])
-  ).toString();
 
-  //const query = new URLSearchParams({
-    //id: String(question.id),
-    //discipline: question.discipline,
-    //statement: question.statement,
-    //answers: JSON.stringify(question.answers) // Serializa o array
-//}).toString();
+  const query = new URLSearchParams({
+    id: String(question.id)})
+    .toString();
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -145,13 +139,8 @@ export default function BasicTabs({ question }: BasicTabsProps) {
           <Informativo text='Você terá a possibilidade de fazer mudanças nessa questão , vale ressaltar que após às mudanças
           a sua versão será considerada uma versão alternativa da questão principal.'
           />
-          {/*<a href="http://localhost:3000/formulario" className="text-blue-600 hover:underline m-4">Clique aqui para fazer alterações nessa questão .</a>*/}
+          <a href={`/formulario?${query}`} className="text-blue-600 hover:underline m-4">Clique aqui para fazer alterações nessa questão .</a>
         </div>
-        {/*<textarea className="textarea" placeholder="Write your thoughts here..."></textarea>*/}
-        <a href={`/formulario?${query}`}>Editar Formulário</a>
-
-
-        
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={1}>

@@ -1,12 +1,12 @@
 export class Classification{
 
-    nota: number;
+    rating: number;
     mediaRate?: number;
     userId: number;
     questionId: number;
 
-    constructor(nota: number , userId: number, questionId: number){
-        this.nota = nota;
+    constructor(rating: number , userId: number, questionId: number){
+        this.rating = rating;
         this.userId = userId;
         this.questionId = questionId;
     }

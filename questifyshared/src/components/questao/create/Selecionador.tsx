@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form'; // Importando o hook para trabalhar com formulários
 
 interface SelecionadorProps {
-    register: any; // Tipo correto seria UseFormRegisterReturn, mas você pode manter any se preferir
+    register?: any; // Tipo correto seria UseFormRegisterReturn, mas você pode manter any se preferir
     name: string;
 }
 
