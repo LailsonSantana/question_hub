@@ -1,8 +1,5 @@
 'use client'
 
-import { convertFromRaw } from "draft-js"
-import { stateToHTML } from "draft-js-export-html"
-
 interface TableLineProps{
     codigo: number
     enunciado?: string
@@ -11,8 +8,7 @@ interface TableLineProps{
 }
 
 const TableLine: React.FC<TableLineProps> = ({codigo , enunciado, data_criacao , disciplina}) => {
-    const contentState = convertFromRaw(JSON.parse(enunciado!));
-    const htmlContent = stateToHTML(contentState);
+    const formatedEnunciado = enunciado!.replace(/<[^>]+>/g, '');
     return(
             <tr>
                 <td className="px-6 py-4">
@@ -20,8 +16,8 @@ const TableLine: React.FC<TableLineProps> = ({codigo , enunciado, data_criacao ,
                 </td>
 
                 <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline" 
-                       dangerouslySetInnerHTML={{ __html: htmlContent }}>
+                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline" >
+                       {formatedEnunciado}
                     </a>
                 </th>
 

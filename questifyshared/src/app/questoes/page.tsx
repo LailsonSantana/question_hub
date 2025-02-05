@@ -7,12 +7,14 @@ import { Question } from "@/resources/question/question.resource"
 import QuestionComponent from "@/components/questao/display/QuestionComponent"
 import ButtonB from "@/components/button/Button"
 import MultipleSelectCheckmarks from "@/components/questao/create/SeletorDisciplina"
+import React from "react"
 
 export default function QuestoesPage(){
 
     const useServiceQuestion = useQuestionService();
     const [questions , setQuestions] = useState<Question[]>([])
     const [hasMounted, setHasMounted] = useState(false);
+    const [disciplineName, setDisciplineName] = useState<string[]>([]);
 
     useEffect(() => {
         setHasMounted(true);
@@ -26,12 +28,16 @@ export default function QuestoesPage(){
     async function searchQuestions() {
         const result = await useServiceQuestion.getAllQuestions();
         setQuestions(result);
-        console.log("FORMATO DA QUESTÃO")
-        console.table(result)
     }
 
-    async function subjectFilter(discipline : string){
-        const result = await useServiceQuestion.filterQuestions(discipline);
+    const handleDisciplinesChange = (selectedDisciplines: string[]): void => {
+        setDisciplineName(selectedDisciplines);
+    }
+
+    
+    async function subjectFilter(){
+        const result = await useServiceQuestion.getQuestionsByDisciplines(disciplineName);
+        setQuestions(result);
     }
 
     function mapperQuestion(question : Question){
@@ -42,7 +48,8 @@ export default function QuestoesPage(){
                                    answers={question.answers}
                                    discipline={question.discipline}
                                    userId={question.userId!}
-                                   nameUser={question.nameUser}>
+                                   nameUser={question.nameUser}
+                                   previousId={question.previousId}>
                 </QuestionComponent>
             </div>        
         );
@@ -59,7 +66,7 @@ export default function QuestoesPage(){
             <section className='flex flex-col items-center justify-center my-5'>
                     <div className="flex items-center space-x-4">
                         
-                        <MultipleSelectCheckmarks />
+                        <MultipleSelectCheckmarks onDisciplinesChange={handleDisciplinesChange}/>
 
                         <ButtonB label="Buscar" onClick={subjectFilter} />
                     </div>

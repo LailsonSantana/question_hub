@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useQuestionService } from "@/resources";
 import { Template } from "@/components/Template";
 import InputAlternativa from "@/components/questao/create/InputAlternativa";
 import { z } from 'zod';
@@ -12,15 +11,15 @@ import Selecionador from "@/components/questao/create/Selecionador";
 import ContainerForm from "@/components/formulario/ContainerForm";
 import Tiptap from "@/components/questao/tiptap/Tiptap";
 import { FormProvider, useForm } from "react-hook-form";
+import { useQuestionService } from "@/resources/question/question.service";
 
 export default function FormularioPage() {
-    const [enunciado, setEnunciado] = useState("");
     const service = useQuestionService();
     const [hasMounted, setHasMounted] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const queryString = window.location.search;
     const searchParams = new URLSearchParams(queryString);
-    const id = searchParams.get("id");
+    const id = Number(searchParams.get("id"));
 
     useEffect(() => {
         setHasMounted(true);  
@@ -49,13 +48,13 @@ export default function FormularioPage() {
     });
 
 
-    const { handleSubmit, watch, setValue, reset, control,   formState: { errors } } = methods;
+    const { handleSubmit, watch, setValue, reset, formState: { errors } } = methods;
 
     useEffect(() => {
         if(id){
             const fetchData = async () => {
                 try {
-                    const response = await service.getQuestionById(1); // Substitua pelo ID correto
+                    const response = await service.getQuestionById(id); // Substitua pelo ID correto
                     reset({ 
                         statement: response.statement || "hh",
                         alt1: response.answers[0]?.text || "",
@@ -66,7 +65,7 @@ export default function FormularioPage() {
                         select: response.discipline || "",
                         correctAnswer: response.answers.find(a => a.isCorrect)?.text || ""
                     });
-                    setValue("statement", response.statement || "hh");
+                    setValue("statement", response.statement || "");
                     console.log("O ENUNCIADO É :" , response.statement)
                 } catch (error) {
                     console.error("Erro ao carregar a questão:", error);
@@ -107,7 +106,13 @@ export default function FormularioPage() {
         };
 
         try {
-            await service.save(dados);
+            if(id){
+                await service.saveNewVersion(dados , id);
+            }
+            else{
+                await service.save(dados);
+            }
+            
             alert("Pergunta salva com sucesso!");
             reset(); // Reseta o formulário
         } catch (error) {
@@ -135,20 +140,22 @@ export default function FormularioPage() {
                     <section className="flex items-center w-11/12"> 
                                 <ContainerForm>
                                     <div className="flex flex-col items-center mb-8">
-                                        <h1 className="text-3xl font-bold text-[#366280]">Desenvolva o Enunciado</h1>
+                                        <h1 className="text-3xl font-bold text-titllecolor">Desenvolva o Enunciado</h1>
                                     </div>
 
-                                    <div className="space-y-2">
-                                        
+                                    <div className="space-y-2">    
                                         <Tiptap value={watch("statement")} onChange={(value) => setValue("statement", value)} onKeyDown={(e) => e.stopPropagation()}/>
-                                        {/*<TextEditor onChange={setEnunciado} onValidationError={handleValidationError} />
-                                        {error && <div className="error-message text-red-500">{error}</div>}*/}
+                                    </div>
+
+                                    <div className="flex items-center space-x-2 mb-4 mt-8 ml-32">
+                                        <ButtonB type="submit" label="Salvar" />
+                                        <ButtonB type="button" label="Cancelar" />
                                     </div>
                                 </ContainerForm>
                             
                                 <ContainerForm>
                                     <div className="flex flex-col items-center mb-8">
-                                        <h1 className="text-3xl font-bold text-[#366280]">Desenvolva as Alternativas</h1>
+                                        <h1 className="text-3xl font-bold text-titllecolor">Desenvolva as Alternativas</h1>
 
                                     </div>
 
@@ -196,10 +203,7 @@ export default function FormularioPage() {
                                     </div>
                                 </ContainerForm>
                             </section>
-                            <div className="flex items-center space-x-2 mb-4">
-                                    <ButtonB type="submit" label="Salvar" />
-                                    <ButtonB type="button" label="Cancelar" />
-                            </div>
+                            
                     </div>
                 </form>
             </FormProvider>

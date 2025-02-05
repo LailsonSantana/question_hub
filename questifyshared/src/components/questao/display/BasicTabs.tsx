@@ -8,11 +8,13 @@ import CommentComponent from './CommentComponent';
 import RateComponent from './RateComponent';
 import InputComment from './InputComment';
 import { CommentResponse } from '@/resources/comment/commentResponse.resource';
-import { useAuth } from '@/resources'
 import { useClassificationService } from '@/resources/classification/classification.service';
 import { Classification } from '@/resources/classification/classification.resource';
 import Informativo from '@/components/formulario/Informativo';
 import { Question } from '@/resources/question/question.resource';
+import { useAuth } from '@/resources/user/authentication.service';
+import { useQuestionService } from '@/resources/question/question.service';
+import { RenderIf } from '@/components/Template';
 
 
 interface TabPanelProps {
@@ -48,12 +50,12 @@ interface BasicTabsProps {
   question: Question;
 }
 
-
 export default function BasicTabs({ question }: BasicTabsProps) {
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = React.useState(0);
   const [comments, setComments] = React.useState<CommentRequest[]>([]);
   const useServiceComment = useCommentService();
   const useServiceClassification = useClassificationService();
+  const useServiceQuestion = useQuestionService();
   const useAutenticator = useAuth();
   const userSession = useAutenticator.getUserSession();
   const userId = userSession?.id;
@@ -62,16 +64,10 @@ export default function BasicTabs({ question }: BasicTabsProps) {
     setValue(newValue);
   };
 
-
-
   async function searchComments() {
     const result = await useServiceComment.getAllComents(question.id!);
     setComments(result);
-    console.log("Questão completa")
-    console.table(question)
-    //console.table(result)
   }
-
 
   function mapperComment(comment: CommentRequest) {
     return (
@@ -94,8 +90,6 @@ export default function BasicTabs({ question }: BasicTabsProps) {
     }
   }
 
-
-
   const saveComment = async (comment: CommentResponse) => {
     try {
       const location = await useServiceComment.saveComment(comment);
@@ -113,6 +107,12 @@ export default function BasicTabs({ question }: BasicTabsProps) {
       alert("Erro ao salvar o comentário.");
     }
   };
+
+  React.useEffect(() => {
+    if (value === 0) {
+      searchComments();
+    }
+  }, [value]);
 
   React.useEffect(() => {
     if (value === 1) {
@@ -135,11 +135,19 @@ export default function BasicTabs({ question }: BasicTabsProps) {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
+
         <div className='flex flex-col items-start space-y-4'>
-          <Informativo text='Você terá a possibilidade de fazer mudanças nessa questão , vale ressaltar que após às mudanças
-          a sua versão será considerada uma versão alternativa da questão principal.'
-          />
-          <a href={`/formulario?${query}`} className="text-blue-600 hover:underline m-4">Clique aqui para fazer alterações nessa questão .</a>
+          <RenderIf condition={question.previousId == 0}>
+            <Informativo text='Você terá a possibilidade de fazer mudanças nessa questão , vale ressaltar que após às mudanças
+            a sua versão será considerada uma versão alternativa da questão principal.'
+            />
+            <a href={`/formulario?${query}`} className="text-blue-600 hover:underline m-4">Clique aqui para fazer alterações nessa questão .</a>
+          </RenderIf>
+
+          <RenderIf condition={question.previousId == 1}>
+            <Informativo text='Essa função não está habilitada para questões que são versões de outras.'
+            />
+          </RenderIf>
         </div>
       </CustomTabPanel>
 

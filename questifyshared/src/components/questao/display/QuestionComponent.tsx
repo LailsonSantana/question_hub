@@ -13,20 +13,23 @@ interface Answer{
     isCorrect: boolean;
 }
 interface QuestionComponentProps{
-    id: number
-    enunciado: string
-    answers: Answer[]
-    nameUser: string
+    id: number;
+    enunciado: string;
+    answers: Answer[];
+    nameUser: string;
     userId: number;
-    discipline: string
+    discipline: string;
+    previousId?: number;
+    createdAt?: string
 }
 
 const indexToLetter = (index: number): string => {
     return String.fromCharCode(65 + index); // 65 é o código ASCII para 'A'
 };
 
-
-export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciado,answers,nameUser,userId,discipline} : QuestionComponentProps) => {
+export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciado,answers,nameUser,userId,discipline,previousId,
+                                                                        createdAt
+} : QuestionComponentProps) => {
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -72,19 +75,24 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
                     </ul>
                 </div>
 
-                <div className="space-y-10 flex items-center mt-8">
+                <div className="space-x-32 flex items-center mt-12">
                     <ButtonB type="button" onClick={handleSubmit} label="Responder"></ButtonB>
-                
+                    
                     <RenderIf condition={isSubmitted}>
-                        
-                        <Resultado isCorrect={isCorrect!}/>
-                        
+                        <Resultado isCorrect={isCorrect!}/> 
+                    </RenderIf>
+                    
+                    <RenderIf condition={previousId!=0}>
+                        <div className="space-x-4 flex items-center">
+                            <h2 className="ml-64">Versão da questão : </h2>
+                            <a href='' className="text-blue-600 hover:underline m-4">QN{previousId}</a>
+                        </div>
                     </RenderIf>
                 </div>
             </div>
 
             <div className="border border-gray-300 rounded p-4 shadow-md bg-[#FFFDF2]">
-                <BasicTabs question={new Question(id,enunciado,discipline,answers,userId,nameUser)}></BasicTabs>
+                <BasicTabs question={new Question(id,enunciado,discipline,answers,userId,nameUser, previousId!,createdAt!)}></BasicTabs>
             </div>
         </div>
     )

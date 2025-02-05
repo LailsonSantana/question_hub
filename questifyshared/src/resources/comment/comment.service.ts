@@ -1,4 +1,4 @@
-import { useAuth  } from '@/resources'
+import { useAuth } from '../user/authentication.service';
 import { CommentRequest } from './commentRequest.resource';
 import { CommentResponse } from './commentResponse.resource';
 

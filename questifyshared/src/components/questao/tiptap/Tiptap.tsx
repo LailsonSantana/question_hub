@@ -33,6 +33,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ initialContent = '', onChange ,
   useEffect(() => {
     if (editor && value !== editor.getHTML()) {
       editor.commands.setContent(value || "");
+      setTimeout(() => {
+        editor.commands.focus("end"); // Foca no final do texto para evitar bug
+      }, 100);
     }
   }, [value, editor]);
 
@@ -64,7 +67,8 @@ const TextEditor: React.FC<TextEditorProps> = ({ initialContent = '', onChange ,
 
       {/* Área de Edição */}
       <div >
-        <EditorContent editor={editor} onKeyDown={onKeyDown}/>
+        
+        <EditorContent className="border-none shadow-none ring-0 focus:ring-0 outline-none" editor={editor} onKeyDown={onKeyDown}/>
       </div>
     </div>
   );

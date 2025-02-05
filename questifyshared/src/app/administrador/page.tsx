@@ -1,16 +1,15 @@
 'use client'
 
 import { Template } from "@/components/Template";
-import { useAuth } from "@/resources";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
 import { formScheme, formValidationScheme, LoginForm } from "../formulario/formScheme";
 import { User } from "@/resources/user/user.resource";
 import { useNotification } from "@/components/notification";
 import { InputText } from "@/components/input";
-import InputComment from "@/components/questao/display/InputComment";
 import { InputContext } from "@/components/input/InputContext";
 import Titulo from "@/components/inicial/Titulo";
+import { useAuth } from "@/resources/user/authentication.service";
 
 export default function AdministradorPage() {
 
@@ -48,8 +47,9 @@ export default function AdministradorPage() {
 
   return (
     <Template>
+      
       <section className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-        <Titulo titulo="Administrador"></Titulo>
+      <Titulo titulo="Administrador"></Titulo>
         <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
 
           <form onSubmit={handleSubmit} className="space-y-4">

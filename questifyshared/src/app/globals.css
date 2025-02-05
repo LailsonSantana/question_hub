@@ -20,6 +20,19 @@ body {
   font-family: Verdana, Geneva, Tahoma, sans-serif, Arial,sans-serif, Helvetica, sans-serif;
 }
 
+.tiptap {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+[contenteditable]:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

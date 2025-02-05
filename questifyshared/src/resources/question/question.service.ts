@@ -1,5 +1,5 @@
+import { useAuth } from "../user/authentication.service";
 import {Question} from "./question.resource"
-import { useAuth } from '@/resources'
 
 class QuestionService{
     baseUrl: string = process.env.NEXT_PUBLIC_API_URL + "/api/questions";
@@ -7,125 +7,156 @@ class QuestionService{
 
     async getAllQuestions() : Promise<Question[]>{
         const userSession = this.auth.getUserSession()
-        const response = await fetch(`${this.baseUrl}`, {
+
+        try{
+          const response = await fetch(`${this.baseUrl}`, {
+            headers:{
+              "Authorization": `Bearer ${userSession?.accessToken}`
+            }
+          });
+
+          if (!response.ok) {
+            console.error(`Erro na resposta: ${response.status} ${response.statusText}`);
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data: Question[] = await response.json();
+          return data;
+        }
+        catch(error){
+          console.error('Erro na requisição:', error);
+            throw error;
+        }
+    }
+
+    async getQuestionsByUser(userId: number): Promise<Question[]>{
+      const userSession = this.auth.getUserSession()
+
+      try{
+        const response = await fetch(`${this.baseUrl}/${userId}` , {
           headers:{
             "Authorization": `Bearer ${userSession?.accessToken}`
           }
         });
-
+        
         if (!response.ok) {
           console.error(`Erro na resposta: ${response.status} ${response.statusText}`);
-          throw new Error(`HTTP error! status: ${response.status}`);
-      }
-        return await response.json();
-    }
-
-    async getByUser(userId: number): Promise<Question[]>{
-      const response = await fetch(`http://localhost:8080/api/questions/${userId}`);
-      if (!response.ok) {
-        throw new Error('Erro ao buscar questões');
-      }
-      const data: Question[] = await response.json();
-      return data;
-    }
-
-    // Originalmente era Promise<Question[]>  
-    async getQuestionByUser(id : number) : Promise<string>{
-      const userSession = this.auth.getUserSession()
-          const response = await fetch(`${this.baseUrl}/?${encodeURIComponent(id)}`, {
-            method: 'GET',
-            headers: {
-              "Authorization": `Bearer ${userSession?.accessToken}`,
-            },
-        });
-
-        if (!response.ok) {
-          throw new Error('Erro ao obter disciplinas');
-          
+          throw new Error('Erro ao buscar questões do usuário !');
         }
-        else{
-          const responseData = await response.json();
-          console.log('Resposta do servidor:', responseData);
-        }
-
-        return response.headers.get('location') ?? '';
+        // Aqui você deixa claro o tipo da variável
+        const data: Question[] = await response.json();
+        return data;
+      }
+      catch(error){
+        console.error('Erro na requisição:', error);
+          throw error;
+      }
     }
 
     async getQuestionById(id: number): Promise<Question> {
       const userSession = this.auth.getUserSession();
-  
-      // Corrigindo a URL: não é necessário usar encodeURIComponent para o id na query
-      const response = await fetch(`${this.baseUrl}/questionId/${id}`, {
-          method: 'GET',
-          headers: {
-              "Authorization": `Bearer ${userSession?.accessToken}`,
-          },
-      });
-  
-      // Verifica se a resposta foi bem-sucedida
-      if (!response.ok) {
-          throw new Error('Erro ao obter a questão');
-      }
-  
-      // Converte a resposta para JSON
-      const responseData = await response.json();
-      console.log('Resposta do servidor:', responseData);
-  
-      // Retorna o objeto Question
-      return responseData as Question;
-  }
-    
 
-    async filterQuestions(discipline : string): Promise<string>{
-
-        console.log("DISCIPLINA ENVIADA :" , discipline)
-        const userSession = this.auth.getUserSession()
-          const response = await fetch(`${this.baseUrl}/filter?discipline=${encodeURIComponent(discipline)}`, {
+      try{
+        const response = await fetch(`${this.baseUrl}/questionId/${id}`, {
             method: 'GET',
             headers: {
-              "Authorization": `Bearer ${userSession?.accessToken}`,
+                "Authorization": `Bearer ${userSession?.accessToken}`,
             },
         });
+    
+        if (!response.ok) {
+          throw new Error(`Erro ao obter questão: ${response.statusText}`);
+        }
+        const data = await response.json();
+        // Quando você tem certeza absoluta do tipo retornado você pode retornar assim
+        return data as Question;
+      }
+      catch(error){
+        console.error('Erro na requisição:', error);
+          throw error;
+      }
+    }
+    
+    async getQuestionsByDisciplines(disciplines: string[]): Promise<Question[]> {
+      const userSession = this.auth.getUserSession();
+
+      try{
+        const response = await fetch(
+            `${this.baseUrl}/filter?disciplines=${encodeURIComponent(disciplines.join(','))}`,
+            {
+                method: 'GET',
+                headers: {
+                    "Authorization": `Bearer ${userSession?.accessToken}`,
+                },
+            }
+        );
 
         if (!response.ok) {
-          throw new Error('Erro ao obter disciplinas');
-          
+            throw new Error(`'Erro ao obter disciplinas: ${response.statusText}`);
         }
-        else{
-          const responseData = await response.json();
-          console.log('Resposta do servidor:', responseData);
-        }
+        const data = await response.json();
 
-        return response.headers.get('location') ?? '';
+        return data;
+      } catch (error) {
+          console.error('Erro na requisição:', error);
+          throw error;
+      }
+    }
+
+    async saveNewVersion(dados: Question , id: number): Promise<any> {
+        const userSession = this.auth.getUserSession()
+
+        try{
+          const response = await fetch(`${this.baseUrl}/new-version/${id}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json', "Authorization": `Bearer ${userSession?.accessToken}`
+            } ,
+            //
+            body: JSON.stringify(dados),
+          });
+  
+      
+          if (!response.ok) {
+            throw new Error('Erro ao salvar a pergunta do form');
+          }
+          const data = await response.json();
+
+          return data;
+        }
+        catch (error) {
+          console.error('Erro na requisição:', error);
+          throw error;
+        }
     }
 
     async save(dados: Question): Promise<string> {
-        console.log("BASE URL É :",this.baseUrl)
         const userSession = this.auth.getUserSession()
-        console.table(dados)
-        //dados.userId = userSession!.id
 
-        const response = await fetch(`${this.baseUrl}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json', "Authorization": `Bearer ${userSession?.accessToken}`
-          } ,
-          //
-          body: JSON.stringify(dados),
-        });
+        try{
+          const response = await fetch(`${this.baseUrl}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json', "Authorization": `Bearer ${userSession?.accessToken}`
+            } ,
+            //
+            body: JSON.stringify(dados),
+          });
+  
+      
+          if (!response.ok) {
+            throw new Error('Erro ao salvar a pergunta do form');
+          }
+          const data = await response.json();
 
-    
-        if (!response.ok) {
-          throw new Error('Erro ao salvar a pergunta do form');
-          
+          return data;
         }
-        else{
-          const responseData = await response.json();
-        console.log('Resposta do servidor:', responseData);
+        catch (error) {
+          console.error('Erro na requisição:', error);
+          throw error;
         }
-        return response.headers.get('location') ?? '';
-      }
     }
+}
 // react hook -> useNomeFuncao
 // Funções do tipo hook são usadas para gerar mudança de estado de um componente
 export const useQuestionService = () => new QuestionService();

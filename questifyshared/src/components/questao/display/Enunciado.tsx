@@ -14,7 +14,7 @@ const Enunciado: React.FC<EnunciadoProps> = ({text}) => {
 
     <div>
       {/*<<span className='text-md font-bold' dangerouslySetInnerHTML={{ __html: htmlContent }} />*/}
-        {<span>{textContent}</span>}
+        {<span dangerouslySetInnerHTML={{ __html: text! }} />}
     </div>
   );
 };

@@ -20,6 +20,7 @@ const MenuProps = {
 
 const disciplines = [
   'Algoritmos e Programação I',
+  'Algebra Linear',
   'Calculo I',
   'Matemática Discreta',
   'Lógica para Computação',
@@ -31,32 +32,33 @@ const disciplines = [
   'Compiladores',
 ];
 
-export default function MultipleSelectCheckmarks() {
+interface MultipleSelectCheckmarksProps {
+  onDisciplinesChange: (selectedDisciplines: string[]) => void;
+}
+
+export default function MultipleSelectCheckmarks({ onDisciplinesChange }: MultipleSelectCheckmarksProps) {
   const [disciplineName, setDisciplineName] = React.useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof disciplineName>) => {
     const {
       target: { value },
     } = event;
-    setDisciplineName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-
-    console.log(disciplineName)
+    const selectedDisciplines = typeof value === 'string' ? value.split(',') : value;
+    setDisciplineName(selectedDisciplines);
+    onDisciplinesChange(selectedDisciplines); // Chama a função de callback com as disciplinas selecionadas
   };
 
   return (
     <div>
       <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-checkbox-label">Tags</InputLabel>
+        <InputLabel id="demo-multiple-checkbox-label">Disciplinas</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
           multiple
           value={disciplineName}
           onChange={handleChange}
-          input={<OutlinedInput label="Teste" />}
+          input={<OutlinedInput label="Disciplinas" />}
           renderValue={(selected) => selected.join(', ')}
           MenuProps={MenuProps}
         >
