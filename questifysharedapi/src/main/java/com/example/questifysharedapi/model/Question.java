@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,4 +42,20 @@ public class Question {
     @ManyToOne
     @JsonIgnore
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "previous_version_id")
+    @JsonIgnore
+    private Question previousVersion;
+
+    @OneToMany(mappedBy = "previousVersion", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> nextVersions = new ArrayList<>();
+
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+    
 }

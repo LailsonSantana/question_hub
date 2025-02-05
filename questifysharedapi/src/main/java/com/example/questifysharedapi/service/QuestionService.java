@@ -3,9 +3,8 @@ package com.example.questifysharedapi.service;
 import com.example.questifysharedapi.dto.AnswerRecordDTO;
 import com.example.questifysharedapi.dto.QuestionRecordDTO;
 import com.example.questifysharedapi.exception.InappropriateContentException;
+import com.example.questifysharedapi.exception.InvalidVersionException;
 import com.example.questifysharedapi.model.Answer;
-import com.example.questifysharedapi.model.Classification;
-import com.example.questifysharedapi.model.Context;
 import com.example.questifysharedapi.model.Question;
 import com.example.questifysharedapi.repository.AnswerRepository;
 import com.example.questifysharedapi.repository.QuestionRepository;
@@ -17,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,6 @@ public class QuestionService {
         
         if(verifyToxicty(questionRecordDTO.statement())){
             Question question = new Question();
-            log.info("ALTERNATIVA {}" , questionRecordDTO);
             question.setStatement(questionRecordDTO.statement());
             question.setDiscipline(questionRecordDTO.discipline());
             if(questionRecordDTO.userId() != null){
@@ -50,15 +50,45 @@ public class QuestionService {
             Answer answer = new Answer();
             answer.setText(answerDTO.text());
             answer.setIsCorrect(answerDTO.isCorrect());
-            answer.setQuestion(questionSaved); // Related the answer at question
+            answer.setQuestion(questionSaved); // Related to answer at question
             return answerRepository.save(answer); // save the answer
             }).collect(Collectors.toList());
             questionSaved.setAnswers(answers);
             return questionRepository.save(question);
         }
         
-        throw new InappropriateContentException("This content is Inappropriated.");
+        throw new InappropriateContentException("This content is Inappropriated."); 
+    }
+
+    @Transactional
+    public Question saveNewVersion(QuestionRecordDTO questionRecordDTO , Long id){
         
+        Optional<Question> previousQuestion = questionRepository.findById(id);
+        Question question = new Question();
+        log.info("OBJETO PREVIOUS EH : {} " , id);
+        if(previousQuestion.get().getPreviousVersion() == null){
+
+            log.info("ENTRO NO IF");
+            question.setStatement(questionRecordDTO.statement());
+            question.setDiscipline(questionRecordDTO.discipline());
+            question.setPreviousVersion(previousQuestion.get());
+
+            if(questionRecordDTO.userId() != null){
+                question.setUser(userRepository.findById(questionRecordDTO.userId()).get());
+            }
+
+            Question questionSaved = questionRepository.save(question);
+            List<Answer> answers = questionRecordDTO.answers().stream().map(answerDTO -> {
+            Answer answer = new Answer();
+            answer.setText(answerDTO.text());
+            answer.setIsCorrect(answerDTO.isCorrect());
+            answer.setQuestion(questionSaved); // Related to answer at question
+            return answerRepository.save(answer); // save the answer
+            }).collect(Collectors.toList());
+            questionSaved.setAnswers(answers);
+            return questionRepository.save(question);
+        }
+        throw new InvalidVersionException("This question is a version of another question");
     }
 
     public Boolean verifyToxicty(String statement){
@@ -78,9 +108,7 @@ public class QuestionService {
         return true;
     }
 
-   
-
-   public List<QuestionRecordDTO> getAllQuestions(){
+    public List<QuestionRecordDTO> getAllQuestions(){
         List<Question> questions = new ArrayList<>();
         questions = questionRepository.findAll();
         return questions.stream()
@@ -94,15 +122,20 @@ public class QuestionService {
                                         answer.getIsCorrect()
                                 )).collect(Collectors.toList()),
                         question.getUser().getId(),
-                        question.getUser().getName()
+                        question.getUser().getName(),
+                        question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
+                        question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt())
                 ))
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public List<QuestionRecordDTO> filterQuestions(String discipline) {
+    public List<QuestionRecordDTO> filterQuestions(List<String> disciplines) {
         List<Question> questions = new ArrayList<>();
-        questions = questionRepository.findAllByDiscipline(discipline);
+        //questions = questionRepository.findAllByDiscipline(disciplines);
+        for(String disciplina : disciplines){
+            questions.addAll(questionRepository.findAllByDiscipline(disciplina));
+        }
         List<QuestionRecordDTO> qdto = new ArrayList<>();
 
         qdto = questions.stream()
@@ -116,9 +149,11 @@ public class QuestionService {
                                 answer.getIsCorrect()
                                     )).collect(Collectors.toList()),
                 question.getUser().getId(),
-                question.getUser().getName()
+                question.getUser().getName(),
+                question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
+                question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt())
                 )).collect(Collectors.toList());
-        log.info("OBJETOOOOO {}" ,qdto);
+        log.info("OBJETO FINAL{}" ,qdto);
         return qdto;
     }
 
@@ -139,7 +174,9 @@ public class QuestionService {
                         answer.getIsCorrect()
                         )).collect(Collectors.toList()),
             question.getUser().getId(),
-            question.getUser().getName()
+            question.getUser().getName(),
+            question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
+            question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt())
         )).collect(Collectors.toList());
         log.info("QUESTÕES DO USUÁRIO: {}" ,qdto);
         return qdto;
@@ -153,9 +190,20 @@ public class QuestionService {
         List<AnswerRecordDTO> answerRecordDTOs = question.getAnswers().stream()
         .map(answer -> new AnswerRecordDTO(answer.getText(), answer.getIsCorrect()))
         .collect(Collectors.toList());
+        
         QuestionRecordDTO qdto = new QuestionRecordDTO(questionId, question.getStatement(), question.getDiscipline(), 
-        answerRecordDTOs, question.getUser().getId(), question.getUser().getName());
+        answerRecordDTOs, question.getUser().getId(), question.getUser().getName() ,
+         question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
+         question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt())
+        );
         
         return qdto;
+    }
+
+    public String formatDate(LocalDateTime date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = date.format(formatter);
+
+        return formattedDate;
     }
 }

@@ -41,8 +41,10 @@ public class QuestionController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<QuestionRecordDTO>> filterQuestions(@RequestParam String discipline){
-        List<QuestionRecordDTO> qdto = questionService.filterQuestions(discipline);
+    public ResponseEntity<List<QuestionRecordDTO>> filterQuestions(@RequestParam List<String> disciplines){
+        log.info("Filter question foi chamado {}" , disciplines);
+        
+        List<QuestionRecordDTO> qdto = questionService.filterQuestions(disciplines);
         return ResponseEntity.ok(qdto);
     }
 
@@ -55,8 +57,20 @@ public class QuestionController {
 
     @GetMapping("questionId/{id}")
     public ResponseEntity<QuestionRecordDTO> getQuestionsById(@PathVariable Long id){
-        log.info("FOI CHAMADO O MÉTODO QUESTION BY ID");
         QuestionRecordDTO qdto = questionService.getQuestionById(id);
         return ResponseEntity.ok(qdto);
+    }
+
+    @PostMapping("/new-version/{id}")
+    public ResponseEntity<Question> saveNewVersion(@PathVariable Long id,@RequestBody QuestionRecordDTO questionRecordDTO){
+        
+        try{
+            return ResponseEntity.status(HttpStatus.CREATED).body(questionService.saveNewVersion(questionRecordDTO , id));
+            //body(questionService.saveNewVersion(questionRecordDTO , id));
+        }catch(Exception e){
+            //log.error("Erro ao salvar nova versão da questão com id " + id, e); // Log da exceção
+            return ResponseEntity.status(HttpStatus.PRECONDITION_REQUIRED).build(); // Ret
+        }
+        
     }
 }

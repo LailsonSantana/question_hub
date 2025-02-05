@@ -8,7 +8,9 @@ public record QuestionRecordDTO(Long id,
                                 String discipline,
                                 List<AnswerRecordDTO> answers,
                                 Long userId,
-                                String nameUser) {
+                                String nameUser,
+                                Long previousId,
+                                String createdAt) {
 }
 
 
