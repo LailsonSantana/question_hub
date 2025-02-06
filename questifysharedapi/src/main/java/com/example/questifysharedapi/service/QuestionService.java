@@ -42,6 +42,8 @@ public class QuestionService {
             Question question = new Question();
             question.setStatement(questionRecordDTO.statement());
             question.setDiscipline(questionRecordDTO.discipline());
+            question.setCountRating(0);
+            question.setTotalRating(0d);
             if(questionRecordDTO.userId() != null){
                 question.setUser(userRepository.findById(questionRecordDTO.userId()).get());
             }
@@ -65,7 +67,6 @@ public class QuestionService {
         
         Optional<Question> previousQuestion = questionRepository.findById(id);
         Question question = new Question();
-        log.info("OBJETO PREVIOUS EH : {} " , id);
         if(previousQuestion.get().getPreviousVersion() == null){
 
             log.info("ENTRO NO IF");
@@ -124,7 +125,9 @@ public class QuestionService {
                         question.getUser().getId(),
                         question.getUser().getName(),
                         question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-                        question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt())
+                        question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
+                        question.getCountRating() == null? 0 : question.getCountRating(),
+                        question.getTotalRating() == null? 0 : question.getTotalRating()
                 ))
                 .collect(Collectors.toList());
     }
@@ -151,7 +154,9 @@ public class QuestionService {
                 question.getUser().getId(),
                 question.getUser().getName(),
                 question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-                question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt())
+                question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
+                question.getCountRating() == null? 0 : question.getCountRating(),
+                question.getTotalRating() == null? 0 : question.getTotalRating()
                 )).collect(Collectors.toList());
         log.info("OBJETO FINAL{}" ,qdto);
         return qdto;
@@ -176,7 +181,9 @@ public class QuestionService {
             question.getUser().getId(),
             question.getUser().getName(),
             question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-            question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt())
+            question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
+            question.getCountRating() == null? 0 : question.getCountRating(),
+            question.getTotalRating() == null? 0 : question.getTotalRating()
         )).collect(Collectors.toList());
         log.info("QUESTÕES DO USUÁRIO: {}" ,qdto);
         return qdto;
@@ -184,6 +191,7 @@ public class QuestionService {
 
     @Transactional 
     public QuestionRecordDTO getQuestionById(Long questionId){
+
         Question question = new Question();
         Optional<Question> existingQuestion = questionRepository.findById(questionId);
         question = existingQuestion.get();
@@ -193,13 +201,33 @@ public class QuestionService {
         
         QuestionRecordDTO qdto = new QuestionRecordDTO(questionId, question.getStatement(), question.getDiscipline(), 
         answerRecordDTOs, question.getUser().getId(), question.getUser().getName() ,
-         question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-         question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt())
+        question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
+        question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
+        question.getCountRating() == null? 0 : question.getCountRating(),
+        question.getTotalRating() == null? 0 : question.getTotalRating()
         );
         
         return qdto;
     }
 
+    @Transactional
+    public Double updateRating(Double newRating, Long questionId){
+
+        Question question = new Question();
+        Optional<Question> existingQuestion = questionRepository.findById(questionId);
+        question = existingQuestion.get();
+
+        int newCount = question.getCountRating() == null? 0 : question.getCountRating() + 1;
+        Double newTotalRating = question.getTotalRating() == null? 0 : question.getTotalRating() + newRating;
+
+        question.setCountRating(newCount);
+        question.setTotalRating(newTotalRating);
+
+        questionRepository.save(question);
+
+        return newTotalRating / newCount ;
+    }
+    
     public String formatDate(LocalDateTime date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formattedDate = date.format(formatter);

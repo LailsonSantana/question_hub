@@ -64,7 +64,8 @@ public class ClassificationService {
     }
 
     @Transactional
-    public Double getClassificationByUserAndQuestion(Long userId , Long questionId){
+    public Double getClassificationByUserAndQuestion(Long questionId , Long userId){
+        log.info("CLASSSIFICATION CHAMADO");
         Optional<Classification> existingClassification = classificationRepository.findByUserIdAndQuestionId(userId,questionId);
 
         if(existingClassification.isPresent()){
@@ -74,22 +75,5 @@ public class ClassificationService {
         }
         log.info("NADA FOI ENCONTRADO {} - {}" , userId , questionId);
         return 0.0; 
-    }
-
-    public void calculateMedia(Long questionId){
-
-        Optional<List<Classification>> opClassifications = classificationRepository.findAllByQuestionId(questionId);
-
-        if(opClassifications.isPresent()){
-            List<Classification> classifications = opClassifications.get();
-            Double media = 0.0;
-            for(Classification c : classifications){
-                media = c.getRating() + media;
-            }
-            media = media / classifications.size();
-            for(Classification c : classifications){
-                
-            } 
-        }
     }
 }

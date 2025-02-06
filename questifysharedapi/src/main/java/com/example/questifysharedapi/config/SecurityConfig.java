@@ -4,6 +4,8 @@ import com.example.questifysharedapi.config.filter.JwtFilter;
 import com.example.questifysharedapi.service.JwtService;
 import com.example.questifysharedapi.service.UserService;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,15 +48,17 @@ public class SecurityConfig {
                     auth.requestMatchers("/api/questions/**").permitAll();
                     //auth.anyRequest().authenticated();
                     auth.anyRequest().permitAll();
+                    //.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 })
                 .addFilterBefore(jwtFilter , UsernamePasswordAuthenticationFilter.class)
                 .build();
-
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        config.setAllowedOrigins(List.of("http://localhost:3000"));
         UrlBasedCorsConfigurationSource cors = new UrlBasedCorsConfigurationSource();
         // Define what url's might have access this api
         // To our context all url's are enable

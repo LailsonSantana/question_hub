@@ -53,6 +53,12 @@ public class Question {
 
     private LocalDateTime createdAt;
 
+    @Column(nullable = true)
+    private Integer countRating;
+
+    @Column(nullable = true)
+    private Double totalRating;
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/questions")
@@ -72,5 +73,13 @@ public class QuestionController {
             return ResponseEntity.status(HttpStatus.PRECONDITION_REQUIRED).build(); // Ret
         }
         
+    }
+
+    @PatchMapping("/update-rating/{newRating}/{questionId}")
+    public ResponseEntity<Double> updateRating(@PathVariable Double newRating, @PathVariable Long questionId){
+
+        //Double newRating = (Double) requestBody.get("newRating");
+        log.info("O RATE RECEBIDO FOI:",newRating);
+        return ResponseEntity.status(HttpStatus.OK).body(questionService.updateRating(newRating, questionId));
     }
 }
