@@ -103,6 +103,8 @@ export default function FormularioPage() {
             answers: answers,
             userId: 1,
             nameUser: "Nome do Usuário",
+            countRating: 0,
+            totalRating: 0
         };
 
         try {

@@ -4,25 +4,30 @@ import Stack from '@mui/material/Stack';
 import { Classification } from '@/resources/classification/classification.resource';
 import { useEffect, useState } from 'react'
 import { useClassificationService } from '@/resources/classification/classification.service';
+import { useQuestionService } from '@/resources/question/question.service';
 
 
 interface RateComponentProps{
   onClick: (classification: Classification) => void;
   userId: number;
   questionId: number;
-  mediaRate?: number;
+  countRating: number;
+  totalRating: number;
 }
 
-const RateComponent: React.FC<RateComponentProps> = ({mediaRate, userId , questionId , onClick}) => {
+const RateComponent: React.FC<RateComponentProps> = ({userId, questionId, countRating, totalRating, onClick}) => {
 
   const [hasMounted, setHasMounted] = useState(false);
   const [rating, setRating] = React.useState<number | null>(0.0); // Estado para armazenar o valor da avaliação
+  const [mediaRating, setMediaRating] = React.useState<number | null>(0.0)
   const useServiceClassification = useClassificationService();
+  const useServiceQuestion = useQuestionService();
 
   useEffect(() => {
           setHasMounted(true);
           findClassification();
-          console.log("USUÁRIO E ID :",questionId,userId)
+          console.log("QUESTION ID" , userId)
+          //console.log("USUÁRIO E ID :",questionId,userId)
       }, []);
   
       if (!hasMounted) {
@@ -30,9 +35,18 @@ const RateComponent: React.FC<RateComponentProps> = ({mediaRate, userId , questi
       }
 
   async function findClassification(){
-    const result = await useServiceClassification.getClassification(userId , questionId);
-    setRating(result)
-    console.table(result);
+    const result = await useServiceClassification.getClassification(questionId , userId);
+    const result1 = await useServiceQuestion.updateRating(Number(result), questionId)
+    setRating(Number(result))
+    setMediaRating(result1)
+    //console.table(result);
+  }
+
+  async function getMediaRating(){
+    
+    //setMediaRating(result);
+    //console.log("Media Rating")
+    //console.table(result)
   }
   
 
@@ -57,11 +71,11 @@ const RateComponent: React.FC<RateComponentProps> = ({mediaRate, userId , questi
       <div className="w-1/2">
         <Rating
           name="half-rating-read"
-          value={rating}
+          value={mediaRating}
           precision={0.5}
           readOnly
         />
-        <p>Média de avaliação: {rating}</p>
+        <p>Média de avaliação: {mediaRating}</p>
       </div>
   </Stack>
   );

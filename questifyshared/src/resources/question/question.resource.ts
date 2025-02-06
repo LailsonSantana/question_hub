@@ -13,9 +13,13 @@ export class Question{
     nameUser: string;
     previousId?: number;
     createdAt?: string;
+    countRating?: number;
+    totalRating?: number;
     
 
-    constructor(id: number,statement: string, discipline: string, answers: Answer[], userId: number, nameUser:string, previous: number, dataCriacao: string){
+    constructor(id: number,statement: string, discipline: string, answers: Answer[], userId: number, nameUser:string, previous: number, dataCriacao: string,
+        countRating: number, totalRating: number
+    ){
         this.id = id;
         this.statement = statement;
         this.discipline = discipline;

@@ -27,6 +27,8 @@ export default function QuestoesPage(){
 
     async function searchQuestions() {
         const result = await useServiceQuestion.getAllQuestions();
+        console.log("QUESTÕES")
+        console.table(result)
         setQuestions(result);
     }
 
@@ -49,7 +51,9 @@ export default function QuestoesPage(){
                                    discipline={question.discipline}
                                    userId={question.userId!}
                                    nameUser={question.nameUser}
-                                   previousId={question.previousId}>
+                                   previousId={question.previousId}
+                                   countRating={question.countRating}
+                                   totalRating={question.totalRating}>  
                 </QuestionComponent>
             </div>        
         );

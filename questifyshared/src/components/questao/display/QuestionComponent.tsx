@@ -20,7 +20,9 @@ interface QuestionComponentProps{
     userId: number;
     discipline: string;
     previousId?: number;
-    createdAt?: string
+    createdAt?: string;
+    countRating?: number;
+    totalRating?: number;
 }
 
 const indexToLetter = (index: number): string => {
@@ -28,7 +30,7 @@ const indexToLetter = (index: number): string => {
 };
 
 export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciado,answers,nameUser,userId,discipline,previousId,
-                                                                        createdAt
+                                                                        createdAt,countRating,totalRating
 } : QuestionComponentProps) => {
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -92,7 +94,9 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
             </div>
 
             <div className="border border-gray-300 rounded p-4 shadow-md bg-[#FFFDF2]">
-                <BasicTabs question={new Question(id,enunciado,discipline,answers,userId,nameUser, previousId!,createdAt!)}></BasicTabs>
+                <BasicTabs question={new Question(id,enunciado,discipline,answers,userId,nameUser, previousId!,createdAt!,
+                    countRating! , totalRating!
+                )}></BasicTabs>
             </div>
         </div>
     )

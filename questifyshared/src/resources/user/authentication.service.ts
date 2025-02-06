@@ -24,11 +24,11 @@ class AuthService{
 
     async save(user : User) : Promise<void>{
         const response = await fetch(this.baseURL, {
-            method:'POST' ,
-            body:JSON.stringify(user),
+            method:'POST',
             headers: {
                 "Content-Type" : "application/json"
-            }
+            },
+            body:JSON.stringify(user)
         });
         
         console.log("Response auth.save" ,response);

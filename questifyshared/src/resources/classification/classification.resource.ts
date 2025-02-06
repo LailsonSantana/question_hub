@@ -1,7 +1,6 @@
 export class Classification{
 
     rating: number;
-    mediaRate?: number;
     userId: number;
     questionId: number;
 

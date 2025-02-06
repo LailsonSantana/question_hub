@@ -37,7 +37,7 @@ export default function AdministradorPage() {
       try {
       
         await auth.save(user);
-        notification.notify("Success on saving user!", "success");
+        //notification.notify("Success on saving user!", "success");
         resetForm();
       } catch(error: any){
         const message = error?.message;
@@ -49,7 +49,7 @@ export default function AdministradorPage() {
     <Template>
       
       <section className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <Titulo titulo="Administrador"></Titulo>
+      <Titulo titulo="Cadasto de usuário"></Titulo>
         <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -92,7 +92,7 @@ export default function AdministradorPage() {
 
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white font-medium py-2 px-4 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              className="w-full bg-[#7D6ED4] text-white font-medium py-2 px-4 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               Adicionar 
             </button>

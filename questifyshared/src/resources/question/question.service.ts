@@ -131,7 +131,7 @@ class QuestionService{
     }
 
     async save(dados: Question): Promise<string> {
-        const userSession = this.auth.getUserSession()
+      const userSession = this.auth.getUserSession()
 
         try{
           const response = await fetch(`${this.baseUrl}`, {
@@ -156,7 +156,33 @@ class QuestionService{
           throw error;
         }
     }
+
+    async updateRating(newRating: number, questionId: number): Promise<number>{
+      const userSession = this.auth.getUserSession()
+      console.log("ENVIAMOS ESSE RATE PRA ELES " , newRating)
+      try{
+        const response = await fetch(`${this.baseUrl}/update-rating/${newRating}/${questionId}` ,{ 
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json', "Authorization": `Bearer ${userSession?.accessToken}`
+          }
+          //body: JSON.stringify({ rating: newRating })
+        });
+
+        if(!response.ok){
+          throw new Error('Erro ao atualizar o rating')
+        }
+        const data = await response.json();
+
+        return data;
+      }
+      catch(error){
+        console.error('Erro na requisição:', error);
+        throw error;
+      }
+    }
 }
+
 // react hook -> useNomeFuncao
 // Funções do tipo hook são usadas para gerar mudança de estado de um componente
 export const useQuestionService = () => new QuestionService();

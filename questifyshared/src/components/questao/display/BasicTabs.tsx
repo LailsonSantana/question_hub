@@ -60,6 +60,7 @@ export default function BasicTabs({ question }: BasicTabsProps) {
   const userSession = useAutenticator.getUserSession();
   const userId = userSession?.id;
 
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -160,7 +161,8 @@ export default function BasicTabs({ question }: BasicTabsProps) {
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={2}>
-        <RateComponent onClick={saveClassification} userId={userId!} questionId={question.id!}/>
+        <RateComponent onClick={saveClassification} userId={question.userId!} questionId={question.id!} 
+                       countRating={question.countRating!} totalRating={question.totalRating!}/>
       </CustomTabPanel>
     </Box>
   );

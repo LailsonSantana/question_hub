@@ -32,7 +32,7 @@ class ClassificationService{
         return response.headers.get('location') ?? '';
     }
 
-    async getClassification(userId: number , questionId: number): Promise<String>{
+    async getClassification(questionId: number , userId: number): Promise<number>{
 
       const userSession = this.auth.getUserSession()
       const response = await fetch(`${this.baseUrl}/${questionId}/${userId}`, {

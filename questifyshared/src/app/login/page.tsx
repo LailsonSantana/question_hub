@@ -2,12 +2,12 @@
 
 import { useNotification } from "@/components/notification";
 import { Template } from "@/components/Template";
-import { useAuth } from "@/resources";
 import { useRouter } from "next/navigation";
 import { useFormik } from 'formik';
 import { formScheme, formValidationScheme, LoginForm } from "../formulario/formScheme";
 import { AccessToken, Credentials } from "@/resources/user/user.resource";
 import { InputText } from "@/components/input";
+import { useAuth } from "@/resources/user/authentication.service";
 
 export default function LoginPage() {
 
