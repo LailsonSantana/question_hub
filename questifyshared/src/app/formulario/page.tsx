@@ -21,7 +21,7 @@ export default function FormularioPage() {
     //const queryString = window.location.search;
     //const searchParams = new URLSearchParams(queryString);
     const [searchParams, setSearchParams] = useState<URLSearchParams | null>(null);
-    const id = Number(searchParams!.get("id"));
+    //const id = Number(searchParams!.get("id"));
     const auth = useAuth();
     const user = auth.getUserSession();
     console.log("USUARIO ATUAL : " , user)
@@ -31,6 +31,10 @@ export default function FormularioPage() {
         const queryString = window.location.search;
         setSearchParams(new URLSearchParams(queryString));
     }, []);
+
+    if (!hasMounted || !searchParams) return null; // Garante que só renderiza quando estiver pronto
+
+    const id = Number(searchParams.get("id") || 0); // Evita erro se "id" não existir
 
 
     const schema = z.object({
