@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/questions")
@@ -82,4 +85,10 @@ public class QuestionController {
         log.info("O RATE RECEBIDO FOI:",newRating);
         return ResponseEntity.status(HttpStatus.OK).body(questionService.updateRating(newRating, questionId));
     }
+
+    @GetMapping("rating/{questionId}")
+    public ResponseEntity<Double> getRating(@PathVariable Long questionId) {
+        return ResponseEntity.status(HttpStatus.OK).body(questionService.getRating(questionId));
+    }
+    
 }

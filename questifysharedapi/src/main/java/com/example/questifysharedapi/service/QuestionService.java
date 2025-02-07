@@ -109,9 +109,10 @@ public class QuestionService {
         return true;
     }
 
+    @Transactional
     public List<QuestionRecordDTO> getAllQuestions(){
         List<Question> questions = new ArrayList<>();
-        questions = questionRepository.findAll();
+        questions = questionRepository.findAllByOrderByIdAsc();
         return questions.stream()
                 .map(question -> new QuestionRecordDTO(
                         question.getId(),
@@ -208,6 +209,19 @@ public class QuestionService {
         );
         
         return qdto;
+    }
+
+    @Transactional
+    public Double getRating(Long questionId){
+        Question question = new Question();
+        Optional<Question> existingQuestion = questionRepository.findById(questionId);
+
+        if(existingQuestion.isPresent()){
+            question = existingQuestion.get();
+            return question.getTotalRating() / question.getCountRating();
+        }
+        
+        return 0.0;  
     }
 
     @Transactional
