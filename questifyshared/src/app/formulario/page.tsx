@@ -18,15 +18,18 @@ export default function FormularioPage() {
     const service = useQuestionService();
     const [hasMounted, setHasMounted] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const queryString = window.location.search;
-    const searchParams = new URLSearchParams(queryString);
-    const id = Number(searchParams.get("id"));
+    //const queryString = window.location.search;
+    //const searchParams = new URLSearchParams(queryString);
+    const [searchParams, setSearchParams] = useState<URLSearchParams | null>(null);
+    const id = Number(searchParams!.get("id"));
     const auth = useAuth();
     const user = auth.getUserSession();
     console.log("USUARIO ATUAL : " , user)
 
     useEffect(() => {
         setHasMounted(true);  
+        const queryString = window.location.search;
+        setSearchParams(new URLSearchParams(queryString));
     }, []);
 
 
