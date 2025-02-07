@@ -8,7 +8,7 @@ import { useQuestionService } from '@/resources/question/question.service';
 
 
 interface RateComponentProps{
-  onClick: (classification: Classification) => void;
+  onClick: (classification: Classification , tuple: [number, number]) => void;
   userId: number;
   questionId: number;
   countRating: number;
@@ -26,8 +26,6 @@ const RateComponent: React.FC<RateComponentProps> = ({userId, questionId, countR
   useEffect(() => {
           setHasMounted(true);
           findClassification();
-          console.log("QUESTION ID" , userId)
-          //console.log("USUÁRIO E ID :",questionId,userId)
       }, []);
   
       if (!hasMounted) {
@@ -36,10 +34,11 @@ const RateComponent: React.FC<RateComponentProps> = ({userId, questionId, countR
 
   async function findClassification(){
     const result = await useServiceClassification.getClassification(questionId , userId);
-    const result1 = await useServiceQuestion.updateRating(Number(result), questionId)
+    const result1 = await useServiceQuestion.getRating(questionId);
     setRating(Number(result))
     setMediaRating(result1)
-    //console.table(result);
+    console.log("RESULT 1")
+    console.table(result1);
   }
 
   async function getMediaRating(){
@@ -52,8 +51,9 @@ const RateComponent: React.FC<RateComponentProps> = ({userId, questionId, countR
 
   const handleRatingChange = (event: React.SyntheticEvent, newValue: number | null) => {
     setRating(newValue); // Atualiza o estado com o valor da avaliação
-    const newClassification = new Classification(newValue! , userId , questionId)
-    onClick(newClassification);
+    const newClassification = new Classification(newValue! , userId , questionId);
+    const ratingAndId: [number, number] = [newValue!, questionId];
+    onClick(newClassification , ratingAndId);
   };
 
 

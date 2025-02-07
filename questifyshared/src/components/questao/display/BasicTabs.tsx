@@ -56,9 +56,11 @@ export default function BasicTabs({ question }: BasicTabsProps) {
   const useServiceComment = useCommentService();
   const useServiceClassification = useClassificationService();
   const useServiceQuestion = useQuestionService();
-  const useAutenticator = useAuth();
-  const userSession = useAutenticator.getUserSession();
-  const userId = userSession?.id;
+  const auth = useAuth();
+  const userSession = auth.getUserSession();
+
+  //console.log("FORMATO DA QUESTÃO")
+  //console.table(question)
 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -82,14 +84,25 @@ export default function BasicTabs({ question }: BasicTabsProps) {
     return comments.map(mapperComment);
   }
 
-  const saveClassification = async (classification: Classification) => {
+  const saveClassification = async (newClassification: Classification) => {
     try {
-      const location = await useServiceClassification.saveClassification(classification);
+      const location = await useServiceClassification.saveClassification(newClassification);
     }catch (error) {
       console.error("Erro ao salvar o comentário:", error);
       alert("Erro ao salvar o comentário.");
     }
   }
+
+  const updateRate = async (ratingAndId: [number, number]) => {
+    try {
+      const location = await useServiceQuestion.updateRating(ratingAndId[0],ratingAndId[1]);
+    }catch (error) {
+      console.error("Erro ao salvar o comentário:", error);
+      alert("Erro ao salvar o comentário.");
+    }
+  }
+
+
 
   const saveComment = async (comment: CommentResponse) => {
     try {
@@ -154,15 +167,23 @@ export default function BasicTabs({ question }: BasicTabsProps) {
 
       <CustomTabPanel value={value} index={1}>
         <div className="mr-8 mb-8">
-          <InputComment onClick={saveComment} questionId={question.id!} userId={userId!} />
+          <InputComment onClick={saveComment} questionId={question.id!} userId={userSession?.id!} />
         </div>
 
         <section className="grid grid-cols-1 space-y-10">{mapperComments()}</section>
       </CustomTabPanel>
 
       <CustomTabPanel value={value} index={2}>
-        <RateComponent onClick={saveClassification} userId={question.userId!} questionId={question.id!} 
-                       countRating={question.countRating!} totalRating={question.totalRating!}/>
+      <RateComponent
+        onClick={(newClassification, ratingAndId) => {
+          saveClassification(newClassification); // Passando o argumento necessário
+          updateRate(ratingAndId); // Passando o argumento necessário
+        }}
+        userId={userSession?.id!}
+        questionId={question.id!}
+        countRating={question.countRating!}
+        totalRating={question.totalRating!}
+      />
       </CustomTabPanel>
     </Box>
   );

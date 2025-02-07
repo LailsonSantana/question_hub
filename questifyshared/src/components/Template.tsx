@@ -1,5 +1,6 @@
 'use client'
 
+import { useAuth } from '@/resources/user/authentication.service';
 import Link from 'next/link';
 //import { useAuth } from '@/resources'
 import { useRouter } from 'next/navigation';
@@ -68,15 +69,15 @@ const Loading: React.FC = () => {
 
 const Header: React.FC = () => {
 
-    //const auth = useAuth();
-    //const user = auth.getUserSession();
+    const auth = useAuth();
+    const user = auth.getUserSession();
     const router = useRouter();
 
     function logout(){
-        //auth.invalidadeSession();
+        auth.invalidadeSession();
         router.push('/login')
     }
-    /*<RenderIf condition={!!user}>
+    <RenderIf condition={!!user}>
                     <div className='flex-items-center'>
                         <div className='relative'>
                         <span className='w-64 py-3 px-6 text-md'>
@@ -91,7 +92,7 @@ const Header: React.FC = () => {
 
                         </div>
                     </div>
-                </RenderIf>*/
+                </RenderIf>
 
     return(
         <header className="bg-backgroundOne text-white py-3" > 

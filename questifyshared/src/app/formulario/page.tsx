@@ -12,6 +12,7 @@ import ContainerForm from "@/components/formulario/ContainerForm";
 import Tiptap from "@/components/questao/tiptap/Tiptap";
 import { FormProvider, useForm } from "react-hook-form";
 import { useQuestionService } from "@/resources/question/question.service";
+import { useAuth } from "@/resources/user/authentication.service";
 
 export default function FormularioPage() {
     const service = useQuestionService();
@@ -20,6 +21,9 @@ export default function FormularioPage() {
     const queryString = window.location.search;
     const searchParams = new URLSearchParams(queryString);
     const id = Number(searchParams.get("id"));
+    const auth = useAuth();
+    const user = auth.getUserSession();
+    console.log("USUARIO ATUAL : " , user)
 
     useEffect(() => {
         setHasMounted(true);  
@@ -27,18 +31,17 @@ export default function FormularioPage() {
 
 
     const schema = z.object({
-        statement: z.string().nonempty("Esse campo não pode ficar vazio"),
-        alt1: z.string().nonempty("Esse campo não pode ficar vazio"),
-        alt2: z.string().nonempty("Esse campo não pode ficar vazio"),
-        alt3: z.string().nonempty("Esse campo não pode ficar vazio"),
-        alt4: z.string().nonempty("Esse campo não pode ficar vazio"),
-        alt5: z.string().nonempty("Esse campo não pode ficar vazio"),
+        statement: z.string().min(10,"Esse campo não pode ficar vazio"),
+        alt1: z.string().min(1,"Esse campo não pode ficar vazio"),
+        alt2: z.string().min(1,"Esse campo não pode ficar vazio"),
+        alt3: z.string().min(1,"Esse campo não pode ficar vazio"),
+        alt4: z.string().min(1,"Esse campo não pode ficar vazio"),
+        alt5: z.string().min(1,"Esse campo não pode ficar vazio"),
         select: z.string(),
         correctAnswer: z.string().nonempty("A justificativa não pode ficar vazia")
     });
 
     type FormProps = z.infer<typeof schema>;
-
 
     const methods = useForm<FormProps>({
         mode: "all",
@@ -46,7 +49,6 @@ export default function FormularioPage() {
         resolver: zodResolver(schema),
         defaultValues: {statement: "",},
     });
-
 
     const { handleSubmit, watch, setValue, reset, formState: { errors } } = methods;
 
@@ -101,8 +103,8 @@ export default function FormularioPage() {
             statement: data.statement,
             discipline: data.select,
             answers: answers,
-            userId: 1,
-            nameUser: "Nome do Usuário",
+            userId: user?.id!,
+            nameUser: user?.name!,
             countRating: 0,
             totalRating: 0
         };

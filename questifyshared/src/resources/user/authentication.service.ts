@@ -74,8 +74,7 @@ class AuthService{
             const token: UserSessionToken = JSON.parse(authString);
             //console.log("O token retornado eh : " ,token)
             return token;
-        }catch(Error){return null}
-        
+        }catch(Error){return null}  
     }
 
     isSessionValid() :boolean{

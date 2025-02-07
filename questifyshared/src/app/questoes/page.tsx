@@ -52,6 +52,7 @@ export default function QuestoesPage(){
                                    userId={question.userId!}
                                    nameUser={question.nameUser}
                                    previousId={question.previousId}
+                                   createdAt={question.createdAt}
                                    countRating={question.countRating}
                                    totalRating={question.totalRating}>  
                 </QuestionComponent>

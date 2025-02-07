@@ -28,5 +28,7 @@ export class Question{
         this.nameUser = nameUser;
         this.previousId = previous;
         this.createdAt = dataCriacao;
+        this.countRating = countRating;
+        this.totalRating = totalRating;
     }
 }

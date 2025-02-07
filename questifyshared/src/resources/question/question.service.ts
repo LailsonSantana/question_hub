@@ -21,6 +21,8 @@ class QuestionService{
           }
 
           const data: Question[] = await response.json();
+          console.log("QUESTÕES ORDENADAS")
+          console.table(data)
           return data;
         }
         catch(error){
@@ -103,6 +105,29 @@ class QuestionService{
       }
     }
 
+    async getRating(questionId: number): Promise<number>{
+      const userSession = this.auth.getUserSession()
+      try{
+        const response = await fetch(`${this.baseUrl}/rating/${questionId}`, {
+          headers:{
+            "Authorization": `Bearer ${userSession?.accessToken}`
+          }
+        });
+
+        if (!response.ok) {
+          console.error(`Erro na resposta: ${response.status} ${response.statusText}`);
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data: number = await response.json();
+        return data;
+      }
+      catch(error){
+        console.error('Erro na requisição:', error);
+          throw error;
+      }
+    }
+
     async saveNewVersion(dados: Question , id: number): Promise<any> {
         const userSession = this.auth.getUserSession()
 
@@ -130,6 +155,7 @@ class QuestionService{
         }
     }
 
+    
     async save(dados: Question): Promise<string> {
       const userSession = this.auth.getUserSession()
 
