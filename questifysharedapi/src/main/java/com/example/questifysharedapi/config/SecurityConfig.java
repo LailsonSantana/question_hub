@@ -58,7 +58,8 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource(){
         CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedOrigins(List.of("http://localhost:3000"));
+        config.setAllowedOrigins(List.of("https://questify-shared-project-1.onrender.com","http://localhost:3000"));
+        //http://localhost:3000
         UrlBasedCorsConfigurationSource cors = new UrlBasedCorsConfigurationSource();
         // Define what url's might have access this api
         // To our context all url's are enable
