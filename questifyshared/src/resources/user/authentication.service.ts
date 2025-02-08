@@ -51,8 +51,6 @@ class AuthService{
                 id: decodedToken.id
                 
             };
-            //const tokenPayload = JSON.parse(atob(token.accessToken.split('.')[1]));
-            //console.log("Payload eh :",tokenPayload);
             this.setUserSession(userSessionToken)
         }
     }

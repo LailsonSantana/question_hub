@@ -24,7 +24,6 @@ export default function FormularioPage() {
     //const id = Number(searchParams!.get("id"));
     const auth = useAuth();
     const user = auth.getUserSession();
-    console.log("USUARIO ATUAL : " , user)
 
     useEffect(() => {
         setHasMounted(true);  
@@ -32,10 +31,10 @@ export default function FormularioPage() {
         setSearchParams(new URLSearchParams(queryString));
     }, []);
 
+
     if (!hasMounted || !searchParams) return null; // Garante que só renderiza quando estiver pronto
 
     const id = Number(searchParams.get("id") || 0); // Evita erro se "id" não existir
-
 
     const schema = z.object({
         statement: z.string().min(10,"Esse campo não pode ficar vazio"),
@@ -86,7 +85,7 @@ export default function FormularioPage() {
         }
     }, [id, reset, setValue]);
 
-
+    
     const correctAnswer = watch('correctAnswer');
     
     const onSelectAlternative = (name: string) => {
