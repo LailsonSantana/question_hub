@@ -13,21 +13,25 @@ import Tiptap from "@/components/questao/tiptap/Tiptap";
 import { FormProvider, useForm } from "react-hook-form";
 import { useQuestionService } from "@/resources/question/question.service";
 import { useAuth } from "@/resources/user/authentication.service";
+import { useParams } from 'react-router-dom';
 
 export default function FormularioPage() {
     const service = useQuestionService();
+    
     const [hasMounted, setHasMounted] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const queryString = window.location.search;
     const searchParams = new URLSearchParams(queryString);
-    const id = Number(searchParams.get("id"));
+    //const id = Number(searchParams.get("id"));
     const auth = useAuth();
     const user = auth.getUserSession();
-    console.log("USUARIO ATUAL : " , user)
+    const {id} = useParams();
 
     useEffect(() => {
-        setHasMounted(true);  
+        setHasMounted(true); 
     }, []);
+
+    
 
 
     const schema = z.object({
@@ -56,7 +60,7 @@ export default function FormularioPage() {
         if(id){
             const fetchData = async () => {
                 try {
-                    const response = await service.getQuestionById(id); // Substitua pelo ID correto
+                    const response = await service.getQuestionById(Number(id)); // Substitua pelo ID correto
                     reset({ 
                         statement: response.statement || "hh",
                         alt1: response.answers[0]?.text || "",
@@ -111,7 +115,7 @@ export default function FormularioPage() {
 
         try {
             if(id){
-                await service.saveNewVersion(dados , id);
+                await service.saveNewVersion(dados , Number(id));
             }
             else{
                 await service.save(dados);

@@ -23,6 +23,7 @@ export const Template: React.FC<TemplateProps> = (props: TemplateProps) => {
         return null; // Isso evita o erro de "hydration" até que o componente seja montado no cliente
     }
     return(
+
         <>  <div className="min-h-screen bg-[#f5f3ff]">
                 <Header/>
 

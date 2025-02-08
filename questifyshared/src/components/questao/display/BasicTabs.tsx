@@ -15,6 +15,7 @@ import { Question } from '@/resources/question/question.resource';
 import { useAuth } from '@/resources/user/authentication.service';
 import { useQuestionService } from '@/resources/question/question.service';
 import { RenderIf } from '@/components/Template';
+import { Link } from 'react-router-dom';
 
 
 interface TabPanelProps {
@@ -155,6 +156,7 @@ export default function BasicTabs({ question }: BasicTabsProps) {
             <Informativo text='Você terá a possibilidade de fazer mudanças nessa questão , vale ressaltar que após às mudanças
             a sua versão será considerada uma versão alternativa da questão principal.'
             />
+            <Link to="/formulario/1"></Link>
             <a href={`/formulario?${query}`} className="text-blue-600 hover:underline m-4">Clique aqui para fazer alterações nessa questão .</a>
           </RenderIf>
 
