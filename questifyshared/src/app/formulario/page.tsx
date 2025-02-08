@@ -20,7 +20,9 @@ export default function FormularioPage() {
     const [error, setError] = useState<string | null>(null);
     //const queryString = window.location.search;
     //const searchParams = new URLSearchParams(queryString);
-    const [searchParams, setSearchParams] = useState<URLSearchParams | null>(null);
+    const defaultURL = 'http://localhost:3000/formulario?id=1'; // Defina sua URL padrão aqui
+
+    const [searchParams, setSearchParams] = useState<URLSearchParams>(new URLSearchParams(defaultURL));
     //const id = Number(searchParams!.get("id"));
     const auth = useAuth();
     const user = auth.getUserSession();
@@ -30,9 +32,6 @@ export default function FormularioPage() {
         const queryString = window.location.search;
         setSearchParams(new URLSearchParams(queryString));
     }, []);
-
-
-    if (!hasMounted || !searchParams) return null; // Garante que só renderiza quando estiver pronto
 
     const id = Number(searchParams.get("id") || 0); // Evita erro se "id" não existir
 
@@ -74,7 +73,6 @@ export default function FormularioPage() {
                         correctAnswer: response.answers.find(a => a.isCorrect)?.text || ""
                     });
                     setValue("statement", response.statement || "");
-                    console.log("O ENUNCIADO É :" , response.statement)
                 } catch (error) {
                     console.error("Erro ao carregar a questão:", error);
                 }
@@ -85,7 +83,7 @@ export default function FormularioPage() {
         }
     }, [id, reset, setValue]);
 
-    
+
     const correctAnswer = watch('correctAnswer');
     
     const onSelectAlternative = (name: string) => {
