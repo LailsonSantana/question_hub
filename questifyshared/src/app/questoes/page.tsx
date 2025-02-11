@@ -8,6 +8,7 @@ import QuestionComponent from "@/components/questao/display/QuestionComponent"
 import ButtonB from "@/components/button/Button"
 import MultipleSelectCheckmarks from "@/components/questao/create/SeletorDisciplina"
 import React from "react"
+import { AuthenticatedPage } from "@/components/AuthenticatedPage"
 
 export default function QuestoesPage(){
 
@@ -67,22 +68,24 @@ export default function QuestoesPage(){
     }
 
     return (
-        <Template>
-            <section className='flex flex-col items-center justify-center my-5'>
-                    <div className="flex items-center space-x-4">
-                        
-                        <MultipleSelectCheckmarks onDisciplinesChange={handleDisciplinesChange}/>
+        <AuthenticatedPage>
+            <Template>
+                <section className='flex flex-col items-center justify-center my-5'>
+                        <div className="flex items-center space-x-4">
+                            
+                            <MultipleSelectCheckmarks onDisciplinesChange={handleDisciplinesChange}/>
 
-                        <ButtonB label="Buscar" onClick={subjectFilter} />
-                    </div>
-            </section>
+                            <ButtonB label="Buscar" onClick={subjectFilter} />
+                        </div>
+                </section>
 
 
-            <section className='grid grid-cols-1'>
-                {
-                    mapperQuestions()
-                }
-            </section>
-        </Template>
+                <section className='grid grid-cols-1'>
+                    {
+                        mapperQuestions()
+                    }
+                </section>
+            </Template>
+        </AuthenticatedPage>
     ) 
 }

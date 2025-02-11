@@ -1,5 +1,6 @@
 'use client'
 
+import { AuthenticatedPage } from "@/components/AuthenticatedPage";
 import Titulo from "@/components/inicial/Titulo";
 import TableQuestion from "@/components/questao/table/TableQuestion";
 import { Template } from "@/components/Template";
@@ -18,13 +19,15 @@ export default function QuestoesCriadasPage(){
     }
       
     return(
-        <Template>
-            <div className="flex flex-col items-center h-screen">
-                <Titulo titulo="Questões criadas por você"></Titulo>
-                <div className="p-16">
-                    <TableQuestion/>
+        <AuthenticatedPage>
+            <Template>
+                <div className="flex flex-col items-center h-screen">
+                    <Titulo titulo="Questões criadas por você"></Titulo>
+                    <div className="p-16">
+                        <TableQuestion/>
+                    </div>
                 </div>
-            </div>
-        </Template>
+            </Template>
+        </AuthenticatedPage>
     );
 }

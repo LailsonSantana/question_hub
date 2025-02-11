@@ -13,6 +13,7 @@ import Tiptap from "@/components/questao/tiptap/Tiptap";
 import { FormProvider, useForm } from "react-hook-form";
 import { useQuestionService } from "@/resources/question/question.service";
 import { useAuth } from "@/resources/user/authentication.service";
+import { AuthenticatedPage } from "@/components/AuthenticatedPage";
 
 export default function FormularioPage() {
     const service = useQuestionService();
@@ -135,87 +136,87 @@ export default function FormularioPage() {
     };
 
     return (
-        <Template>
-            
-            <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(handleSave)}>
-                    <span className="m-4 mt-8 flex flex-col items-center justify-center">
-                        <Selecionador register={methods.register} name="select" />
-                    </span>
+        <AuthenticatedPage>
+            <Template>
+                <FormProvider {...methods}>
+                    <form onSubmit={handleSubmit(handleSave)}>
+                        <span className="m-4 mt-8 flex flex-col items-center justify-center">
+                            <Selecionador register={methods.register} name="select" />
+                        </span>
 
-                    <div className="flex flex-col items-center justify-center h-full w-full">
+                        <div className="flex flex-col items-center justify-center h-full w-full">
+                            
+                        <section className="flex items-center w-11/12"> 
+                                    <ContainerForm>
+                                        <div className="flex flex-col items-center mb-8">
+                                            <h1 className="text-3xl font-bold text-titllecolor">Desenvolva o Enunciado</h1>
+                                        </div>
+
+                                        <div className="space-y-2">    
+                                            <Tiptap value={watch("statement")} onChange={(value) => setValue("statement", value)} onKeyDown={(e) => e.stopPropagation()}/>
+                                        </div>
+
+                                        <div className="flex items-center space-x-2 mb-4 mt-8 ml-32">
+                                            <ButtonB type="submit" label="Salvar" />
+                                            <ButtonB type="button" label="Cancelar" />
+                                        </div>
+                                    </ContainerForm>
+                                
+                                    <ContainerForm>
+                                        <div className="flex flex-col items-center mb-8">
+                                            <h1 className="text-3xl font-bold text-titllecolor">Desenvolva as Alternativas</h1>
+
+                                        </div>
+
+                                        <div className="px-4 space-y-6">
+                                            
+                                                <InputAlternativa register={methods.register} name="alt1"
+                                                    isSelected={correctAnswer === 'alt1'}
+                                                    onSelect={() => onSelectAlternative('alt1')}
+                                                    justification={correctAnswer === 'alt1' ? justification : ''}
+                                                    setJustification={setJustification}
+                                                />
+                                                <FieldError error={errors.alt1?.message} />
+
+                                                <InputAlternativa register={methods.register} name="alt2"
+                                                    isSelected={correctAnswer === 'alt2'}
+                                                    onSelect={() => onSelectAlternative('alt2')}
+                                                    justification={correctAnswer === 'alt2' ? justification : ''}
+                                                    setJustification={setJustification}
+                                                />
+                                                <FieldError error={errors.alt2?.message} />
+        
+                                                <InputAlternativa register={methods.register} name="alt3"
+                                                    isSelected={correctAnswer === 'alt3'}
+                                                    onSelect={() => onSelectAlternative('alt3')}
+                                                    justification={correctAnswer === 'alt3' ? justification : ''}
+                                                    setJustification={setJustification}
+                                                />
+                                                <FieldError error={errors.alt3?.message} />
                         
-                    <section className="flex items-center w-11/12"> 
-                                <ContainerForm>
-                                    <div className="flex flex-col items-center mb-8">
-                                        <h1 className="text-3xl font-bold text-titllecolor">Desenvolva o Enunciado</h1>
-                                    </div>
-
-                                    <div className="space-y-2">    
-                                        <Tiptap value={watch("statement")} onChange={(value) => setValue("statement", value)} onKeyDown={(e) => e.stopPropagation()}/>
-                                    </div>
-
-                                    <div className="flex items-center space-x-2 mb-4 mt-8 ml-32">
-                                        <ButtonB type="submit" label="Salvar" />
-                                        <ButtonB type="button" label="Cancelar" />
-                                    </div>
-                                </ContainerForm>
-                            
-                                <ContainerForm>
-                                    <div className="flex flex-col items-center mb-8">
-                                        <h1 className="text-3xl font-bold text-titllecolor">Desenvolva as Alternativas</h1>
-
-                                    </div>
-
-                                    <div className="px-4 space-y-6">
-                                        
-                                            <InputAlternativa register={methods.register} name="alt1"
-                                                isSelected={correctAnswer === 'alt1'}
-                                                onSelect={() => onSelectAlternative('alt1')}
-                                                justification={correctAnswer === 'alt1' ? justification : ''}
-                                                setJustification={setJustification}
-                                            />
-                                            <FieldError error={errors.alt1?.message} />
-
-                                            <InputAlternativa register={methods.register} name="alt2"
-                                                isSelected={correctAnswer === 'alt2'}
-                                                onSelect={() => onSelectAlternative('alt2')}
-                                                justification={correctAnswer === 'alt2' ? justification : ''}
-                                                setJustification={setJustification}
-                                            />
-                                            <FieldError error={errors.alt2?.message} />
-     
-                                            <InputAlternativa register={methods.register} name="alt3"
-                                                isSelected={correctAnswer === 'alt3'}
-                                                onSelect={() => onSelectAlternative('alt3')}
-                                                justification={correctAnswer === 'alt3' ? justification : ''}
-                                                setJustification={setJustification}
-                                            />
-                                            <FieldError error={errors.alt3?.message} />
-                       
-                                            <InputAlternativa register={methods.register} name="alt4"
-                                                isSelected={correctAnswer === 'alt4'}
-                                                onSelect={() => onSelectAlternative('alt4')}
-                                                justification={correctAnswer === 'alt4' ? justification : ''}
-                                                setJustification={setJustification}  
-                                            />
-                                            <FieldError error={errors.alt4?.message} />
-                
-                                            <InputAlternativa register={methods.register} name="alt5"
-                                                isSelected={correctAnswer === 'alt5'}
-                                                onSelect={() => onSelectAlternative('alt5')}
-                                                justification={correctAnswer === 'alt5' ? justification : ''}
-                                                setJustification={setJustification}
-                                            />
-                                            <FieldError error={errors.alt5?.message} />
-                                    </div>
-                                </ContainerForm>
-                            </section>
-                            
-                    </div>
-                </form>
-            </FormProvider>
-        </Template>
+                                                <InputAlternativa register={methods.register} name="alt4"
+                                                    isSelected={correctAnswer === 'alt4'}
+                                                    onSelect={() => onSelectAlternative('alt4')}
+                                                    justification={correctAnswer === 'alt4' ? justification : ''}
+                                                    setJustification={setJustification}  
+                                                />
+                                                <FieldError error={errors.alt4?.message} />
+                    
+                                                <InputAlternativa register={methods.register} name="alt5"
+                                                    isSelected={correctAnswer === 'alt5'}
+                                                    onSelect={() => onSelectAlternative('alt5')}
+                                                    justification={correctAnswer === 'alt5' ? justification : ''}
+                                                    setJustification={setJustification}
+                                                />
+                                                <FieldError error={errors.alt5?.message} />
+                                        </div>
+                                    </ContainerForm>
+                                </section>
+                        </div>
+                    </form>
+                </FormProvider>
+            </Template>
+        </AuthenticatedPage>
     );
 }
 
