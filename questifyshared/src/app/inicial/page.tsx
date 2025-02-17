@@ -1,8 +1,9 @@
 'use client'
 
 import { AuthenticatedPage } from "@/components/AuthenticatedPage";
+import ButtonTutorial from "@/components/inicial/ButtonTutorial";
 import ClassCard from "@/components/inicial/Card";
-import Titulo from "@/components/inicial/Titulo";
+import Titulo from "@/components/inicial/QuestifyTittle";
 import { Template } from "@/components/Template";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -26,17 +27,21 @@ export default function InicialPage() {
         // Aqui você pode acessar o evento de clique
         router.push(path)
     };
-
+// AS DEFINIÇÕES DE LAYOUT SÃO APLICADAS INICIALMENTE EM TELAS PEQUENAS 
+// OS PREFIXOS sm , md e lg são usados conforme das telas vão aumentando.
     return (
         <AuthenticatedPage>
             <Template>
-                <div className="flex flex-col items-center h-screen">
+                <div className="flex flex-col items-center h-screen mx-auto min-h-screen">
+                    
                     <Titulo titulo="Bem-vindo ao Questify Shared"/>
-                    <div className="flex flex-row">
-                        <div className="grid grid-cols-4 gap-8">
+
+                    <ButtonTutorial />
+
+                        <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                             <ClassCard 
                                 label="Elaborar" 
-                                title="Elabore uma questão" 
+                                title="Elabore Questões" 
                                 onClick={(event) => handleNavigation(event, '/formulario')}
                                 imageUrl="/assets/elabore3.png" 
                             />
@@ -58,7 +63,6 @@ export default function InicialPage() {
                                 imageUrl="/assets/created.png" 
                             />
                         </div>
-                    </div>
                 </div>
             </Template>
         </AuthenticatedPage>

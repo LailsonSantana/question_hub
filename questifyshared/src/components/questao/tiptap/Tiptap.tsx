@@ -33,6 +33,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ initialContent = '', onChange ,
   useEffect(() => {
     if (editor && value !== editor.getHTML()) {
       editor.commands.setContent(value || "");
+      editor.commands.setTextSelection(0);
       setTimeout(() => {
         editor.commands.focus("end"); // Foca no final do texto para evitar bug
       }, 100);
@@ -52,23 +53,22 @@ const TextEditor: React.FC<TextEditorProps> = ({ initialContent = '', onChange ,
   const alignRight = () => editor.chain().focus().setTextAlign('right').run();
 
   return (
-    <div className="border border-gray-300 rounded shadow-inner bg-white max-w-2xl mx-auto p-4 h-[380px]">
+    <div className="w-full border border-gray-300 rounded shadow-inner bg-white max-w-2xl mx-auto p-4 h-[380px]">
       {/* Barra de ferramentas */}
-      <div className="flex gap-2 mb-2 border-b pb-2">
-        <button type='button' className="p-2 border rounded" onClick={toggleBold}><BoldIcon size={18}/></button>
-        <button type='button' className="p-2 border rounded" onClick={toggleItalic}><ItalicIcon size={18}/></button>
-        <button type='button' className="p-2 border rounded" onClick={toggleUnderline}><UnderlineIcon size={18}/></button>
-        <button type='button' className="p-2 border rounded" onClick={toggleBulletList}><List size={18}/></button>
-        <button type='button' className="p-2 border rounded" onClick={toggleOrderedList}><ListOrdered size={18}/></button>
-        <button type='button' className="p-2 border rounded" onClick={alignLeft}><AlignLeft size={18} /></button>
-        <button type='button' className="p-2 border rounded" onClick={alignCenter}><AlignCenter size={18} /></button>
-        <button type='button' className="p-2 border rounded" onClick={alignRight}><AlignRight size={18} /></button>
+      <div className="w-full container grid grid-cols-4 sm:grid-cols-8 gap-2 mb-2 border-b pb-2 ">
+        <button type='button' className="p-2 border rounded w-full" onClick={toggleBold}><BoldIcon size={18}/></button>
+        <button type='button' className="p-2 border rounded w-full" onClick={toggleItalic}><ItalicIcon size={18}/></button>
+        <button type='button' className="p-2 border rounded w-full" onClick={toggleUnderline}><UnderlineIcon size={18}/></button>
+        <button type='button' className="p-2 border rounded w-full" onClick={toggleBulletList}><List size={18}/></button>
+        <button type='button' className="p-2 border rounded w-full" onClick={toggleOrderedList}><ListOrdered size={18}/></button>
+        <button type='button' className="p-2 border rounded w-full" onClick={alignLeft}><AlignLeft size={18} /></button>
+        <button type='button' className="p-2 border rounded w-full" onClick={alignCenter}><AlignCenter size={18} /></button>
+        <button type='button' className="p-2 border rounded w-full" onClick={alignRight}><AlignRight size={18} /></button>
       </div>
 
       {/* Área de Edição */}
       <div >
-        
-        <EditorContent className="border-none shadow-none ring-0 focus:ring-0 outline-none" editor={editor} onKeyDown={onKeyDown}/>
+        <EditorContent className="border-none shadow-none ring-0 focus:ring-0 outline-none" required editor={editor} onKeyDown={onKeyDown}/>
       </div>
     </div>
   );

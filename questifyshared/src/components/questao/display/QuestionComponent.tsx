@@ -5,8 +5,8 @@ import Resultado from "./Resultado";
 import { RenderIf } from "../../Template";
 import Cabecalho from "./Cabecalho";
 import BasicTabs from "./BasicTabs";
-import ButtonB from "@/components/button/Button";
 import { Question } from "@/resources/question/question.resource";
+import Button from "@/components/button/ButtonQ";
 
 interface Answer{
     text: string;
@@ -55,11 +55,11 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
     return(
 
         <div className="m-8">
-            <div className='border border-gray-300 rounded p-4 shadow-md bg-[#FFFDF2]'>
+            <div className='border border-gray-300 rounded p-4 shadow-md bg-containerColor'>
                 <Cabecalho id={id} assunto={discipline} autor={nameUser}></Cabecalho>
             </div>
 
-            <div className='border border-gray-300 rounded p-8 shadow-md bg-[#FFFDF2]'>
+            <div className='border border-gray-300 rounded p-8 shadow-md bg-containerColor'>
                 <Enunciado text={`${enunciado}`}/>
                 <div className="pt-4">
                     <ul>
@@ -78,7 +78,7 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
                 </div>
 
                 <div className="space-x-32 flex items-center mt-12">
-                    <ButtonB type="button" onClick={handleSubmit} label="Responder"></ButtonB>
+                    <Button type="button" onClick={handleSubmit} label="Responder"></Button>
                     
                     <RenderIf condition={isSubmitted}>
                         <Resultado isCorrect={isCorrect!}/> 
@@ -93,7 +93,7 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
                 </div>
             </div>
 
-            <div className="border border-gray-300 rounded p-4 shadow-md bg-[#FFFDF2]">
+            <div className="border border-gray-300 rounded p-4 shadow-md bg-containerColor">
                 <BasicTabs question={new Question(id,enunciado,discipline,answers,userId,nameUser, previousId!,createdAt!,
                     countRating! , totalRating!
                 )}></BasicTabs>

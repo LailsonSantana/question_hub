@@ -1,7 +1,7 @@
 'use client'
 
 import { useAuth } from "@/resources/user/authentication.service";
-import LoginPage from "./login/page";
+import LoginPage from "./login/pag";
 import InicialPage from "./inicial/page";
 
 export default function Home() {

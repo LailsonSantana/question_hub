@@ -36,48 +36,48 @@ export default function LoginPage() {
 
     return (
         <Template>
-            <div className="flex items-center justify-center h-[650px]">
+            <section className="flex justify-center w-11/12 m-auto">
                 {/* Seção de informações */}
-                <div className="w-2/5 h-full bg-titllecolor rounded-l-md p-8 shadow-md border-r border-gray-300">
+                <div className="flex-1 bg-buttonColor rounded-l-md p-8 shadow-md border-r border-gray-300">
                     {/*<h1 className="font-bold text-2xl mb-4 text-white">Bem-vindo ao Questify Shared</h1>
                     <p className="text-lg mb-6 text-white">
                         Questify é uma plataforma de elaboração de questões objetivas que visa viabilizar a construção
                         de conhecimento em um ambiente autosustentável e colaborativo. Crie sua conta e comece agora mesmo!
                     </p>*/}
                     <div className="items-center">
-                        <img src="/assets/login.png"  alt="Imagem ilustrativa" className="w-full h-92 object-cover rounded-md" />
+                        <img src="/assets/login.png"  alt="Imagem ilustrativa" className="w-fullobject-cover rounded-md" />
                     </div>
                     
                 </div>
 
                 {/* Seção de login */}
-                <section className="w-1/2 h-full flex items-center justify-center bg-containerColor rounded-r-md p-8 shadow-md">
+                <div className="flex-1 flex items-center justify-center bg-containerColor rounded-r-md p-8 shadow-md">
                     <div className="w-3/4">
-                        <h1 className="text-[rgb(77,68,130)] text-center font-bold text-3xl mb-16">LOGIN</h1>
+                        <h1 className="text-[rgb(77,68,130)] text-center font-bold text-3xl mb-16">User Login</h1>
                         
                         <form onSubmit={handleSubmit}>
                             
                             <div className="mb-6">
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email</label>
-                                <InputText style='w-full' 
+                                <InputText 
                                         id='email'
                                         value={values.email}
                                         onChange={handleChange} 
                                         placeholder="nome@email.com"
                                         />
                                         
-                                 {/*<input id="email" value={values.email} onChange={handleChange}  type="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="nome@email.com" required />*/}
+                                 
                             </div>
 
                             <div className="mb-6">
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Senha</label>
-                                <InputText style='w-full' 
+                                <InputText
                                        type="password"
                                        id='password'
                                        value={values.password}
                                        onChange={handleChange}
                                        placeholder="•••••••••" />
-                                {/*<input id="password" value={values.password} onChange={handleChange}  type="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="•••••••••" required />*/}
+                                
                             </div>
 
                             <button type="submit" className="text-white bg-[#7D6ED4] hover:bg-titllecolor focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5">
@@ -92,8 +92,8 @@ export default function LoginPage() {
                             </div>
                         </form>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
         </Template>
     );
 }

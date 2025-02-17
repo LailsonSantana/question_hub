@@ -5,7 +5,8 @@ import { Template } from "@/components/Template";
 import InputAlternativa from "@/components/questao/create/InputAlternativa";
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
-import Button from "@/components/button/Button";
+import { FieldError } from "./FieldError";
+import ButtonB from "@/components/button/Button";
 import Selecionador from "@/components/questao/create/Selecionador";
 import ContainerForm from "@/components/formulario/ContainerForm";
 import Tiptap from "@/components/questao/tiptap/Tiptap";
@@ -14,7 +15,6 @@ import { useQuestionService } from "@/resources/question/question.service";
 import { useAuth } from "@/resources/user/authentication.service";
 import { AuthenticatedPage } from "@/components/AuthenticatedPage";
 import { useNotification } from "@/components/notification";
-import Titulo from "@/components/inicial/Titulo";
 
 export default function FormularioPage() {
     const service = useQuestionService();
@@ -137,7 +137,7 @@ export default function FormularioPage() {
     const handleValidationError = (errorMessage: string) => {
         setError(errorMessage);
     };
-//flex flex-col md:flex-row w-11/12
+
     return (
             <Template>
                 <FormProvider {...methods}>
@@ -146,25 +146,29 @@ export default function FormularioPage() {
                             <Selecionador register={methods.register} name="select" />
                         </span>
 
+                        <div className="flex flex-col items-center justify-center h-full w-full">
                         {/*<section className="container flex flex-col md:flex-row gap-12 w-full max-w-6xl">*/}
-                        <section className="container grid grid-cols-1 sm:grid-cols-2 w-full gap-12 min-h-screen"> 
+                        <section className="flex items-center w-11/12 md:flex-row gap-12 min-h-screen"> 
                                     <ContainerForm>
+                                        <div className="flex flex-col items-center mb-8">
+                                            <h1 className="text-3xl font-bold text-titllecolor">Desenvolva o Enunciado</h1>
+                                        </div>
 
-                                        <Titulo titulo="Desenvolva o Enunciado" />
-
-                                        <div className="w-full">   
+                                        <div className="space-y-2">    
                                             <Tiptap value={watch("statement")} onChange={(value) => setValue("statement", value)} onKeyDown={(e) => e.stopPropagation()}/>
                                         </div>
 
-                                        <div className="flex flex-row items-center space-x-2 mb-4 mt-8">
-                                            <Button type="submit" label="Enviar" />
-                                            <Button type="button" label="Cancelar" />
+                                        <div className="flex items-center space-x-2 mb-4 mt-8 ml-32">
+                                            <ButtonB type="submit" label="Salvar" />
+                                            <ButtonB type="button" label="Cancelar" />
                                         </div>
                                     </ContainerForm>
                                 
                                     <ContainerForm>
+                                        <div className="flex flex-col items-center mb-8">
+                                            <h1 className="text-3xl font-bold text-titllecolor">Desenvolva as Alternativas</h1>
 
-                                        <Titulo titulo="Desenvolva as Alternativas" />
+                                        </div>
 
                                         <div className="px-4 space-y-6">
                                             
@@ -210,6 +214,7 @@ export default function FormularioPage() {
                                         </div>
                                     </ContainerForm>
                         </section>
+                        </div>
                     </form>
                 </FormProvider>
             </Template>

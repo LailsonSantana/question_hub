@@ -1,7 +1,7 @@
 'use client'
 
 import { AuthenticatedPage } from "@/components/AuthenticatedPage";
-import Titulo from "@/components/inicial/Titulo";
+import Titulo from "@/components/inicial/QuestifyTittle";
 import TableQuestion from "@/components/questao/table/TableQuestion";
 import { Template } from "@/components/Template";
 import { useEffect, useState } from "react";

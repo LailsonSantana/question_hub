@@ -15,17 +15,18 @@ const InputAlternativa: React.FC<InputAlternativaProps> = ({
 }) => {
   
   return (
-    <div className="flex flex-col items-start border border-gray-300 rounded-md p-2 bg-white">
-      <div className="flex items-center w-full">
+    <div className="w-full flex flex-col items-start border border-gray-300 rounded-md p-4 bg-white">
+      <div className="flex flex-grow items-center w-full">
         <input
-          className="flex-grow p-2 outline-none"
+          required
+          className="w-full outline-none"
           type='text'
           placeholder='Alternativa'
           {...register(name)}
           autoComplete='off'
         />
 
-        <div className="flex items-center">
+        <div className="flex flex-grow items-center">
           <label htmlFor="default-checkbox" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300 mr-2">Correta</label>
           <input
             id="default-checkbox"
