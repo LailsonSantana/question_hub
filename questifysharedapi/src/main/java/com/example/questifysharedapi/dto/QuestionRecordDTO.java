@@ -10,6 +10,7 @@ public record QuestionRecordDTO(Long id,
                                 Long userId,
                                 String nameUser,
                                 Long previousId,
+                                String justification,
                                 String createdAt,
                                 int countRating,
                                 Double totalRating) {
