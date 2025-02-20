@@ -1,7 +1,6 @@
 package com.example.questifysharedapi.controller;
 
 import com.example.questifysharedapi.dto.ClassificationRecordDTO;
-import com.example.questifysharedapi.dto.CommentRecordDTO;
 import com.example.questifysharedapi.model.Classification;
 import com.example.questifysharedapi.service.ClassificationService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/classifications")

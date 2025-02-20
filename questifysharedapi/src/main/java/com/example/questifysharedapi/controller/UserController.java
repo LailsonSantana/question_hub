@@ -2,17 +2,14 @@ package com.example.questifysharedapi.controller;
 
 import com.example.questifysharedapi.dto.CredentialsDTO;
 import com.example.questifysharedapi.dto.UserRecordDTO;
-import com.example.questifysharedapi.exception.InappropriateContentException;
 import com.example.questifysharedapi.model.User;
 import com.example.questifysharedapi.service.ContextService;
 import com.example.questifysharedapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
