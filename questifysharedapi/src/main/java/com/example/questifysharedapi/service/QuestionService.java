@@ -69,7 +69,6 @@ public class QuestionService {
         Question question = new Question();
         if(previousQuestion.get().getPreviousVersion() == null){
 
-            log.info("ENTRO NO IF");
             question.setStatement(questionRecordDTO.statement());
             question.setDiscipline(questionRecordDTO.discipline());
             question.setPreviousVersion(previousQuestion.get());
@@ -126,6 +125,7 @@ public class QuestionService {
                         question.getUser().getId(),
                         question.getUser().getName(),
                         question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
+                        question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getPreviousVersion().getJustification(),
                         question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
                         question.getCountRating() == null? 0 : question.getCountRating(),
                         question.getTotalRating() == null? 0 : question.getTotalRating()
@@ -155,6 +155,7 @@ public class QuestionService {
                 question.getUser().getId(),
                 question.getUser().getName(),
                 question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
+                question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getPreviousVersion().getJustification(),
                 question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
                 question.getCountRating() == null? 0 : question.getCountRating(),
                 question.getTotalRating() == null? 0 : question.getTotalRating()
@@ -182,6 +183,7 @@ public class QuestionService {
             question.getUser().getId(),
             question.getUser().getName(),
             question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
+            question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getPreviousVersion().getJustification(),
             question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
             question.getCountRating() == null? 0 : question.getCountRating(),
             question.getTotalRating() == null? 0 : question.getTotalRating()
@@ -203,6 +205,7 @@ public class QuestionService {
         QuestionRecordDTO qdto = new QuestionRecordDTO(questionId, question.getStatement(), question.getDiscipline(), 
         answerRecordDTOs, question.getUser().getId(), question.getUser().getName() ,
         question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
+        question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getPreviousVersion().getJustification(),
         question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
         question.getCountRating() == null? 0 : question.getCountRating(),
         question.getTotalRating() == null? 0 : question.getTotalRating()

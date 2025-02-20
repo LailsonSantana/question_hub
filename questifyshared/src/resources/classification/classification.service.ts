@@ -9,7 +9,6 @@ class ClassificationService{
     async saveClassification(dados: Classification): Promise<String>{
 
         const userSession = this.auth.getUserSession()
-        console.table(dados)
 
         const response = await fetch(`${this.baseUrl}`, {
           method: 'POST',

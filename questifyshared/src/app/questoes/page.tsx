@@ -5,9 +5,11 @@ import { useQuestionService } from '@/resources/question/question.service'
 import { useEffect, useState } from 'react'
 import { Question } from "@/resources/question/question.resource"
 import QuestionComponent from "@/components/questao/display/QuestionComponent"
-import ButtonB from "@/components/button/Button"
 import MultipleSelectCheckmarks from "@/components/questao/create/SeletorDisciplina"
 import React from "react"
+import { AuthenticatedPage } from "@/components/AuthenticatedPage"
+import Button from "@/components/button/ButtonQ"
+import Scoreboard from "@/components/questao/display/ScoreBoard"
 
 export default function QuestoesPage(){
 
@@ -52,6 +54,7 @@ export default function QuestoesPage(){
                                    userId={question.userId!}
                                    nameUser={question.nameUser}
                                    previousId={question.previousId}
+                                   justification={question.justification}
                                    createdAt={question.createdAt}
                                    countRating={question.countRating}
                                    totalRating={question.totalRating}>  
@@ -67,22 +70,29 @@ export default function QuestoesPage(){
     }
 
     return (
-        <Template>
-            <section className='flex flex-col items-center justify-center my-5'>
-                    <div className="flex items-center space-x-4">
-                        
-                        <MultipleSelectCheckmarks onDisciplinesChange={handleDisciplinesChange}/>
+        <AuthenticatedPage>
+            <Template>
+                <div className="flex flex-col items-end">
+                    <Scoreboard correct={5} incorrect={7} />
+                </div>
 
-                        <ButtonB label="Buscar" onClick={subjectFilter} />
-                    </div>
-            </section>
+                <section className='flex flex-col items-center justify-center my-5'>
+                        <div className="flex items-center space-x-4">
+                            
+                            <MultipleSelectCheckmarks onDisciplinesChange={handleDisciplinesChange}/>
+
+                            <Button label="Buscar" onClick={subjectFilter} />
+
+                        </div>
+                </section>
 
 
-            <section className='grid grid-cols-1'>
-                {
-                    mapperQuestions()
-                }
-            </section>
-        </Template>
+                <section className='grid grid-cols-1'>
+                    {
+                        mapperQuestions()
+                    }
+                </section>
+            </Template>
+        </AuthenticatedPage>
     ) 
 }

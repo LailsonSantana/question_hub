@@ -61,7 +61,7 @@ export default function BasicTabs({ question }: BasicTabsProps) {
   const userSession = auth.getUserSession();
 
   //console.log("FORMATO DA QUESTÃO")
-  //console.table(question)
+  console.log("A justificativa que recebemos foi" , question.justification)
 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -147,6 +147,7 @@ export default function BasicTabs({ question }: BasicTabsProps) {
           <Tab label="Sugerir Alteração" {...a11yProps(0)} />
           <Tab label="Comentários" {...a11yProps(1)} />
           <Tab label="Avaliar Questão" {...a11yProps(2)} />
+          <Tab label="Justificativa" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -186,6 +187,10 @@ export default function BasicTabs({ question }: BasicTabsProps) {
         countRating={question.countRating!}
         totalRating={question.totalRating!}
       />
+      </CustomTabPanel>
+
+      <CustomTabPanel value={value} index={3}>
+        <div>{question.justification}</div>
       </CustomTabPanel>
     </Box>
   );

@@ -25,12 +25,16 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column
     private String name;
+
     @Column(unique = true, nullable = true)
     private String email;
+
     @Column
     private String password;
+
     @CreatedDate
     @Column(name = "created_at", nullable = true)
     private LocalDateTime createdAt;
@@ -72,5 +76,4 @@ public class User implements UserDetails{
         return "";
         //throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
     }
-
 }

@@ -41,7 +41,7 @@ class AuthService{
         if(token.accessToken){   
             const decodedToken: any = jwtDecode(token.accessToken);
 
-            console.log(decodedToken);
+            console.log("DECODED" , decodedToken);
 
             const userSessionToken: UserSessionToken = {
                 accessToken: token.accessToken,
@@ -51,8 +51,6 @@ class AuthService{
                 id: decodedToken.id
                 
             };
-            //const tokenPayload = JSON.parse(atob(token.accessToken.split('.')[1]));
-            //console.log("Payload eh :",tokenPayload);
             this.setUserSession(userSessionToken)
         }
     }

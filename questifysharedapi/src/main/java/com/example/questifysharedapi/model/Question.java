@@ -23,7 +23,7 @@ public class Question {
     private Long id;
 
     @Lob
-    @Column(unique = true , nullable = true) // It say that this field is a data column
+    @Column(unique = true) // It say that this field is a data column
     private String statement;
 
     @Column(nullable = true)
@@ -50,6 +50,9 @@ public class Question {
 
     @OneToMany(mappedBy = "previousVersion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> nextVersions = new ArrayList<>();
+
+    @Column(nullable = true)
+    private  String justification;
 
     private LocalDateTime createdAt;
 

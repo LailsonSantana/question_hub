@@ -1,6 +1,4 @@
 import React from 'react';
-import { convertFromRaw } from 'draft-js';
-import { stateToHTML } from 'draft-js-export-html';
 
 interface AlternativaProps {
   circleLabel: string;
@@ -16,13 +14,11 @@ interface AlternativaProps {
 // isSelected e circleLabel foi criado por nós , logo são passados entre chaves
 const Alternativa: React.FC<AlternativaProps> = ({ circleLabel, value, isSelected,text ,type , onClick}) => {
 
-  {/*const contentState = convertFromRaw(JSON.parse(text)); // Aqui assumo que `text` é o JSON salvo
-  const htmlContent = stateToHTML(contentState);*/}
   return (
 
     <div className='flex items-center space-x-2'>
         <button className={`flex-shrink-0 flex justify-center items-center w-10 h-10 rounded-full border-2 ${
-          isSelected ? 'bg-[#5D577F]' : 'bg-[#ACA5D4]'} text-white`}
+          isSelected ? 'bg-[#433E5B]' : 'bg-[#9489C9]'} text-white`}
           onClick={onClick}
           type={type}>
           {isSelected}

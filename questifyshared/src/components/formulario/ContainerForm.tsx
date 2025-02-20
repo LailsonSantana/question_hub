@@ -6,7 +6,7 @@ interface ContainerFormProps{
 
 const ContainerForm: React.FC<ContainerFormProps> = ({children}) => {
     return (
-        <div className="container flex flex-col border border-gray-300 rounded p-4 shadow-lg m-4 bg-containerColor w-1/2 h-[570px]">
+        <div className="container flex-1 flex-col border border-gray-300 rounded p-8 m-8 shadow-lg bg-containerColor w-full h-11/12">
             {children}
         </div>
     );

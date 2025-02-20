@@ -5,21 +5,27 @@ import { Template } from "@/components/Template";
 import InputAlternativa from "@/components/questao/create/InputAlternativa";
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FieldError } from "./FieldError";
-import ButtonB from "@/components/button/Button";
+import Button from "@/components/button/Button";
 import Selecionador from "@/components/questao/create/Selecionador";
 import ContainerForm from "@/components/formulario/ContainerForm";
 import Tiptap from "@/components/questao/tiptap/Tiptap";
 import { FormProvider, useForm } from "react-hook-form";
 import { useQuestionService } from "@/resources/question/question.service";
 import { useAuth } from "@/resources/user/authentication.service";
+<<<<<<< HEAD
 import { useParams } from 'react-router-dom';
+=======
+import { AuthenticatedPage } from "@/components/AuthenticatedPage";
+import { useNotification } from "@/components/notification";
+import Titulo from "@/components/inicial/Titulo";
+>>>>>>> master
 
 export default function FormularioPage() {
     const service = useQuestionService();
     
     const [hasMounted, setHasMounted] = useState(false);
     const [error, setError] = useState<string | null>(null);
+<<<<<<< HEAD
     const queryString = window.location.search;
     const searchParams = new URLSearchParams(queryString);
     //const id = Number(searchParams.get("id"));
@@ -33,6 +39,25 @@ export default function FormularioPage() {
 
     
 
+=======
+    const notification = useNotification();
+    //const queryString = window.location.search;
+    //const searchParams = new URLSearchParams(queryString);
+    const defaultURL = 'http://localhost:3000/formulario?id=1'; // Defina sua URL padrão aqui
+
+    const [searchParams, setSearchParams] = useState<URLSearchParams>(new URLSearchParams(defaultURL));
+    //const id = Number(searchParams!.get("id"));
+    const auth = useAuth();
+    const user = auth.getUserSession();
+
+    useEffect(() => {
+        setHasMounted(true);  
+        const queryString = window.location.search;
+        setSearchParams(new URLSearchParams(queryString));
+    }, []);
+
+    const id = Number(searchParams.get("id") || 0); // Evita erro se "id" não existir
+>>>>>>> master
 
     const schema = z.object({
         statement: z.string().min(10,"Esse campo não pode ficar vazio"),
@@ -60,7 +85,11 @@ export default function FormularioPage() {
         if(id){
             const fetchData = async () => {
                 try {
+<<<<<<< HEAD
                     const response = await service.getQuestionById(Number(id)); // Substitua pelo ID correto
+=======
+                    const response = await service.getQuestionById(id);
+>>>>>>> master
                     reset({ 
                         statement: response.statement || "hh",
                         alt1: response.answers[0]?.text || "",
@@ -72,7 +101,6 @@ export default function FormularioPage() {
                         correctAnswer: response.answers.find(a => a.isCorrect)?.text || ""
                     });
                     setValue("statement", response.statement || "");
-                    console.log("O ENUNCIADO É :" , response.statement)
                 } catch (error) {
                     console.error("Erro ao carregar a questão:", error);
                 }
@@ -93,7 +121,6 @@ export default function FormularioPage() {
     const [justification, setJustification] = useState('');
 
     const handleSave = async (data: FormProps) => {
-        console.log("Handle save acabou de ser chamado");
 
         const answers = [
             { text: data.alt1, isCorrect: correctAnswer === "alt1" },
@@ -109,19 +136,26 @@ export default function FormularioPage() {
             answers: answers,
             userId: user?.id!,
             nameUser: user?.name!,
+            justification: justification,
             countRating: 0,
             totalRating: 0
         };
 
         try {
             if(id){
+<<<<<<< HEAD
                 await service.saveNewVersion(dados , Number(id));
+=======
+                await service.saveNewVersion(dados , id);
+                notification.notify("Sua questão foi enviada para análise!", "success");
+>>>>>>> master
             }
             else{
                 await service.save(dados);
+                notification.notify("Sua questão foi enviada para análise!", "success");
             }
             
-            alert("Pergunta salva com sucesso!");
+            
             reset(); // Reseta o formulário
         } catch (error) {
             console.error("Erro ao salvar a pergunta:", error);
@@ -133,89 +167,83 @@ export default function FormularioPage() {
     const handleValidationError = (errorMessage: string) => {
         setError(errorMessage);
     };
-
+// O prefixo sm: aplica aos tamanhos de tela a partir daquele valor , e não naquele valor
     return (
-        <Template>
-            
-            <FormProvider {...methods}>
-                <form onSubmit={handleSubmit(handleSave)}>
-                    <span className="m-4 mt-8 flex flex-col items-center justify-center">
-                        <Selecionador register={methods.register} name="select" />
-                    </span>
+        <AuthenticatedPage>
+            <Template>
+                <FormProvider {...methods}>
+                    <form onSubmit={handleSubmit(handleSave)}>
+                        <span className="m-4 mt-8 flex flex-col items-center justify-center">
+                            <Selecionador register={methods.register} name="select" />
+                        </span>
+                        <section className="container flex flex-col md:flex-row gap-8 w-full  min-h-screen p-8 items-center sm:items-stretch"> 
+                            <ContainerForm>
 
-                    <div className="flex flex-col items-center justify-center h-full w-full">
+                                <Titulo titulo="Desenvolva o Enunciado" />
+
+                                <div className="w-full">   
+                                    <Tiptap value={watch("statement")} onChange={(value) => setValue("statement", value)} onKeyDown={(e) => e.stopPropagation()}/>
+                                </div>
+
+                                <div className="flex flex-row items-center space-x-2 mb-4 mt-8">
+                                    <Button type="submit" label="Enviar" />
+                                    <Button type="button" label="Cancelar" />
+                                </div>
+
+                            </ContainerForm>
                         
-                    <section className="flex items-center w-11/12"> 
-                                <ContainerForm>
-                                    <div className="flex flex-col items-center mb-8">
-                                        <h1 className="text-3xl font-bold text-titllecolor">Desenvolva o Enunciado</h1>
-                                    </div>
+                            <ContainerForm>
 
-                                    <div className="space-y-2">    
-                                        <Tiptap value={watch("statement")} onChange={(value) => setValue("statement", value)} onKeyDown={(e) => e.stopPropagation()}/>
-                                    </div>
+                                <Titulo titulo="Desenvolva as Alternativas" />
 
-                                    <div className="flex items-center space-x-2 mb-4 mt-8 ml-32">
-                                        <ButtonB type="submit" label="Salvar" />
-                                        <ButtonB type="button" label="Cancelar" />
-                                    </div>
-                                </ContainerForm>
-                            
-                                <ContainerForm>
-                                    <div className="flex flex-col items-center mb-8">
-                                        <h1 className="text-3xl font-bold text-titllecolor">Desenvolva as Alternativas</h1>
+                                <div className="px-4 space-y-6">
+                                    
+                                        <InputAlternativa register={methods.register} name="alt1"
+                                            isSelected={correctAnswer === 'alt1'}
+                                            onSelect={() => onSelectAlternative('alt1')}
+                                            justification={correctAnswer === 'alt1' ? justification : ''}
+                                            setJustification={setJustification}
+                                        />
+                                        {/*<FieldError error={errors.alt1?.message} />*/}
 
-                                    </div>
+                                        <InputAlternativa register={methods.register} name="alt2"
+                                            isSelected={correctAnswer === 'alt2'}
+                                            onSelect={() => onSelectAlternative('alt2')}
+                                            justification={correctAnswer === 'alt2' ? justification : ''}
+                                            setJustification={setJustification}
+                                        />
+                                        {/*<FieldError error={errors.alt2?.message} />*/}
 
-                                    <div className="px-4 space-y-6">
-                                        
-                                            <InputAlternativa register={methods.register} name="alt1"
-                                                isSelected={correctAnswer === 'alt1'}
-                                                onSelect={() => onSelectAlternative('alt1')}
-                                                justification={correctAnswer === 'alt1' ? justification : ''}
-                                                setJustification={setJustification}
-                                            />
-                                            <FieldError error={errors.alt1?.message} />
-
-                                            <InputAlternativa register={methods.register} name="alt2"
-                                                isSelected={correctAnswer === 'alt2'}
-                                                onSelect={() => onSelectAlternative('alt2')}
-                                                justification={correctAnswer === 'alt2' ? justification : ''}
-                                                setJustification={setJustification}
-                                            />
-                                            <FieldError error={errors.alt2?.message} />
-     
-                                            <InputAlternativa register={methods.register} name="alt3"
-                                                isSelected={correctAnswer === 'alt3'}
-                                                onSelect={() => onSelectAlternative('alt3')}
-                                                justification={correctAnswer === 'alt3' ? justification : ''}
-                                                setJustification={setJustification}
-                                            />
-                                            <FieldError error={errors.alt3?.message} />
-                       
-                                            <InputAlternativa register={methods.register} name="alt4"
-                                                isSelected={correctAnswer === 'alt4'}
-                                                onSelect={() => onSelectAlternative('alt4')}
-                                                justification={correctAnswer === 'alt4' ? justification : ''}
-                                                setJustification={setJustification}  
-                                            />
-                                            <FieldError error={errors.alt4?.message} />
+                                        <InputAlternativa register={methods.register} name="alt3"
+                                            isSelected={correctAnswer === 'alt3'}
+                                            onSelect={() => onSelectAlternative('alt3')}
+                                            justification={correctAnswer === 'alt3' ? justification : ''}
+                                            setJustification={setJustification}
+                                        />
+                                        {/*<FieldError error={errors.alt3?.message} />*/}
                 
-                                            <InputAlternativa register={methods.register} name="alt5"
-                                                isSelected={correctAnswer === 'alt5'}
-                                                onSelect={() => onSelectAlternative('alt5')}
-                                                justification={correctAnswer === 'alt5' ? justification : ''}
-                                                setJustification={setJustification}
-                                            />
-                                            <FieldError error={errors.alt5?.message} />
-                                    </div>
-                                </ContainerForm>
-                            </section>
-                            
-                    </div>
-                </form>
-            </FormProvider>
-        </Template>
+                                        <InputAlternativa register={methods.register} name="alt4"
+                                            isSelected={correctAnswer === 'alt4'}
+                                            onSelect={() => onSelectAlternative('alt4')}
+                                            justification={correctAnswer === 'alt4' ? justification : ''}
+                                            setJustification={setJustification}  
+                                        />
+                                        {/*<FieldError error={errors.alt4?.message} />*/}
+            
+                                        <InputAlternativa register={methods.register} name="alt5"
+                                            isSelected={correctAnswer === 'alt5'}
+                                            onSelect={() => onSelectAlternative('alt5')}
+                                            justification={correctAnswer === 'alt5' ? justification : ''}
+                                            setJustification={setJustification}
+                                        />
+                                        {/*<FieldError error={errors.alt5?.message} />*/}
+                                </div>
+                            </ContainerForm>
+                        </section>
+                    </form>
+                </FormProvider>
+            </Template>
+        </AuthenticatedPage>
     );
 }
 

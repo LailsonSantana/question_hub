@@ -1,7 +1,9 @@
 'use client'
 
+import { AuthenticatedPage } from "@/components/AuthenticatedPage";
+import ButtonTutorial from "@/components/inicial/ButtonTutorial";
 import ClassCard from "@/components/inicial/Card";
-import Titulo from "@/components/inicial/Titulo";
+import QuestifyTittle from "@/components/inicial/QuestifyTittle";
 import { Template } from "@/components/Template";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -25,41 +27,45 @@ export default function InicialPage() {
         // Aqui você pode acessar o evento de clique
         router.push(path)
     };
-
+// AS DEFINIÇÕES DE LAYOUT SÃO APLICADAS INICIALMENTE EM TELAS PEQUENAS 
+// OS PREFIXOS sm , md e lg são usados conforme das telas vão aumentando.
     return (
-        <Template>
-           
-            <div className="flex flex-col items-center h-screen">
-                <Titulo titulo="Bem-vindo ao Questify Shared"/>
-                <div className="flex flex-row">
-                    <div className="grid grid-cols-4 gap-8">
-                        <ClassCard 
-                            label="Elaborar" 
-                            title="Elabore uma questão" 
-                            onClick={(event) => handleNavigation(event, '/formulario')}
-                            imageUrl="/assets/elabore3.png" 
-                        />
-                        <ClassCard 
-                            label="Responder" 
-                            title="Responda questões" 
-                            onClick={(event) => handleNavigation(event, '/questoes')}
-                            imageUrl="/assets/answer.png" 
-                        />
-                        <ClassCard 
-                            label="Visualizar" 
-                            title="Questões Respondidas" 
-                            imageUrl="/assets/check.png"
-                        />
-                        <ClassCard 
-                            label="Visualizar" 
-                            title="Questões Criadas" 
-                            onClick={(event) => handleNavigation(event, '/questoes.criadas')}
-                            imageUrl="/assets/created.png" 
-                        />
-                    </div>
+        <AuthenticatedPage>
+            <Template>
+                <div className="flex flex-col items-center mx-auto min-h-screen">
+                    
+                    <QuestifyTittle titulo="Bem-vindo ao Questify Shared"></QuestifyTittle>
+
+                    <ButtonTutorial />
+
+                        <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 p-4">
+                            <ClassCard 
+                                label="Elaborar" 
+                                title="Elabore Questões" 
+                                onClick={(event) => handleNavigation(event, '/formulario')}
+                                imageUrl="/assets/elabore3.png" 
+                            />
+                            <ClassCard 
+                                label="Responder" 
+                                title="Responda questões" 
+                                onClick={(event) => handleNavigation(event, '/questoes')}
+                                imageUrl="/assets/answer.png" 
+                            />
+                            <ClassCard 
+                                label="Visualizar" 
+                                title="Questões Respondidas" 
+                                imageUrl="/assets/check.png"
+                            />
+                            <ClassCard 
+                                label="Visualizar" 
+                                title="Questões Criadas" 
+                                onClick={(event) => handleNavigation(event, '/questoes.criadas')}
+                                imageUrl="/assets/created.png" 
+                            />
+                        </div>
                 </div>
-            </div>
-        </Template>
+            </Template>
+        </AuthenticatedPage>
     );
 }
 

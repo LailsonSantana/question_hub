@@ -22,24 +22,29 @@ export const Template: React.FC<TemplateProps> = (props: TemplateProps) => {
     if (!hasMounted) {
         return null; // Isso evita o erro de "hydration" até que o componente seja montado no cliente
     }
-    return(
 
-        <>  <div className="min-h-screen bg-[#f5f3ff]">
-                <Header/>
-
-                    <div className="container mx-auto mt-8 sm:px-4 md:px-8 lg:px-16 flex-grow">
-                        {props.children}
-                    </div>
-                    
-                <ToastContainer position='top-right' 
-                                autoClose={8000} // tempo de milisegundos
-                                hideProgressBar={false} // mostra barra de progresso ?
-                                draggable={false} // é arrastável ?
-                                closeOnClick={true} // fecha antes de finalizar
-                                pauseOnHover={true} // para o carregamento se passar o mouse
-                />
-                <Footer />
+    return (
+        <>
+          <div className="min-h-screen flex flex-col bg-backgroundColor">
+            <Header />
+      
+            <div className="container mx-auto mt-4 sm:mt-8 py-4 sm:px-4 md:px-8 lg:px-16 flex-grow overflow-y-auto">
+              {props.children}
             </div>
+      
+            <Footer />
+      
+            <ToastContainer
+              position={window.innerWidth < 768 ? "top-center" : "top-right"}
+              autoClose={8000}
+              hideProgressBar={false}
+              draggable={false}
+              closeOnClick
+              pauseOnHover
+              theme="light"
+              icon={false}
+            />
+          </div>
         </>
     )
 }
@@ -96,7 +101,7 @@ const Header: React.FC = () => {
                 </RenderIf>
 
     return(
-        <header className="bg-backgroundOne text-white py-3" > 
+        <header className="bg-backgroundHeaderAndFooter text-white py-3" > 
             <div className="container mx-auto flex justify-between items-center px-4">
                 <Link href='/inicial'>
                     <h1 className="text-3xl font-bold">Questify Shared</h1>
@@ -109,7 +114,7 @@ const Header: React.FC = () => {
 
 const Footer: React.FC = () => {
     return(
-        <footer className="bg-backgroundOne text-white py-4 mt-8 ">
+        <footer className="bg-backgroundHeaderAndFooter text-white py-4 mt-8 ">
             <div className="container mx-auto text-center">
                 Desenvolvido por Lailson Santana
             </div>

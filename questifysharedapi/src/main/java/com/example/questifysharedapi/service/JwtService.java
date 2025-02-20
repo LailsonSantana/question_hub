@@ -9,7 +9,6 @@ import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -51,6 +50,7 @@ public class JwtService {
         Map<String,Object> claims = new HashMap<>();
         claims.put("name" , user.getName());
         claims.put("id", user.getId());
+        claims.put("role", user.getRole());
         return claims;
     }
 
