@@ -21,6 +21,7 @@ interface QuestionComponentProps{
     discipline: string;
     previousId?: number;
     createdAt?: string;
+    justification?: string;
     countRating?: number;
     totalRating?: number;
 }
@@ -30,7 +31,7 @@ const indexToLetter = (index: number): string => {
 };
 
 export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciado,answers,nameUser,userId,discipline,previousId,
-                                                                        createdAt,countRating,totalRating
+                                                                        justification,createdAt,countRating,totalRating
 } : QuestionComponentProps) => {
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -56,7 +57,7 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
 
         <div className="m-8">
             <div className='border border-gray-300 rounded p-4 shadow-md bg-containerColor'>
-                <Cabecalho id={id} assunto={discipline} autor={nameUser}></Cabecalho>
+                <Cabecalho id={id} assunto={discipline} autor={nameUser}/>
             </div>
 
             <div className='border border-gray-300 rounded p-8 shadow-md bg-containerColor'>
@@ -94,9 +95,9 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
             </div>
 
             <div className="border border-gray-300 rounded p-4 shadow-md bg-containerColor">
-                <BasicTabs question={new Question(id,enunciado,discipline,answers,userId,nameUser, previousId!,createdAt!,
-                    countRating! , totalRating!
-                )}></BasicTabs>
+                <BasicTabs question={new Question(id,enunciado,discipline,answers,userId,nameUser, previousId!,justification!,
+                createdAt!, countRating! , totalRating!
+                )} />
             </div>
         </div>
     )

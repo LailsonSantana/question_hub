@@ -6,7 +6,7 @@ interface QuestifyTittleProps {
 
 const QuestifyTittle: React.FC<QuestifyTittleProps> = ({ titulo }) => {
   return (
-    <div className="flex items-center justify-center mb-16 mt-8">
+    <div className="flex items-center justify-center mb-16 mt-8 p-4">
       {/* Ícone de Educação (Livro) */}
       <svg
         xmlns="http://www.w3.org/2000/svg"

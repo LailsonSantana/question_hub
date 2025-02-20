@@ -5,9 +5,10 @@ interface TableLineProps{
     enunciado?: string
     data_criacao?: string
     disciplina?: string
+    rate?: number
 }
 
-const TableLine: React.FC<TableLineProps> = ({codigo , enunciado, data_criacao , disciplina}) => {
+const TableLine: React.FC<TableLineProps> = ({codigo, enunciado, data_criacao, disciplina, rate}) => {
     //const formatedEnunciado = enunciado!.replace(/<[^>]+>/g, '');
     const maxLength = 75; // Defina o limite de caracteres desejado
     const formatedEnunciado = enunciado!.replace(/<[^>]+>/g, '').slice(0, maxLength) + (enunciado!.length > maxLength ? '...' : '');
@@ -34,7 +35,7 @@ const TableLine: React.FC<TableLineProps> = ({codigo , enunciado, data_criacao ,
                 </td>
 
                 <td className="px-6 py-4">
-
+                    {rate}
                 </td>
             </tr>
     );

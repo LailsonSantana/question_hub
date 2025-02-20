@@ -3,7 +3,7 @@
 import { AuthenticatedPage } from "@/components/AuthenticatedPage";
 import ButtonTutorial from "@/components/inicial/ButtonTutorial";
 import ClassCard from "@/components/inicial/Card";
-import Titulo from "@/components/inicial/QuestifyTittle";
+import QuestifyTittle from "@/components/inicial/QuestifyTittle";
 import { Template } from "@/components/Template";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -32,13 +32,13 @@ export default function InicialPage() {
     return (
         <AuthenticatedPage>
             <Template>
-                <div className="flex flex-col items-center h-screen mx-auto min-h-screen">
+                <div className="flex flex-col items-center mx-auto min-h-screen">
                     
-                    <Titulo titulo="Bem-vindo ao Questify Shared"/>
+                    <QuestifyTittle titulo="Bem-vindo ao Questify Shared"></QuestifyTittle>
 
                     <ButtonTutorial />
 
-                        <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 p-4">
                             <ClassCard 
                                 label="Elaborar" 
                                 title="Elabore Questões" 

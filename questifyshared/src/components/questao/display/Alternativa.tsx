@@ -18,7 +18,7 @@ const Alternativa: React.FC<AlternativaProps> = ({ circleLabel, value, isSelecte
 
     <div className='flex items-center space-x-2'>
         <button className={`flex-shrink-0 flex justify-center items-center w-10 h-10 rounded-full border-2 ${
-          isSelected ? 'bg-[#5D577F]' : 'bg-[#ACA5D4]'} text-white`}
+          isSelected ? 'bg-[#433E5B]' : 'bg-[#9489C9]'} text-white`}
           onClick={onClick}
           type={type}>
           {isSelected}

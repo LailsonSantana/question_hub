@@ -1,6 +1,6 @@
 import AdministradorPage from '@/app/administrador/page';
 import InicialPage from '@/app/inicial/page';
-import Login from '@/app/login/pag';
+import Login from '@/app/login/page';
 import { useAuth } from '@/resources/user/authentication.service';
 import { jwtDecode } from 'jwt-decode';
 
@@ -19,15 +19,6 @@ export const AuthenticatedPage: React.FC<AuthenticatedPageProps> = ({
     if(!auth.isSessionValid()){
         return <Login />
     }
-
-    //if(role == "STUDENT"){
-        //return <InicialPage></InicialPage>
-    //}
-
-    //if(role=="ADMIN"){
-        //return <AdministradorPage></AdministradorPage>
-
-    //}
 
     return (
         <>

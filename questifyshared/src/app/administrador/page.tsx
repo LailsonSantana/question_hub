@@ -12,11 +12,17 @@ import { useAuth } from "@/resources/user/authentication.service";
 import Titulo from "@/components/inicial/Titulo";
 import { AuthenticatedPage } from "@/components/AuthenticatedPage";
 import Button from "@/components/button/Button";
+import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
 
 export default function AdministradorPage() {
   const [hasMounted, setHasMounted] = useState(false);
   const auth = useAuth();
+  //const decodedToken: any = jwtDecode(auth.getUserSession()?.accessToken!);
+  const token = auth.getUserSession()?.accessToken;
   const notification = useNotification();
+  const router = useRouter();
+  const [role, setRole] = useState<string | null>(null);
   const { values, handleChange, handleSubmit, errors, resetForm } = useFormik<LoginForm>({
     initialValues: formScheme,
     validationSchema: formValidationScheme,
@@ -25,7 +31,26 @@ export default function AdministradorPage() {
 
   useEffect(() => {
     setHasMounted(true);
-  }, []);
+
+    if (!token) {
+      console.error("Nenhum token encontrado. Redirecionando...");
+      router.push("/inicial"); // Redireciona se não houver token
+      return;
+    }
+
+    try {
+      const decodedToken: any = jwtDecode(token);
+      setRole(decodedToken.role);
+
+      if (decodedToken.role !== "ADMIN") {
+        console.warn("Usuário não autorizado. Redirecionando...");
+        router.push("/inicial");
+      }
+    } catch (error) {
+      console.error("Erro ao decodificar token:", error);
+      router.push("/inicial"); // Redireciona se o token for inválido
+    }
+  }, [token, router]);
 
   if (!hasMounted) {
     return null;
@@ -52,7 +77,7 @@ export default function AdministradorPage() {
   return (
     <AuthenticatedPage>
       <Template>
-          <section className="container flex flex-col md:flex-row gap-12 w-full max-w-6xl">
+          <section className="container flex flex-col md:flex-row gap-12 w-full max-w-6xl p-4">
             {/* Seção do formulário de cadastro de usuário */}
             <div className="flex-1 items-center bg-containerColor shadow-lg rounded-lg p-8 border border-gray-300">
               <Titulo titulo="Cadasto de Usuário" />
@@ -125,9 +150,12 @@ export default function AdministradorPage() {
             <div className="hidden md:block border-l border-gray-300 mx-6"></div>
 
             {/* Seção de definição de contexto */}
-            <div className="flex-1 bg-containerColor shadow-lg rounded-lg p-8 border border-gray-300">
+            <div className="w-full flex-1 bg-containerColor shadow-lg rounded-lg p-8 border border-gray-300">
               <Titulo titulo="Definição de Contexto" />
               <InputContext />
+              <div className="mt-24">
+                <Button label="Definir" />
+              </div>
             </div>
           </section>
 

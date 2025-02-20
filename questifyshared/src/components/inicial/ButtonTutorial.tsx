@@ -6,7 +6,7 @@ interface ButtonTutorialProps{
 
 const ButtonTutorial: React.FC<ButtonTutorialProps> = () => {
     return (
-        <div>
+        <div className='p-4'>
             <a
                 href="https://www.youtube.com/seu-link-do-tutorial" // Substitua pelo link do seu tutorial
                 target="_blank" // Abre o link em uma nova aba

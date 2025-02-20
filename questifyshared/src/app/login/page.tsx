@@ -8,6 +8,7 @@ import { formScheme, formValidationScheme, LoginForm } from "../formulario/formS
 import { AccessToken, Credentials } from "@/resources/user/user.resource";
 import { InputText } from "@/components/input";
 import { useAuth } from "@/resources/user/authentication.service";
+import Logo from "@/components/Logo";
 
 export default function LoginPage() {
 
@@ -28,6 +29,10 @@ export default function LoginPage() {
             const accessToken: AccessToken = await auth.authenticate(credentials);
             auth.initSession(accessToken);
             router.push("/inicial")
+            setTimeout(() => {
+                notification.notify("LOGIN EFETUADO COM SUCESSO","success")
+              }, 600);
+            
         } catch(error: any){
             const message = error?.message;
             notification.notify(message, "error")
@@ -39,11 +44,7 @@ export default function LoginPage() {
             <section className="flex justify-center w-11/12 m-auto">
                 {/* Seção de informações */}
                 <div className="flex-1 bg-buttonColor rounded-l-md p-8 shadow-md border-r border-gray-300">
-                    {/*<h1 className="font-bold text-2xl mb-4 text-white">Bem-vindo ao Questify Shared</h1>
-                    <p className="text-lg mb-6 text-white">
-                        Questify é uma plataforma de elaboração de questões objetivas que visa viabilizar a construção
-                        de conhecimento em um ambiente autosustentável e colaborativo. Crie sua conta e comece agora mesmo!
-                    </p>*/}
+
                     <div className="items-center">
                         <img src="/assets/login.png"  alt="Imagem ilustrativa" className="w-fullobject-cover rounded-md" />
                     </div>
@@ -65,8 +66,6 @@ export default function LoginPage() {
                                         onChange={handleChange} 
                                         placeholder="nome@email.com"
                                         />
-                                        
-                                 
                             </div>
 
                             <div className="mb-6">
@@ -77,18 +76,14 @@ export default function LoginPage() {
                                        value={values.password}
                                        onChange={handleChange}
                                        placeholder="•••••••••" />
-                                
                             </div>
 
                             <button type="submit" className="text-white bg-[#7D6ED4] hover:bg-titllecolor focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5">
                                 Entrar
                             </button>
 
-                            <div className="flex items-start justify-center mb-6 mt-2">
-
-                                <label htmlFor="remember" className="ml-2 text-sm font-medium text-gray-900">
-                                    <a href="#" className="text-blue-600 hover:underline">Esqueceu a senha ?</a>
-                                </label>
+                            <div className="flex justify-center mb-6 mt-2">
+                                <a href="#" className="text-blue-600 hover:underline text-sm">Esqueceu a senha ?</a>
                             </div>
                         </form>
                     </div>
