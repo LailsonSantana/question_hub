@@ -17,6 +17,15 @@ export default function QuestoesPage(){
     const [questions , setQuestions] = useState<Question[]>([])
     const [hasMounted, setHasMounted] = useState(false);
     const [disciplineName, setDisciplineName] = useState<string[]>([]);
+    const acertosStr = localStorage.getItem('placarA');
+    const errosStr = localStorage.getItem('placarE');
+
+    const acertos = acertosStr ? JSON.parse(acertosStr).count : 0;
+    const erros = errosStr ? JSON.parse(errosStr).count : 0;  
+
+    console.log("ERROS", erros)
+    console.log("ACERTOS", acertos)
+
 
     useEffect(() => {
         setHasMounted(true);
@@ -38,7 +47,6 @@ export default function QuestoesPage(){
         setDisciplineName(selectedDisciplines);
     }
 
-    
     async function subjectFilter(){
         const result = await useServiceQuestion.getQuestionsByDisciplines(disciplineName);
         setQuestions(result);
@@ -73,7 +81,7 @@ export default function QuestoesPage(){
         <AuthenticatedPage>
             <Template>
                 <div className="flex flex-col items-end">
-                    <Scoreboard correct={5} incorrect={7} />
+                    <Scoreboard correct={acertos} incorrect={erros} />
                 </div>
 
                 <section className='flex flex-col items-center justify-center my-5'>

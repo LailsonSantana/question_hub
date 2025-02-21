@@ -12,20 +12,14 @@ import Tiptap from "@/components/questao/tiptap/Tiptap";
 import { FormProvider, useForm } from "react-hook-form";
 import { useQuestionService } from "@/resources/question/question.service";
 import { useAuth } from "@/resources/user/authentication.service";
-<<<<<<< HEAD
-import { useParams } from 'react-router-dom';
-=======
 import { AuthenticatedPage } from "@/components/AuthenticatedPage";
-import { useNotification } from "@/components/notification";
 import Titulo from "@/components/inicial/Titulo";
->>>>>>> master
 
 export default function FormularioPage() {
     const service = useQuestionService();
     
     const [hasMounted, setHasMounted] = useState(false);
     const [error, setError] = useState<string | null>(null);
-<<<<<<< HEAD
     const queryString = window.location.search;
     const searchParams = new URLSearchParams(queryString);
     //const id = Number(searchParams.get("id"));
@@ -39,25 +33,6 @@ export default function FormularioPage() {
 
     
 
-=======
-    const notification = useNotification();
-    //const queryString = window.location.search;
-    //const searchParams = new URLSearchParams(queryString);
-    const defaultURL = 'http://localhost:3000/formulario?id=1'; // Defina sua URL padrão aqui
-
-    const [searchParams, setSearchParams] = useState<URLSearchParams>(new URLSearchParams(defaultURL));
-    //const id = Number(searchParams!.get("id"));
-    const auth = useAuth();
-    const user = auth.getUserSession();
-
-    useEffect(() => {
-        setHasMounted(true);  
-        const queryString = window.location.search;
-        setSearchParams(new URLSearchParams(queryString));
-    }, []);
-
-    const id = Number(searchParams.get("id") || 0); // Evita erro se "id" não existir
->>>>>>> master
 
     const schema = z.object({
         statement: z.string().min(10,"Esse campo não pode ficar vazio"),
@@ -85,11 +60,7 @@ export default function FormularioPage() {
         if(id){
             const fetchData = async () => {
                 try {
-<<<<<<< HEAD
                     const response = await service.getQuestionById(Number(id)); // Substitua pelo ID correto
-=======
-                    const response = await service.getQuestionById(id);
->>>>>>> master
                     reset({ 
                         statement: response.statement || "hh",
                         alt1: response.answers[0]?.text || "",
@@ -143,12 +114,7 @@ export default function FormularioPage() {
 
         try {
             if(id){
-<<<<<<< HEAD
                 await service.saveNewVersion(dados , Number(id));
-=======
-                await service.saveNewVersion(dados , id);
-                notification.notify("Sua questão foi enviada para análise!", "success");
->>>>>>> master
             }
             else{
                 await service.save(dados);
