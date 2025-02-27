@@ -21,8 +21,6 @@ class QuestionService{
           }
 
           const data: Question[] = await response.json();
-          console.log("QUESTÕES ORDENADAS")
-          console.table(data)
           return data;
         }
         catch(error){

@@ -27,7 +27,6 @@ class CommentService{
 
     async getAllComents(questionId: number) : Promise<CommentRequest[]>{
       const userSession = this.auth.getUserSession()
-      console.log("O ID DA QUESTÃO PASSADA É" , questionId)
                                   
       const response = await fetch(`${this.baseUrl}/${questionId}`, {
         headers:{

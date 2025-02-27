@@ -59,8 +59,6 @@ export default function BasicTabs({ question }: BasicTabsProps) {
   const auth = useAuth();
   const userSession = auth.getUserSession();
 
-  //console.log("FORMATO DA QUESTÃO")
-  console.log("A justificativa que recebemos foi" , question.justification)
 
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

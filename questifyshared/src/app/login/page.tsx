@@ -9,12 +9,15 @@ import { AccessToken, Credentials } from "@/resources/user/user.resource";
 import { InputText } from "@/components/input";
 import { useAuth } from "@/resources/user/authentication.service";
 import Logo from "@/components/Logo";
+import { Backdrop, CircularProgress } from "@mui/material";
+import { useState } from "react";
 
 export default function LoginPage() {
 
     const auth = useAuth();
     const notification = useNotification();
     const router = useRouter();
+    const [loading, setLoading] = useState(false);
 
     const { values, handleChange, handleSubmit, errors, resetForm } = useFormik<LoginForm>({
         initialValues: formScheme,
@@ -23,15 +26,17 @@ export default function LoginPage() {
     });
 
     async function onSubmit(values: LoginForm){
-        
+        setLoading(true)
         const credentials: Credentials = { email: values.email, password: values.password }
         try {
             const accessToken: AccessToken = await auth.authenticate(credentials);
             auth.initSession(accessToken);
+            
             router.push("/inicial")
+            
             setTimeout(() => {
                 notification.notify("LOGIN EFETUADO COM SUCESSO","success")
-              }, 600);
+            }, 600);
             
         } catch(error: any){
             const message = error?.message;
@@ -41,13 +46,14 @@ export default function LoginPage() {
 
     return (
         <Template>
+            
             <section className="flex justify-center w-11/12 m-auto">
                 {/* Seção de informações */}
                 <div className="flex-1 bg-buttonColor rounded-l-md p-8 shadow-md border-r border-gray-300">
 
-                    <div className="items-center">
-                        <img src="/assets/login.png"  alt="Imagem ilustrativa" className="w-fullobject-cover rounded-md" />
-                    </div>
+                <div className="items-center">
+                    <img src="/assets/login.png"  alt="Imagem ilustrativa" className="w-fullobject-cover rounded-md" />
+                </div>
                     
                 </div>
 
@@ -55,6 +61,7 @@ export default function LoginPage() {
                 <div className="flex-1 flex items-center justify-center bg-containerColor rounded-r-md p-8 shadow-md">
                     <div className="w-3/4">
                         <h1 className="text-[rgb(77,68,130)] text-center font-bold text-3xl mb-16">User Login</h1>
+                        
                         
                         <form onSubmit={handleSubmit}>
                             
@@ -89,6 +96,9 @@ export default function LoginPage() {
                     </div>
                 </div>
             </section>
+            <Backdrop open={loading} style={{ zIndex: 1300, color: "#fff" }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </Template>
     );
 }

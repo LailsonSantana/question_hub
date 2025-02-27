@@ -1,34 +1,31 @@
-import React from 'react';
+import React from "react";
 
 const Logo = () => {
-    return (
-      <div className="flex items-center gap-2">
-        <div className="relative w-12 h-12 flex items-center justify-center">
-          <svg
-            width="48"
-            height="48"
-            viewBox="0 0 48 48"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs>
-              <filter id="blur" x="-5" y="-5" width="58" height="58">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
-              </filter>
-            </defs>
-            <path
-              d="M10 24 L20 10 L38 10 L28 24 L38 38 L20 38 L10 24 Z"
-              fill="#D6B4FC"
-              stroke="#D6B4FC"
-              strokeWidth="2"
-              filter="url(#blur)"
-              transform="skewX(-10)"
-            />
-          </svg>
+  return (
+    <div className="flex items-center justify-center">
+      {/* Container da Logo */}
+      <div className="relative w-20 h-20 flex items-center justify-center">
+        {/* Círculo do "Q" */}
+        <div className="absolute w-16 h-16 border-4 border-white rounded-full"></div>
+
+        {/* Linha vertical do "H" */}
+        <div className="absolute w-4 h-16 bg-white transform translate-x-6"></div>
+
+        {/* Linha horizontal do "H" */}
+        <div className="absolute w-10 h-4 bg-white transform translate-y-2"></div>
+
+        {/* Livro (elemento educacional) */}
+        <div className="absolute w-8 h-6 bg-white transform -translate-x-6 -translate-y-4 rotate-12">
+          {/* Detalhes do livro */}
+          <div className="absolute w-1 h-6 bg-gray-200 left-1"></div>
+          <div className="absolute w-1 h-6 bg-gray-200 right-1"></div>
         </div>
-        <span className="text-xl font-bold text-purple-200">Questify Shared</span>
       </div>
-    );
-  };
-  
-  export default Logo;
+
+      {/* Texto ao lado da logo (opcional) */}
+      <span className="ml-4 text-white text-2xl font-bold">QH Edu</span>
+    </div>
+  );
+};
+
+export default Logo;

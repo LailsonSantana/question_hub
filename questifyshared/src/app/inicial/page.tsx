@@ -5,18 +5,18 @@ import ButtonTutorial from "@/components/inicial/ButtonTutorial";
 import ClassCard from "@/components/inicial/Card";
 import QuestifyTittle from "@/components/inicial/QuestifyTittle";
 import { Template } from "@/components/Template";
+import { Backdrop, CircularProgress, Skeleton } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-
 
 export default function InicialPage() {
 
     const [hasMounted, setHasMounted] = useState(false);
+    const [loading , setLoading] = useState(false)
     const router = useRouter();
 
     useEffect(() => {
-              setHasMounted(true);
+        setHasMounted(true);
     }, []);
       
     if (!hasMounted) {
@@ -25,6 +25,7 @@ export default function InicialPage() {
 
     const handleNavigation = (event : any, path : string) => {
         // Aqui você pode acessar o evento de clique
+        setLoading(true)
         router.push(path)
     };
 // AS DEFINIÇÕES DE LAYOUT SÃO APLICADAS INICIALMENTE EM TELAS PEQUENAS 
@@ -65,6 +66,9 @@ export default function InicialPage() {
                         </div>
                 </div>
             </Template>
+            <Backdrop open={loading} style={{ zIndex: 1300, color: "#fff" }}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </AuthenticatedPage>
     );
 }

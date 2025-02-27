@@ -44,10 +44,22 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
         if (selectedAnswerIndex !== null) {
           const selectedAnswer = answers[selectedAnswerIndex];
           // Verifica se a resposta selecionada está correta
-          console.log('Resposta selecionada:', selectedAnswer);
-          console.log('Está correta?', selectedAnswer.isCorrect);
           setIsCorrect(selectedAnswer.isCorrect)
           setIsSubmitted(true);
+
+          const acertosStr = localStorage.getItem('placarA');
+          const errosStr = localStorage.getItem('placarE');
+          const acertos = acertosStr ? JSON.parse(acertosStr).count : 0;
+          const erros = errosStr ? JSON.parse(errosStr).count : 0; 
+          const placarE = { result: 'Erro', count: erros + 1 };
+          const placarA = { result: 'Acerto', count: acertos + 1 };
+
+          if(selectedAnswer.isCorrect){
+            localStorage.setItem('placarA', JSON.stringify(placarA))  
+          }
+          else{
+            localStorage.setItem('placarE', JSON.stringify(placarE))
+          }
         } else {
           console.log('Nenhuma resposta selecionada.');
         }
@@ -79,7 +91,7 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
                 </div>
 
                 <div className="space-x-32 flex items-center mt-12">
-                    <Button type="button" onClick={handleSubmit} label="Responder"></Button>
+                    <Button type="button" onClick={handleSubmit} label="Responder"/>
                     
                     <RenderIf condition={isSubmitted}>
                         <Resultado isCorrect={isCorrect!}/> 

@@ -14,7 +14,7 @@ import { AuthenticatedPage } from "@/components/AuthenticatedPage";
 import Button from "@/components/button/Button";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
-
+  
 export default function AdministradorPage() {
   const [hasMounted, setHasMounted] = useState(false);
   const auth = useAuth();
@@ -22,7 +22,7 @@ export default function AdministradorPage() {
   const token = auth.getUserSession()?.accessToken;
   const notification = useNotification();
   const router = useRouter();
-  const [role, setRole] = useState<string | null>(null);
+
   const { values, handleChange, handleSubmit, errors, resetForm } = useFormik<LoginForm>({
     initialValues: formScheme,
     validationSchema: formValidationScheme,
@@ -40,7 +40,6 @@ export default function AdministradorPage() {
 
     try {
       const decodedToken: any = jwtDecode(token);
-      setRole(decodedToken.role);
 
       if (decodedToken.role !== "ADMIN") {
         console.warn("Usuário não autorizado. Redirecionando...");
