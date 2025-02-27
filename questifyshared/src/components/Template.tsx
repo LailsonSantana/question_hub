@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify';
 import Logo from './Logo';
+import Menu1 from './questao/Menu';
 
 interface TemplateProps{
     children: React.ReactNode
@@ -25,7 +26,9 @@ export const Template: React.FC<TemplateProps> = (props: TemplateProps) => {
     return (
         <>
           <div className="min-h-screen flex flex-col bg-backgroundColor">
-            <Header />
+            
+            {/*<Header />*/}
+            <Menu1></Menu1>
       
             <div className="container mx-auto mt-4 sm:mt-8 py-4 sm:px-4 md:px-8 lg:px-16 flex-grow overflow-y-auto">
               {props.children}
@@ -89,12 +92,16 @@ const Header: React.FC = () => {
 
     return(
         <header className="bg-backgroundHeaderAndFooter text-white py-3" > 
-            <div className="container mx-auto flex justify-between items-center px-4">
-            
-                <Link href='/inicial'>
-                    <h1 className="text-3xl font-bold">Question Hub</h1>
-                </Link>
-                
+            <div className='container flex flex-col items-start justify-center px-4'>
+                <div className="flex flex-col items-center justify-center px-4">
+                    {/* Logo */}
+                    <Logo />
+
+                    {/* Texto "Question Hub" */}
+                    <Link href='/inicial'>
+                        <h1 className="text-md font-bold mt-2">Question Hub</h1>
+                    </Link>
+                </div>
             </div>
         </header>
     )
