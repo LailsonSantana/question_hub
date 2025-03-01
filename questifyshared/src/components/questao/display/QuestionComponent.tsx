@@ -47,6 +47,7 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
           setIsCorrect(selectedAnswer.isCorrect)
           setIsSubmitted(true);
 
+          if (typeof window !== "undefined") {
           const acertosStr = localStorage.getItem('placarA');
           const errosStr = localStorage.getItem('placarE');
           const acertos = acertosStr ? JSON.parse(acertosStr).count : 0;
@@ -60,6 +61,7 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
           else{
             localStorage.setItem('placarE', JSON.stringify(placarE))
           }
+        }
         } else {
           console.log('Nenhuma resposta selecionada.');
         }

@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify';
 import Logo from './Logo';
-import Menu1 from './questao/Menu';
+import Menu from './Menu';
+
 
 interface TemplateProps{
     children: React.ReactNode
@@ -28,7 +29,7 @@ export const Template: React.FC<TemplateProps> = (props: TemplateProps) => {
           <div className="min-h-screen flex flex-col bg-backgroundColor">
             
             {/*<Header />*/}
-            <Menu1></Menu1>
+            <Menu></Menu>
       
             <div className="container mx-auto mt-4 sm:mt-8 py-4 sm:px-4 md:px-8 lg:px-16 flex-grow overflow-y-auto">
               {props.children}

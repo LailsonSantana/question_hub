@@ -19,13 +19,22 @@ export default function QuestoesPage() {
     const [disciplineName, setDisciplineName] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(true); // Estado para carregamento inicial
     const [isProcessing, setIsProcessing] = useState(false); // Estado para ações demoradas
+    const [ac , setAc] = useState("");
+    const [er , setEr] = useState("")
 
-    const acertosStr = localStorage.getItem('placarA');
-    const errosStr = localStorage.getItem('placarE');
 
-    const acertos = acertosStr ? JSON.parse(acertosStr).count : 0;
-    const erros = errosStr ? JSON.parse(errosStr).count : 0;
+    if (typeof window !== "undefined") {
+        const acertosStr = localStorage.getItem('placarA');
+        const errosStr = localStorage.getItem('placarE');
+        setAc(acertosStr!)
+        setEr(errosStr!)
+        
+    }
 
+    const acertos = ac ? JSON.parse(ac).count : 0;
+    const erros = er ? JSON.parse(er).count : 0;
+
+    
     useEffect(() => {
         setHasMounted(true);
         searchQuestions();

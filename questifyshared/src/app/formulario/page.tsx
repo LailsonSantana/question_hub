@@ -135,9 +135,6 @@ export default function FormularioPage() {
     };
     
 
-    const handleValidationError = (errorMessage: string) => {
-        setError(errorMessage);
-    };
 // O prefixo sm: aplica aos tamanhos de tela a partir daquele valor , e não naquele valor
     return (
         <AuthenticatedPage>
@@ -175,7 +172,6 @@ export default function FormularioPage() {
                                             justification={correctAnswer === 'alt1' ? justification : ''}
                                             setJustification={setJustification}
                                         />
-                                        {/*<FieldError error={errors.alt1?.message} />*/}
 
                                         <InputAlternativa register={methods.register} name="alt2"
                                             isSelected={correctAnswer === 'alt2'}
@@ -183,7 +179,6 @@ export default function FormularioPage() {
                                             justification={correctAnswer === 'alt2' ? justification : ''}
                                             setJustification={setJustification}
                                         />
-                                        {/*<FieldError error={errors.alt2?.message} />*/}
 
                                         <InputAlternativa register={methods.register} name="alt3"
                                             isSelected={correctAnswer === 'alt3'}
@@ -191,7 +186,6 @@ export default function FormularioPage() {
                                             justification={correctAnswer === 'alt3' ? justification : ''}
                                             setJustification={setJustification}
                                         />
-                                        {/*<FieldError error={errors.alt3?.message} />*/}
                 
                                         <InputAlternativa register={methods.register} name="alt4"
                                             isSelected={correctAnswer === 'alt4'}
@@ -199,7 +193,6 @@ export default function FormularioPage() {
                                             justification={correctAnswer === 'alt4' ? justification : ''}
                                             setJustification={setJustification}  
                                         />
-                                        {/*<FieldError error={errors.alt4?.message} />*/}
             
                                         <InputAlternativa register={methods.register} name="alt5"
                                             isSelected={correctAnswer === 'alt5'}
@@ -207,7 +200,6 @@ export default function FormularioPage() {
                                             justification={correctAnswer === 'alt5' ? justification : ''}
                                             setJustification={setJustification}
                                         />
-                                        {/*<FieldError error={errors.alt5?.message} />*/}
                                 </div>
                             </ContainerForm>
                         </section>

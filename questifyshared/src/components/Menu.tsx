@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react';
-import Logo from '../Logo';
 import Link from 'next/link';
+import Logo from './Logo';
 
 interface MenuProps{
 
@@ -23,7 +23,7 @@ const Menu: React.FC<MenuProps> = () => {
 
                 <div id="mega-menu-full" className="items-center justify-between font-medium hidden w-full md:flex md:w-auto md:order-1">
                     <ul className="flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                        <li>
+                        <li className="transition-transform duration-200 hover:scale-110">
                             {/*fazer o componente aumentar um pouco ao posicionaro mouse em cima*/}
                             <a href="/inicial"
                             className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-containerColor
@@ -33,33 +33,33 @@ const Menu: React.FC<MenuProps> = () => {
                             </a>
                         </li>
 
-                        <li>
-                            <a href="#"
-                            className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
+                        <li className="transition-transform duration-200 hover:scale-110">
+                            <a href="/sobre"
+                            className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-containerColor md:p-0 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
                             aria-current="page">
                                 Sobre
                             </a>
                         </li>
 
-                        <li>
+                        <li className="transition-transform duration-200 hover:scale-110">
                             <a href="/questoes"
-                            className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
+                            className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-containerColor md:p-0 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
                             aria-current="page">
                                 Questões
                             </a>
                         </li>
 
-                        <li>
+                        <li className="transition-transform duration-200 hover:scale-110">
                             <a href="/ajuda"
-                            className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
+                            className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-containerColor md:p-0 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
                             aria-current="page">
                                 Ajuda
                             </a>
                         </li>
 
-                        <li>
-                            <a href="#"
-                            className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
+                        <li className="transition-transform duration-200 hover:scale-110">
+                            <a href="/contato"
+                            className="block py-2 px-3 text-white rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-containerColor md:p-0 md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700"
                             aria-current="page">
                                 Contato
                             </a>
