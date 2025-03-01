@@ -50,17 +50,20 @@ export default function InicialPage() {
                                 onClick={(event) => handleNavigation(event, '/questoes')}
                                 imageUrl="/assets/answer.png" 
                             />
-                            <ClassCard 
-                                label="Visualizar" 
-                                title="Questões Respondidas" 
-                                imageUrl="/assets/check.png"
-                            />
+
                             <ClassCard 
                                 label="Visualizar" 
                                 title="Questões Criadas" 
                                 onClick={(event) => handleNavigation(event, '/questoes.criadas')}
                                 imageUrl="/assets/created.png" 
                             />
+                            <ClassCard 
+                                label="Visualizar" 
+                                title="Avaliações" 
+                                onClick={(event) => handleNavigation(event, '/avaliacoes')}
+                                imageUrl="/assets/check.png"
+                            />
+                            
                         </div>
                 </div>
             </Template>

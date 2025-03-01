@@ -19,16 +19,16 @@ import Titulo from "@/components/inicial/Titulo";
 export default function FormularioPage() {
     const service = useQuestionService();
     const [hasMounted, setHasMounted] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const notification = useNotification();
     //const queryString = window.location.search;
     //const searchParams = new URLSearchParams(queryString);
     const defaultURL = 'http://localhost:3000/formulario?id=1'; // Defina sua URL padrão aqui
 
     const [searchParams, setSearchParams] = useState<URLSearchParams>(new URLSearchParams(defaultURL));
-    //const id = Number(searchParams!.get("id"));
     const auth = useAuth();
     const user = auth.getUserSession();
+
+    const id = Number(searchParams.get("id") || 0);
 
     useEffect(() => {
         setHasMounted(true);  
@@ -36,7 +36,7 @@ export default function FormularioPage() {
         setSearchParams(new URLSearchParams(queryString));
     }, []);
 
-    const id = Number(searchParams.get("id") || 0); // Evita erro se "id" não existir
+    
 
     const schema = z.object({
         statement: z.string().min(10,"Esse campo não pode ficar vazio"),
@@ -65,17 +65,17 @@ export default function FormularioPage() {
             const fetchData = async () => {
                 try {
                     const response = await service.getQuestionById(id);
-                    reset({ 
-                        statement: response.statement || "hh",
-                        alt1: response.answers[0]?.text || "",
-                        alt2: response.answers[1]?.text || "",
-                        alt3: response.answers[2]?.text || "",
-                        alt4: response.answers[3]?.text || "",
-                        alt5: response.answers[4]?.text || "",
-                        select: response.discipline || "",
-                        correctAnswer: response.answers.find(a => a.isCorrect)?.text || ""
-                    });
-                    setValue("statement", response.statement || "");
+                        reset({ 
+                            statement: response.statement || "",
+                            alt1: response.answers[0]?.text || "",
+                            alt2: response.answers[1]?.text || "",
+                            alt3: response.answers[2]?.text || "",
+                            alt4: response.answers[3]?.text || "",
+                            alt5: response.answers[4]?.text || "",
+                            select: response.discipline || "",
+                            correctAnswer: response.answers.find(a => a.isCorrect)?.text || ""
+                        });
+
                 } catch (error) {
                     console.error("Erro ao carregar a questão:", error);
                 }
@@ -84,7 +84,7 @@ export default function FormularioPage() {
         }else{
             console.log("NADA DE ID")
         }
-    }, [id, reset, setValue]);
+    }, [id]);
 
 
     const correctAnswer = watch('correctAnswer');
@@ -119,15 +119,24 @@ export default function FormularioPage() {
         try {
             if(id){
                 await service.saveNewVersion(dados , id);
-                notification.notify("Sua questão foi enviada para análise!", "success");
+                notification.notify("Sua versão foi enviada para análise!", "success");
             }
             else{
                 await service.save(dados);
-                notification.notify("Sua questão foi enviada para análise!", "success");
+                notification.notify("Sua questão foi enviada para análise!", "success"); 
             }
-            
-            
-            reset(); // Reseta o formulário
+            reset({ 
+                statement: "",
+                alt1: "",
+                alt2: "",
+                alt3: "",
+                alt4: "",
+                alt5: "",
+                select: "",
+                correctAnswer: ""
+            });
+            setJustification('');
+             // Reseta o formulário
         } catch (error) {
             console.error("Erro ao salvar a pergunta:", error);
             alert("Erro ao salvar a pergunta.");

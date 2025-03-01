@@ -6,7 +6,7 @@ import TableQuestion from "@/components/questao/table/TableQuestion";
 import { Template } from "@/components/Template";
 import { useEffect, useState } from "react";
 
-export default function QuestoesRespondidasPage(){
+export default function AvaliacoesPage(){
 
     const [hasMounted, setHasMounted] = useState(false);
 
@@ -22,7 +22,7 @@ export default function QuestoesRespondidasPage(){
         <AuthenticatedPage>
             <Template>
                 <div className="flex flex-col items-center">
-                    <Titulo titulo="Questões respondidas por você"/>
+                    <Titulo titulo="Avaliações"/>
                     <div className="p-16">
                         EM BREVE
                     </div>
