@@ -8,9 +8,8 @@ import { formScheme, formValidationScheme, LoginForm } from "../formulario/formS
 import { AccessToken, Credentials } from "@/resources/user/user.resource";
 import { InputText } from "@/components/input";
 import { useAuth } from "@/resources/user/authentication.service";
-import Logo from "@/components/Logo";
-import { Backdrop, CircularProgress } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Titulo from "@/components/inicial/Titulo";
 
 export default function LoginPage() {
 
@@ -24,6 +23,16 @@ export default function LoginPage() {
         validationSchema: formValidationScheme,
         onSubmit: onSubmit
     });
+
+    const token = auth.getUserSession()?.accessToken;
+
+    // Se o usuário estiver logado e tentar voltar para tela de login ele será redirecionado
+    // Para tela inicial
+    useEffect(() => {
+        if(token){
+            //router.push("/inicial");
+        }
+    },[])
 
     async function onSubmit(values: LoginForm){
         setLoading(true)
@@ -39,29 +48,24 @@ export default function LoginPage() {
             }, 600);
             
         } catch(error: any){
+            setLoading(false)
             const message = error?.message;
             notification.notify(message, "error")
         } 
     }
 
     return (
-        <Template>
-            
+        <Template loading={loading}>
             <section className="flex justify-center w-11/12 m-auto">
-                {/* Seção de informações */}
-                <div className="flex-1 bg-buttonColor rounded-l-md p-8 shadow-md border-r border-gray-300">
 
-                <div className="items-center">
-                    <img src="/assets/login.png"  alt="Imagem ilustrativa" className="w-fullobject-cover rounded-md" />
-                </div>
-                    
+                <div className="hidden lg:flex flex-1 bg-buttonColor rounded-l-md p-8 shadow-md border-r border-gray-300">
+                    <img src="/assets/login.png"  alt="Imagem ilustrativa" className="w-fullobject-cover" />
                 </div>
 
                 {/* Seção de login */}
                 <div className="flex-1 flex items-center justify-center bg-containerColor rounded-r-md p-8 shadow-md">
                     <div className="w-3/4">
-                        <h1 className="text-[rgb(77,68,130)] text-center font-bold text-3xl mb-16">User Login</h1>
-                        
+                    <Titulo titulo="User Login"></Titulo>
                         
                         <form onSubmit={handleSubmit}>
                             
@@ -96,9 +100,6 @@ export default function LoginPage() {
                     </div>
                 </div>
             </section>
-            <Backdrop open={loading} style={{ zIndex: 1300, color: "#fff" }}>
-                <CircularProgress color="inherit" />
-            </Backdrop>
         </Template>
     );
 }

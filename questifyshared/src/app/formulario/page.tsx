@@ -18,10 +18,8 @@ import Titulo from "@/components/inicial/Titulo";
 
 export default function FormularioPage() {
     const service = useQuestionService();
-    const [hasMounted, setHasMounted] = useState(false);
     const notification = useNotification();
-    //const queryString = window.location.search;
-    //const searchParams = new URLSearchParams(queryString);
+    const [loading, setLoading] = useState(false);
     const defaultURL = 'http://localhost:3000/formulario?id=1'; // Defina sua URL padrão aqui
 
     const [searchParams, setSearchParams] = useState<URLSearchParams>(new URLSearchParams(defaultURL));
@@ -31,12 +29,9 @@ export default function FormularioPage() {
     const id = Number(searchParams.get("id") || 0);
 
     useEffect(() => {
-        setHasMounted(true);  
         const queryString = window.location.search;
         setSearchParams(new URLSearchParams(queryString));
     }, []);
-
-    
 
     const schema = z.object({
         statement: z.string().min(10,"Esse campo não pode ficar vazio"),
@@ -96,7 +91,7 @@ export default function FormularioPage() {
     const [justification, setJustification] = useState('');
 
     const handleSave = async (data: FormProps) => {
-
+        setLoading(true) 
         const answers = [
             { text: data.alt1, isCorrect: correctAnswer === "alt1" },
             { text: data.alt2, isCorrect: correctAnswer === "alt2" },
@@ -120,10 +115,12 @@ export default function FormularioPage() {
             if(id){
                 await service.saveNewVersion(dados , id);
                 notification.notify("Sua versão foi enviada para análise!", "success");
+                setLoading(false)
             }
             else{
                 await service.save(dados);
                 notification.notify("Sua questão foi enviada para análise!", "success"); 
+                setLoading(false)
             }
             reset({ 
                 statement: "",
@@ -147,7 +144,7 @@ export default function FormularioPage() {
 // O prefixo sm: aplica aos tamanhos de tela a partir daquele valor , e não naquele valor
     return (
         <AuthenticatedPage>
-            <Template>
+            <Template loading={loading}>
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(handleSave)}>
                         <span className="m-4 mt-8 flex flex-col items-center justify-center">

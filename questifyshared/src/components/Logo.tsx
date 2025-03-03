@@ -2,7 +2,8 @@ import React from 'react';
 
 const BookIllustration = () => {
   return (
-    <img src="/assets/logo.png" className="w-12 h-12 object-contain" />
+    <img src="/assets/ques.png" className="w-16 h-16 object-contain" />
+    
   );
 };
 

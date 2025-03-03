@@ -11,6 +11,7 @@ import { AuthenticatedPage } from "@/components/AuthenticatedPage"
 import Button from "@/components/button/ButtonQ"
 import Scoreboard from "@/components/questao/display/ScoreBoard"
 import { Backdrop, CircularProgress, Skeleton } from "@mui/material"
+import Titulo from "@/components/inicial/Titulo"
 
 export default function QuestoesPage() {
     const useServiceQuestion = useQuestionService();
@@ -22,11 +23,6 @@ export default function QuestoesPage() {
     const [acertos , setAcertos] = useState(0);
     const [erros , setErros] = useState(0)
 
-
-    if (typeof window !== "undefined") {
-        
-        
-    }
 
     useEffect(() => {
         setHasMounted(true);
@@ -41,6 +37,11 @@ export default function QuestoesPage() {
         setAcertos(Number(acertos))
         setErros(Number(erros))
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem("placarA", JSON.stringify({ count: acertos }));
+        localStorage.setItem("placarE", JSON.stringify({ count: erros }));
+      }, [acertos, erros]);
 
     if (!hasMounted) {
         return null;
@@ -119,20 +120,24 @@ export default function QuestoesPage() {
     return (
         <AuthenticatedPage>
             <Template>
+                <Titulo titulo="Lista de Questões"/>
                 {/* Backdrop para indicar processamento */}
                 <Backdrop open={isProcessing}>
                     <CircularProgress color="inherit" />
                 </Backdrop>
 
-                <div className="flex flex-col items-end">
-                    <Scoreboard correct={acertos} incorrect={erros} />
+                <div className="flex flex-col items-center">
+                    
                 </div>
 
-                <div className="flex flex-col items-center justify-center my-5">
-                    <div className="flex items-center space-x-4">
+                <div className="flex items-start mx-6 justify-between items-center">
+
+                    <div className="flex items-center">
                         <MultipleSelectCheckmarks onDisciplinesChange={handleDisciplinesChange} />
-                        <Button label="Buscar" onClick={subjectFilter} />
+                        <Button label="Filtrar" onClick={subjectFilter} />
                     </div>
+
+                    <Scoreboard correct={acertos} incorrect={erros} />
                 </div>
 
                 <section className="grid grid-cols-1">

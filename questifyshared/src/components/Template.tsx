@@ -7,13 +7,15 @@ import { useState, useEffect } from 'react'
 import { ToastContainer } from 'react-toastify';
 import Logo from './Logo';
 import Menu from './Menu';
+import { Backdrop, CircularProgress } from "@mui/material";
 
 
 interface TemplateProps{
     children: React.ReactNode
+    loading?: boolean
 }
 
-export const Template: React.FC<TemplateProps> = (props: TemplateProps) => {
+export const Template: React.FC<TemplateProps> = ({children, loading}) => {
 
     const [hasMounted, setHasMounted] = useState(false);
 
@@ -32,7 +34,7 @@ export const Template: React.FC<TemplateProps> = (props: TemplateProps) => {
             <Menu></Menu>
       
             <div className="container mx-auto mt-4 sm:mt-8 py-4 sm:px-4 md:px-8 lg:px-16 flex-grow overflow-y-auto">
-              {props.children}
+              {children}
             </div>
       
             <Footer />
@@ -48,6 +50,10 @@ export const Template: React.FC<TemplateProps> = (props: TemplateProps) => {
               icon={false}
             />
           </div>
+
+          <Backdrop open={loading!} style={{ zIndex: 1300, color: "#fff" }}>
+                <CircularProgress color="inherit" />
+          </Backdrop>
         </>
     )
 }
@@ -100,7 +106,7 @@ const Header: React.FC = () => {
 
                     {/* Texto "Question Hub" */}
                     <Link href='/inicial'>
-                        <h1 className="text-md font-bold mt-2">Question Hub</h1>
+                        <h1 className="text-sm font-bold mt-2">Question Hub</h1>
                     </Link>
                 </div>
             </div>

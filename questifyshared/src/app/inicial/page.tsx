@@ -32,36 +32,36 @@ export default function InicialPage() {
 // OS PREFIXOS sm , md e lg são usados conforme das telas vão aumentando.
     return (
         <AuthenticatedPage>
-            <Template>
+            <Template loading={loading}>
                 <div className="flex flex-col items-center mx-auto min-h-screen">
                     
-                    <QuestifyTittle titulo="Bem-vindo ao Questify Shared"/>
+                    <QuestifyTittle titulo="Bem-vindo ao Question Hub"/>
 
                         <div className="container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 p-4">
                             <ClassCard 
                                 label="Elaborar" 
                                 title="Elabore Questões" 
                                 onClick={(event) => handleNavigation(event, '/formulario')}
-                                imageUrl="/assets/elabore3.png" 
+                                imageUrl="/assets/image_card_1.png" 
                             />
                             <ClassCard 
                                 label="Responder" 
                                 title="Responda questões" 
                                 onClick={(event) => handleNavigation(event, '/questoes')}
-                                imageUrl="/assets/answer.png" 
+                                imageUrl="/assets/image_card_2.png" 
                             />
 
                             <ClassCard 
                                 label="Visualizar" 
                                 title="Questões Criadas" 
                                 onClick={(event) => handleNavigation(event, '/questoes.criadas')}
-                                imageUrl="/assets/created.png" 
+                                imageUrl="/assets/image_card_3.png" 
                             />
                             <ClassCard 
                                 label="Visualizar" 
                                 title="Avaliações" 
                                 onClick={(event) => handleNavigation(event, '/avaliacoes')}
-                                imageUrl="/assets/check.png"
+                                imageUrl="/assets/image_card_4.png"
                             />
                             
                         </div>
