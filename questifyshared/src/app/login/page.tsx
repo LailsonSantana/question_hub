@@ -30,7 +30,7 @@ export default function LoginPage() {
     // Para tela inicial
     useEffect(() => {
         if(token){
-            //router.push("/inicial");
+            router.push("/inicial");
         }
     },[])
 
@@ -41,11 +41,11 @@ export default function LoginPage() {
             const accessToken: AccessToken = await auth.authenticate(credentials);
             auth.initSession(accessToken);
             
+            setLoading(false)
             router.push("/inicial")
-            
             setTimeout(() => {
                 notification.notify("LOGIN EFETUADO COM SUCESSO","success")
-            }, 600);
+            }, 500);
             
         } catch(error: any){
             setLoading(false)
