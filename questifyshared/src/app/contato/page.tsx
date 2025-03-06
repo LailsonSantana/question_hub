@@ -36,15 +36,13 @@ export default function ContatoPage() {
                     </span>
 
                     <span className="flex flex-col items-center">
-                        <a href="https://github.com/seu-usuario" target="_blank" rel="noopener noreferrer">
+                        <a href="https://github.com/LailsonSantana" target="_blank" rel="noopener noreferrer">
                             <GitHubIcon fontSize="large" />
                         </a>
                         <a className="mt-2">
-                            lailsonbit@gmail.com
+                            github.com/LailsonSantana
                         </a>
                     </span>
-                    
-                    
                 </div>
             </section>
         </Template>

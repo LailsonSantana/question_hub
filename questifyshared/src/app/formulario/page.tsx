@@ -1,20 +1,21 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { Template } from "@/components/Template";
+import { RenderIf, Template } from "@/components/Template";
 import InputAlternativa from "@/components/questao/create/InputAlternativa";
 import { z } from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/components/button/Button";
 import Selecionador from "@/components/questao/create/Selecionador";
 import ContainerForm from "@/components/formulario/ContainerForm";
-import Tiptap from "@/components/questao/tiptap/Tiptap";
-import { FormProvider, useForm } from "react-hook-form";
+import Tiptap from "@/components/questao/editor/Tiptap";
+import { FormProvider, useForm, useFormState } from "react-hook-form";
 import { useQuestionService } from "@/resources/question/question.service";
 import { useAuth } from "@/resources/user/authentication.service";
 import { AuthenticatedPage } from "@/components/AuthenticatedPage";
 import { useNotification } from "@/components/notification";
 import Titulo from "@/components/inicial/Titulo";
+import { FieldError } from "@/components/input/FieldError";
 
 export default function FormularioPage() {
     const service = useQuestionService();
@@ -41,7 +42,10 @@ export default function FormularioPage() {
         alt4: z.string().min(1,"Esse campo não pode ficar vazio"),
         alt5: z.string().min(1,"Esse campo não pode ficar vazio"),
         select: z.string(),
-        correctAnswer: z.string().nonempty("A justificativa não pode ficar vazia")
+        correctAnswer: z.string()
+        //correctAnswer: z.enum(["alt1", "alt2", "alt3", "alt4", "alt5"], {
+           // message: "Você precisa selecionar uma alternativa correta",
+          //}),  
     });
 
     type FormProps = z.infer<typeof schema>;
@@ -53,7 +57,7 @@ export default function FormularioPage() {
         defaultValues: {statement: "",},
     });
 
-    const { handleSubmit, watch, setValue, reset, formState: { errors } } = methods;
+    const { handleSubmit, watch, setValue, reset, formState: {  errors, isSubmitted, isValid } } = methods;
 
     useEffect(() => {
         if(id){
@@ -68,7 +72,7 @@ export default function FormularioPage() {
                             alt4: response.answers[3]?.text || "",
                             alt5: response.answers[4]?.text || "",
                             select: response.discipline || "",
-                            correctAnswer: response.answers.find(a => a.isCorrect)?.text || ""
+                            ///correctAnswer: (response.answers.find(a => a.isCorrect)?.text)
                         });
 
                 } catch (error) {
@@ -83,6 +87,7 @@ export default function FormularioPage() {
 
 
     const correctAnswer = watch('correctAnswer');
+    console.log(correctAnswer)
     
     const onSelectAlternative = (name: string) => {
         setValue('correctAnswer', name);
@@ -140,7 +145,6 @@ export default function FormularioPage() {
         }
     };
     
-
 // O prefixo sm: aplica aos tamanhos de tela a partir daquele valor , e não naquele valor
     return (
         <AuthenticatedPage>
@@ -206,6 +210,13 @@ export default function FormularioPage() {
                                             justification={correctAnswer === 'alt5' ? justification : ''}
                                             setJustification={setJustification}
                                         />
+                                        <div className="flex mt-8 justify-center">
+                                            <RenderIf condition={correctAnswer === undefined && isSubmitted}>
+                                                <span className="text-red-500 text-sm">
+                                                    Você deve selecionar uma das alternativas como correta 
+                                                </span>
+                                            </RenderIf>
+                                        </div>
                                 </div>
                             </ContainerForm>
                         </section>

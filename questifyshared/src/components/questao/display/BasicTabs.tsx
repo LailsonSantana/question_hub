@@ -10,7 +10,7 @@ import InputComment from './InputComment';
 import { CommentResponse } from '@/resources/comment/commentResponse.resource';
 import { useClassificationService } from '@/resources/classification/classification.service';
 import { Classification } from '@/resources/classification/classification.resource';
-import Informativo from '@/components/formulario/Informativo';
+import Informativo from '@/components/feedback/Informativo';
 import { Question } from '@/resources/question/question.resource';
 import { useAuth } from '@/resources/user/authentication.service';
 import { useQuestionService } from '@/resources/question/question.service';

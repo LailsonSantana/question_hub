@@ -1,19 +1,28 @@
 'use client'
 
 import { useNotification } from "@/components/notification";
-import { Template } from "@/components/Template";
+import { RenderIf, Template } from "@/components/Template";
 import { useRouter } from "next/navigation";
 import { useFormik } from 'formik';
 import { formScheme, formValidationScheme, LoginForm } from "../formulario/formScheme";
 import { AccessToken, Credentials } from "@/resources/user/user.resource";
-import { InputText } from "@/components/input";
 import { useAuth } from "@/resources/user/authentication.service";
 import { useEffect, useState } from "react";
 import Titulo from "@/components/inicial/Titulo";
+import { InputText } from "@/components/input/InputText";
 
 export default function LoginPage() {
 
+
     const auth = useAuth();
+    const token = auth.getUserSession()?.accessToken;
+
+    useEffect(() => {
+        if(token){
+            router.push("/inicial");
+        }
+    },[])
+
     const notification = useNotification();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
@@ -24,15 +33,9 @@ export default function LoginPage() {
         onSubmit: onSubmit
     });
 
-    const token = auth.getUserSession()?.accessToken;
-
+    
     // Se o usuário estiver logado e tentar voltar para tela de login ele será redirecionado
     // Para tela inicial
-    useEffect(() => {
-        if(token){
-            router.push("/inicial");
-        }
-    },[])
 
     async function onSubmit(values: LoginForm){
         setLoading(true)
@@ -55,6 +58,7 @@ export default function LoginPage() {
     }
 
     return (
+        
         <Template loading={loading}>
             <section className="flex justify-center w-11/12 m-auto">
 
@@ -65,7 +69,7 @@ export default function LoginPage() {
                 {/* Seção de login */}
                 <div className="flex-1 flex items-center justify-center bg-containerColor rounded-r-md p-8 shadow-md">
                     <div className="w-3/4">
-                    <Titulo titulo="User Login"></Titulo>
+                    <Titulo titulo="User Login"/>
                         
                         <form onSubmit={handleSubmit}>
                             
@@ -101,5 +105,6 @@ export default function LoginPage() {
                 </div>
             </section>
         </Template>
+        
     );
 }

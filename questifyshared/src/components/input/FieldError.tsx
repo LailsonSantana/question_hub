@@ -1,5 +1,5 @@
 interface FieldErrorProps{
-    error: any | null;
+    error?: string;
 }
 
 export const FieldError: React.FC<FieldErrorProps> = ({

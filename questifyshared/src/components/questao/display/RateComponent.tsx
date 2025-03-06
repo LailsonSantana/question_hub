@@ -40,15 +40,7 @@ const RateComponent: React.FC<RateComponentProps> = ({userId, questionId, countR
     console.log("RESULT 1")
     console.table(result1);
   }
-
-  async function getMediaRating(){
-    
-    //setMediaRating(result);
-    //console.log("Media Rating")
-    //console.table(result)
-  }
   
-
   const handleRatingChange = (event: React.SyntheticEvent, newValue: number | null) => {
     setRating(newValue); // Atualiza o estado com o valor da avaliação
     const newClassification = new Classification(newValue! , userId , questionId);

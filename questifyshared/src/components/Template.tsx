@@ -28,12 +28,12 @@ export const Template: React.FC<TemplateProps> = ({children, loading}) => {
     }
     return (
         <>
-          <div className="min-h-screen flex flex-col bg-backgroundColor">
+          <div className="min-h-screen flex flex-col bg-backgroundColor dark:bg-dark-backgroundColor">
             
             {/*<Header />*/}
-            <Menu></Menu>
+            <Header />
       
-            <div className="container mx-auto mt-4 sm:mt-8 py-4 sm:px-4 md:px-8 lg:px-16 flex-grow overflow-y-auto">
+            <div className="dark:bg-dark-backgroundColor container mx-auto mt-4 sm:mt-8 py-4 sm:px-4 md:px-8 lg:px-16 flex-grow overflow-y-auto">
               {children}
             </div>
       
@@ -98,18 +98,8 @@ const Header: React.FC = () => {
     </RenderIf>
 
     return(
-        <header className="bg-backgroundHeaderAndFooter text-white py-3" > 
-            <div className='container flex flex-col items-start justify-center px-4'>
-                <div className="flex flex-col items-center justify-center px-4">
-                    {/* Logo */}
-                    <Logo />
-
-                    {/* Texto "Question Hub" */}
-                    <Link href='/inicial'>
-                        <h1 className="text-sm font-bold mt-2">Question Hub</h1>
-                    </Link>
-                </div>
-            </div>
+        <header> 
+            <Menu />
         </header>
     )
 }

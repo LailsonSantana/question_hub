@@ -70,11 +70,10 @@ export default function QuestoesPage() {
             setQuestions(result);
             setTimeout(() => {
          
-            }, 3000);
+            }, 500);
         } catch (error) {
             console.error('Erro ao filtrar questões:', error);
         } finally {
-            
             setIsProcessing(false); // Finaliza o processamento
         }
     }
@@ -119,12 +118,8 @@ export default function QuestoesPage() {
 
     return (
         <AuthenticatedPage>
-            <Template>
+            <Template loading={isProcessing}>
                 <Titulo titulo="Lista de Questões"/>
-                {/* Backdrop para indicar processamento */}
-                <Backdrop open={isProcessing}>
-                    <CircularProgress color="inherit" />
-                </Backdrop>
 
                 <div className="flex flex-col items-center">
                     

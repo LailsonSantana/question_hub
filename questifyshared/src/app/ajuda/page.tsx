@@ -1,7 +1,7 @@
 'use client'
 
 
-import ButtonTutorial from "@/components/inicial/ButtonTutorial"
+import ButtonTutorial from "@/components/button/ButtonTutorial"
 import { Template } from "@/components/Template"
 
 

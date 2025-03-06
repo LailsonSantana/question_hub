@@ -41,8 +41,6 @@ class AuthService{
         if(token.accessToken){   
             const decodedToken: any = jwtDecode(token.accessToken);
 
-            console.log("DECODED" , decodedToken);
-
             const userSessionToken: UserSessionToken = {
                 accessToken: token.accessToken,
                 email: decodedToken.sub,
@@ -70,7 +68,6 @@ class AuthService{
             }
 
             const token: UserSessionToken = JSON.parse(authString);
-            //console.log("O token retornado eh : " ,token)
             return token;
         }catch(Error){return null}  
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import Informativo from "../formulario/Informativo";
+import Informativo from "../feedback/Informativo";
 
 interface InputContextProps{
     

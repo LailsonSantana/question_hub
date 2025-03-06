@@ -10,8 +10,8 @@ interface MenuProps{
 
 const Menu: React.FC<MenuProps> = () => {
     return (
-   
-        <nav className="bg-backgroundHeaderAndFooter border-gray-200 dark:border-gray-600 dark:bg-gray-900">
+        
+        <nav className="bg-backgroundHeaderAndFooter border-gray-200 dark:border-gray-600 dark:bg-dark-backgroundHeaderAndFooter">
             <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-2">
                 <div className="flex flex-col items-center justify-center">
                     <Logo />

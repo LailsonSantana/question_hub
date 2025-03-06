@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 import { formScheme, formValidationScheme, LoginForm } from "../formulario/formScheme";
 import { User } from "@/resources/user/user.resource";
 import { useNotification } from "@/components/notification";
-import { InputText } from "@/components/input";
 import { InputContext } from "@/components/input/InputContext";
 import { useAuth } from "@/resources/user/authentication.service";
 import Titulo from "@/components/inicial/Titulo";
@@ -14,6 +13,7 @@ import { AuthenticatedPage } from "@/components/AuthenticatedPage";
 import Button from "@/components/button/Button";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
+import { InputText } from "@/components/input/InputText";
   
 export default function AdministradorPage() {
   const [hasMounted, setHasMounted] = useState(false);
