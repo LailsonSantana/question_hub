@@ -116,32 +116,34 @@ export default function FormularioPage() {
             totalRating: 0
         };
 
-        try {
-            if(id){
-                await service.saveNewVersion(dados , id);
-                notification.notify("Sua versão foi enviada para análise!", "success");
-                setLoading(false)
-            }
-            else{
-                await service.save(dados);
-                notification.notify("Sua questão foi enviada para análise!", "success"); 
-                setLoading(false)
-            }
-            reset({ 
-                statement: "",
-                alt1: "",
-                alt2: "",
-                alt3: "",
-                alt4: "",
-                alt5: "",
-                select: "",
-                correctAnswer: ""
-            });
-            setJustification('');
-             // Reseta o formulário
-        } catch (error) {
-            console.error("Erro ao salvar a pergunta:", error);
-            alert("Erro ao salvar a pergunta.");
+        try{
+        if(id){
+            await service.saveNewVersion(dados , id);
+            notification.notify("Sua versão foi enviada para análise!", "success");
+            setLoading(false)
+        }
+        else{
+            await service.save(dados);
+            notification.notify("Sua questão foi enviada para análise!", "success"); 
+            setLoading(false)
+        }
+        reset({ 
+            statement: "",
+            alt1: "",
+            alt2: "",
+            alt3: "",
+            alt4: "",
+            alt5: "",
+            select: "",
+            correctAnswer: ""
+        });
+        setJustification('');
+            // Reseta o formulário
+        setLoading(false)
+        }catch(error: any){
+            setLoading(false)
+            console.error('Erro ao salvar os dados:', error);
+            alert(`Erro : ${error.message}`);
         }
     };
     

@@ -14,10 +14,13 @@ import Button from "@/components/button/Button";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { InputText } from "@/components/input/InputText";
+import { useContextService } from "@/resources/contextgpt/context.service";
   
 export default function AdministradorPage() {
   const [hasMounted, setHasMounted] = useState(false);
+  const [context, setContext] = useState("");
   const auth = useAuth();
+  const contextService = useContextService();
   //const decodedToken: any = jwtDecode(auth.getUserSession()?.accessToken!);
   const token = auth.getUserSession()?.accessToken;
   const notification = useNotification();
@@ -71,6 +74,12 @@ export default function AdministradorPage() {
       const message = error?.message;
       notification.notify(message, "error");
     }
+  }
+
+  async function defineContext(){
+    contextService.saveContext(context)
+    notification.notify("Contexto definido com sucesso!", "success");
+    setContext("")
   }
 
   return (
@@ -140,7 +149,7 @@ export default function AdministradorPage() {
                   </select>
                 </div>
 
-                <Button type="submit" label="Adicionar"></Button>
+                <Button type="submit" label="Adicionar"/>
 
               </form>
             </div>
@@ -151,9 +160,9 @@ export default function AdministradorPage() {
             {/* Seção de definição de contexto */}
             <div className="w-full flex-1 bg-containerColor shadow-lg rounded-lg p-8 border border-gray-300">
               <Titulo titulo="Definição de Contexto" />
-              <InputContext />
+              <InputContext context={context} setContext={setContext}/>
               <div className="mt-24">
-                <Button label="Definir" />
+                <Button label="Definir" type="submit" onClick={defineContext}/>
               </div>
             </div>
           </section>

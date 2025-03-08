@@ -1,7 +1,7 @@
 'use client'
 
 import { useNotification } from "@/components/notification";
-import { RenderIf, Template } from "@/components/Template";
+import { Template } from "@/components/Template";
 import { useRouter } from "next/navigation";
 import { useFormik } from 'formik';
 import { formScheme, formValidationScheme, LoginForm } from "../formulario/formScheme";
@@ -44,8 +44,8 @@ export default function LoginPage() {
             const accessToken: AccessToken = await auth.authenticate(credentials);
             auth.initSession(accessToken);
             
-            setLoading(false)
             router.push("/inicial")
+            setLoading(false)
             setTimeout(() => {
                 notification.notify("LOGIN EFETUADO COM SUCESSO","success")
             }, 500);

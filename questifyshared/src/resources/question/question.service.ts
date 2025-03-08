@@ -169,14 +169,20 @@ class QuestionService{
   
       
           if (!response.ok) {
-            throw new Error('Erro ao salvar a pergunta do form');
+            const errorData = await response.json(); // Tenta pegar a mensagem do backend
+            throw new Error(errorData.error || 'Erro desconhecido');
           }
           const data = await response.json();
 
           return data;
         }
         catch (error) {
-          console.error('Erro na requisição:', error);
+          let errorMessage = 'Erro desconhecido';
+
+          if (error instanceof Error) {
+              errorMessage = error.message;
+          }
+          console.error('Erro na requisição:', errorMessage);
           throw error;
         }
     }

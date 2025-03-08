@@ -2,10 +2,11 @@ import React from "react";
 import Informativo from "../feedback/Informativo";
 
 interface InputContextProps{
-    
+    context : string
+    setContext: (value: string) => void;
 }
 //
-export const InputContext: React.FC<InputContextProps> = ({} : InputContextProps) => {
+export const InputContext: React.FC<InputContextProps> = ({context, setContext} : InputContextProps) => {
     return(
 
         <form>
@@ -16,6 +17,8 @@ export const InputContext: React.FC<InputContextProps> = ({} : InputContextProps
                     <label htmlFor="context" className="sr-only">Contexto :</label>
                     <textarea 
                         id="context" 
+                        value={context}
+                        onChange={(e) => setContext(e.target.value)}
                         rows={4} 
                         className="w-full text-sm text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:placeholder-gray-400 px-4 py-2 placeholder:opacity-50" 
                         placeholder="Defina o contexto" 

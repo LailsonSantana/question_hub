@@ -3,7 +3,7 @@ import { useEditor, EditorContent, Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
-import { Bold as BoldIcon, Italic as ItalicIcon, Underline as UnderlineIcon, List, ListOrdered, AlignLeft, AlignCenter, AlignRight } from 'lucide-react';
+import { Bold as BoldIcon, Italic as ItalicIcon, Underline as UnderlineIcon, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, AlignJustify } from 'lucide-react';
 
 // Definição dos props aceitos pelo editor
 interface TextEditorProps {
@@ -51,6 +51,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ initialContent = '', onChange ,
   const alignLeft = () => editor.chain().focus().setTextAlign('left').run();
   const alignCenter = () => editor.chain().focus().setTextAlign('center').run();
   const alignRight = () => editor.chain().focus().setTextAlign('right').run();
+  const alignJustify = () => editor.chain().focus().setTextAlign('justify').run();
 
   return (
     <div className="w-full border border-gray-300 rounded shadow-inner bg-white max-w-2xl mx-auto p-4 h-[380px]">
@@ -59,7 +60,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ initialContent = '', onChange ,
         <button type='button' className="p-2 border rounded w-full" onClick={toggleBold}><BoldIcon size={18}/></button>
         <button type='button' className="p-2 border rounded w-full" onClick={toggleItalic}><ItalicIcon size={18}/></button>
         <button type='button' className="p-2 border rounded w-full" onClick={toggleUnderline}><UnderlineIcon size={18}/></button>
-        <button type='button' className="p-2 border rounded w-full" onClick={toggleBulletList}><List size={18}/></button>
+        <button type='button' className="p-2 border rounded w-full" onClick={alignJustify}><AlignJustify size={18}/></button>
         <button type='button' className="p-2 border rounded w-full" onClick={toggleOrderedList}><ListOrdered size={18}/></button>
         <button type='button' className="p-2 border rounded w-full" onClick={alignLeft}><AlignLeft size={18} /></button>
         <button type='button' className="p-2 border rounded w-full" onClick={alignCenter}><AlignCenter size={18} /></button>

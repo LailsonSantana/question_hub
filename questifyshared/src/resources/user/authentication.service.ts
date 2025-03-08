@@ -37,6 +37,8 @@ class AuthService{
         }
     }
 
+    
+
     initSession(token: AccessToken){
         if(token.accessToken){   
             const decodedToken: any = jwtDecode(token.accessToken);
