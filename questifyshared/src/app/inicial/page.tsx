@@ -33,7 +33,7 @@ export default function InicialPage() {
         <AuthenticatedPage>
             <Template loading={loading}>
                 <div className="flex flex-col items-center mx-auto min-h-screen">
-                    <ThemeToggle />
+                    {/*<ThemeToggle />*/}
                     <QuestifyTittle titulo="Bem-vindo ao Question Hub"/>
 
                         <div className="container grid grid-cols-1 lg:grid-cols-4 gap-8 p-4">

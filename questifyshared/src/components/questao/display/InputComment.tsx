@@ -19,10 +19,11 @@ const InputComment: React.FC<InputCommentProps> = ({onClick, userId, questionId}
         onClick(newComment);  // Chama a função `saveComment` passando o comentário criado
         setCommentText("");   // Limpa o campo após a submissão
     };
+    //w-full mb-4 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
-                <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
+            <div className="border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                <div>
                     <label htmlFor="comment" className="sr-only">Seu comentário</label>
                     <textarea 
                         id="comment" 
@@ -36,7 +37,7 @@ const InputComment: React.FC<InputCommentProps> = ({onClick, userId, questionId}
                 </div>
                 <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
                     <button type="submit" 
-                            className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
+                            className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-buttonColor rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800"
                             >
                         Comentar
                     </button>

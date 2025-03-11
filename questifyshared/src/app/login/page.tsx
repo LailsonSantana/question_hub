@@ -21,7 +21,7 @@ export default function LoginPage() {
         if(token){
             router.push("/inicial");
         }
-    },[])
+    },[token])
 
     const notification = useNotification();
     const router = useRouter();
@@ -48,7 +48,7 @@ export default function LoginPage() {
             setLoading(false)
             setTimeout(() => {
                 notification.notify("LOGIN EFETUADO COM SUCESSO","success")
-            }, 500);
+            }, 600);
             
         } catch(error: any){
             setLoading(false)
