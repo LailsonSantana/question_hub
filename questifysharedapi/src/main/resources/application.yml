@@ -1,0 +1,50 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/questify
+    username: postgres
+    password: vasco123
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4-turbo
+          max-tokens: 5
+          temperature: 0.0
+    ollama:
+      chat:
+        options:
+          temperature: 0.0
+    huggingface:
+      chat:
+        api-key: ${HUGGINGFACE_API_KEY}
+        api-url: ${https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3}
+
+
+# Production
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/questify
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4-turbo
+    ollama:
+      chat:
+        options:
+          temperature: 0.0
