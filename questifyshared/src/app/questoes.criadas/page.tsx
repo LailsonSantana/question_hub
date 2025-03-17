@@ -1,7 +1,7 @@
 'use client'
 
 import { AuthenticatedPage } from "@/components/AuthenticatedPage";
-import Titulo from "@/components/QuestifyTittle";
+import MainTitle from "@/components/MainTitle";
 import TableQuestion from "@/components/questao/table/TableQuestion";
 import { Template } from "@/components/Template";
 import { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ export default function QuestoesCriadasPage(){
         <AuthenticatedPage>
             <Template>
                 <div className="flex flex-col items-center">
-                    <Titulo titulo="Questões criadas por você"></Titulo>
+                    <MainTitle titulo="Questões criadas por você"></MainTitle>
                     <div className="p-16">
                         <TableQuestion/>
                     </div>
