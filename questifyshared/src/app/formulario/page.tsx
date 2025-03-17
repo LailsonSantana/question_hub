@@ -15,14 +15,15 @@ import { useAuth } from "@/resources/user/authentication.service";
 import { AuthenticatedPage } from "@/components/AuthenticatedPage";
 import { useNotification } from "@/components/notification";
 import Titulo from "@/components/inicial/Titulo";
-import { FieldError } from "@/components/input/FieldError";
+import MainTitle from "@/components/MainTitle";
+import { useRouter } from "next/navigation";
 
 export default function FormularioPage() {
     const service = useQuestionService();
     const notification = useNotification();
     const [loading, setLoading] = useState(false);
     const defaultURL = 'http://localhost:3000/formulario?id=1'; // Defina sua URL padrão aqui
-
+    const router = useRouter();
     const [searchParams, setSearchParams] = useState<URLSearchParams>(new URLSearchParams(defaultURL));
     const auth = useAuth();
     const user = auth.getUserSession();
@@ -146,6 +147,10 @@ export default function FormularioPage() {
             alert(`Erro : ${error.message}`);
         }
     };
+
+    function cancelAction(){
+        router.push("/inicial")
+    }
     
 // O prefixo sm: aplica aos tamanhos de tela a partir daquele valor , e não naquele valor
     return (
@@ -153,21 +158,19 @@ export default function FormularioPage() {
             <Template loading={loading}>
                 <FormProvider {...methods}>
                     <form onSubmit={handleSubmit(handleSave)}>
-                        <span className="m-4 mt-8 flex flex-col items-center justify-center">
+                        <span className="flex flex-col items-center justify-center">
+                            <MainTitle titulo="Crie suas Próprias Questões"/>
+                            
                             <Selecionador register={methods.register} name="select" />
                         </span>
                         <section className="container flex flex-col md:flex-row gap-8 w-full  min-h-screen p-8 items-center sm:items-stretch"> 
+                            
                             <ContainerForm>
 
                                 <Titulo titulo="Desenvolva o Enunciado" />
 
                                 <div className="w-full">   
                                     <Tiptap value={watch("statement")} onChange={(value) => setValue("statement", value)} onKeyDown={(e) => e.stopPropagation()}/>
-                                </div>
-
-                                <div className="flex flex-row items-center space-x-2 mb-4 mt-8">
-                                    <Button type="submit" label="Enviar" />
-                                    <Button type="button" label="Cancelar" />
                                 </div>
 
                             </ContainerForm>
@@ -219,6 +222,15 @@ export default function FormularioPage() {
                                                 </span>
                                             </RenderIf>
                                         </div>
+                                </div>
+
+                                <div className="flex flex-row items-center space-x-2 mb-4 mt-8">
+                                    
+                                    
+                                    <Button type="submit" label="Enviar" tooltipText="Clique para enviar o enunciado e as alternativas"/>
+
+                                    <Button type="button" label="Cancelar" tooltipText="Cancelar envio" onClick={cancelAction}/>
+                                    
                                 </div>
                             </ContainerForm>
                         </section>

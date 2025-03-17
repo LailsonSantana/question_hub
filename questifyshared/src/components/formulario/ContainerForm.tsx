@@ -1,4 +1,6 @@
+import { Tooltip } from '@mui/material';
 import React from 'react';
+import styles from '../Wrapper';
 
 interface ContainerFormProps{
     children: React.ReactNode
@@ -6,7 +8,8 @@ interface ContainerFormProps{
 
 const ContainerForm: React.FC<ContainerFormProps> = ({children}) => {
     return (
-        <div className="container flex-1 flex-col border border-gray-300 rounded p-8 m-8 shadow-lg bg-containerColor w-full h-11/12">
+        
+        <div className={`${styles.wrapper} ${styles.size} flex-1 flex-col p-8 m-8 h-11/12`}>
             {children}
         </div>
     );

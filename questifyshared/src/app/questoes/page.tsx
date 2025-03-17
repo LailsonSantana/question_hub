@@ -10,8 +10,8 @@ import React from "react"
 import { AuthenticatedPage } from "@/components/AuthenticatedPage"
 import Button from "@/components/button/ButtonQ"
 import Scoreboard from "@/components/questao/display/ScoreBoard"
-import { Backdrop, CircularProgress, Skeleton } from "@mui/material"
-import Titulo from "@/components/inicial/Titulo"
+import { Skeleton } from "@mui/material"
+import MainTitle from "@/components/MainTitle"
 
 export default function QuestoesPage() {
     const useServiceQuestion = useQuestionService();
@@ -119,7 +119,7 @@ export default function QuestoesPage() {
     return (
         <AuthenticatedPage>
             <Template loading={isProcessing}>
-                <Titulo titulo="Lista de Questões"/>
+                <MainTitle titulo='Lista de Questões'/>
 
                 <div className="flex flex-col items-center">
                     
@@ -129,6 +129,7 @@ export default function QuestoesPage() {
 
                     <div className="flex items-center">
                         <MultipleSelectCheckmarks onDisciplinesChange={handleDisciplinesChange} />
+                        
                         <Button label="Filtrar" onClick={subjectFilter} />
                     </div>
 

@@ -15,6 +15,7 @@ import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
 import { InputText } from "@/components/input/InputText";
 import { useContextService } from "@/resources/contextgpt/context.service";
+import RadioButton from "@/components/button/RadioButton";
   
 export default function AdministradorPage() {
   const [hasMounted, setHasMounted] = useState(false);
@@ -85,7 +86,7 @@ export default function AdministradorPage() {
   return (
     <AuthenticatedPage>
       <Template>
-          <section className="container flex flex-col md:flex-row gap-12 w-full max-w-6xl p-4">
+          <section className="container flex flex-col md:flex-row gap-12 w-full max-w-6xl p-4 m-auto">
             {/* Seção do formulário de cadastro de usuário */}
             <div className="flex-1 items-center bg-containerColor shadow-lg rounded-lg p-8 border border-gray-300">
               <Titulo titulo="Cadasto de Usuário" />
@@ -134,22 +135,22 @@ export default function AdministradorPage() {
                     Tipo de Usuário
                   </label>
                   <select
-                    id="role"
-                    name="role"
-                    value={values.role}
-                    onChange={(e) => {
-                      handleChange(e);
-                      console.log("Novo valor selecionado:", e.target.value);
-                    }}
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    required
-                  >
-                    <option value="student">Aluno</option>
-                    <option value="teacher">Professor</option>
+                      id="role"
+                      name="role"
+                      value={values.role}
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm px-3 py-2 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                      required
+                      >
+                      <option value="student">Aluno</option>
+                      <option value="teacher">Professor</option>
                   </select>
                 </div>
-
+        
                 <Button type="submit" label="Adicionar"/>
+                
 
               </form>
             </div>
@@ -161,7 +162,17 @@ export default function AdministradorPage() {
             <div className="w-full flex-1 bg-containerColor shadow-lg rounded-lg p-8 border border-gray-300">
               <Titulo titulo="Definição de Contexto" />
               <InputContext context={context} setContext={setContext}/>
-              <div className="mt-24">
+              <div className="flex flex-col items-center mt-4">
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                      Selecione o modelo de IA que será usado.
+                </label>
+              </div>
+              <div className="flex flex-col items-center mt-4">
+                <RadioButton></RadioButton>
+              </div>
+              
+              
+              <div className="mt-8">
                 <Button label="Definir" type="submit" onClick={defineContext}/>
               </div>
             </div>

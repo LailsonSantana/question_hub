@@ -7,7 +7,7 @@ interface ScoreboardProps {
 
 const Scoreboard: React.FC<ScoreboardProps> = ({ correct, incorrect }) => {
   return (
-    <div className="bg-buttonColor text-white p-4 rounded-2xl shadow-lg w-64 text-center">
+    <div className="bg-buttonColor text-white p-4 rounded-2xl shadow-lg w-64 text-center hover:shadow-2xl transform hover:scale-105 transition-all transition-all duration-300">
       <h2 className="text-xl font-bold mb-2">Placar</h2>
       <div className="flex justify-around items-center">
         <div className="flex flex-col items-center">

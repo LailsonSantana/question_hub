@@ -1,10 +1,11 @@
 'use client'
 
-import Titulo from "@/components/inicial/Titulo"
 import { Template } from "@/components/Template"
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import EmailIcon from '@mui/icons-material/Email';
+import MainTitle from "@/components/MainTitle";
+
 
 export default function ContatoPage() {
 
@@ -12,7 +13,7 @@ export default function ContatoPage() {
         <Template>
             <section className="flex flex-col items-center">
                 <div className="flex flex-col mb-8">
-                    <Titulo titulo="Entre em contato"/>
+                    <MainTitle titulo='Entre em Contato'/>
                 </div>
 
                 <div className="flex space-x-64">

@@ -1,3 +1,4 @@
+import { Tooltip } from 'flowbite';
 import React from 'react';
 
 interface ButtonTutorialProps{
@@ -6,6 +7,7 @@ interface ButtonTutorialProps{
 
 const ButtonTutorial: React.FC<ButtonTutorialProps> = () => {
     return (
+        
         <div className='p-4'>
             <a
                 href="https://www.youtube.com/seu-link-do-tutorial" // Substitua pelo link do seu tutorial

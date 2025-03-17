@@ -54,7 +54,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ initialContent = '', onChange ,
   const alignJustify = () => editor.chain().focus().setTextAlign('justify').run();
 
   return (
-    <div className="w-full border border-gray-300 rounded shadow-inner bg-white max-w-2xl mx-auto p-4 h-[380px]">
+    <div className="w-full border border-gray-300 rounded shadow-inner bg-white max-w-2xl mx-auto p-4 h-[480px]">
       {/* Barra de ferramentas */}
       <div className="w-full container grid grid-cols-4 sm:grid-cols-8 gap-2 mb-2 border-b pb-2 ">
         <button type='button' className="p-2 border rounded w-full" onClick={toggleBold}><BoldIcon size={18}/></button>
