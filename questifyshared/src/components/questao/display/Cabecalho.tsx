@@ -19,7 +19,13 @@ const Cabecalho: React.FC<CabecalhoProps> = ({id , assunto , autor}) => {
 
             <span >{assunto}</span>
 
-            <span>Autor : {autor}</span>
+            <span>
+                Autor  
+                <span className='font-light'>
+                    : {autor}
+                </span>
+                
+            </span>
         </div>
     );
 };

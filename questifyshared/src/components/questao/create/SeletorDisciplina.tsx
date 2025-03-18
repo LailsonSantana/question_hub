@@ -19,17 +19,12 @@ const MenuProps = {
 };
 
 const disciplines = [
-  'Algoritmos e Programação I',
-  'Algebra Linear',
-  'Calculo I',
-  'Matemática Discreta',
-  'Lógica para Computação',
-  'Teoria dos Grafos',
+  'Algoritmos e Programação II',
   'Banco de Dados I',
-  'Empreendedorismo',
-  'Programação Concorrente',
-  'Análise de Algoritmos',
-  'Compiladores',
+  'Engenharia de Software I',
+  'Redes de Computadores I',
+  'Software Educativo',
+  'Conhecimentos Gerais'
 ];
 
 interface MultipleSelectCheckmarksProps {

@@ -21,12 +21,13 @@ import { useRouter } from "next/navigation";
 export default function FormularioPage() {
     const service = useQuestionService();
     const notification = useNotification();
-    const [loading, setLoading] = useState(false);
-    const defaultURL = 'http://localhost:3000/formulario?id=1'; // Defina sua URL padrão aqui
     const router = useRouter();
-    const [searchParams, setSearchParams] = useState<URLSearchParams>(new URLSearchParams(defaultURL));
     const auth = useAuth();
+    const defaultURL = 'http://localhost:3000/formulario?id=1'; // Defina sua URL padrão aqui
     const user = auth.getUserSession();
+    const [loading, setLoading] = useState(false);
+    const [searchParams, setSearchParams] = useState<URLSearchParams>(new URLSearchParams(defaultURL));
+    const [justification, setJustification] = useState('');
 
     const id = Number(searchParams.get("id") || 0);
 
@@ -94,8 +95,6 @@ export default function FormularioPage() {
         setValue('correctAnswer', name);
     };
 
-    const [justification, setJustification] = useState('');
-
     const handleSave = async (data: FormProps) => {
         setLoading(true) 
         const answers = [
@@ -120,12 +119,12 @@ export default function FormularioPage() {
         try{
         if(id){
             await service.saveNewVersion(dados , id);
-            notification.notify("Sua versão foi enviada para análise!", "success");
+            notification.notify("Versão criada com sucesso!", "success");
             setLoading(false)
         }
         else{
             await service.save(dados);
-            notification.notify("Sua questão foi enviada para análise!", "success"); 
+            notification.notify("Questão criada com sucesso!", "success"); 
             setLoading(false)
         }
         reset({ 

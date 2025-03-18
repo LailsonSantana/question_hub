@@ -155,6 +155,7 @@ class QuestionService{
 
     
     async save(dados: Question): Promise<string> {
+      console.log("JUSTIFICATIVA ENVIADA : ",dados.justification)
       const userSession = this.auth.getUserSession()
 
         try{
@@ -163,7 +164,6 @@ class QuestionService{
             headers: {
               'Content-Type': 'application/json', "Authorization": `Bearer ${userSession?.accessToken}`
             } ,
-            //
             body: JSON.stringify(dados),
           });
   

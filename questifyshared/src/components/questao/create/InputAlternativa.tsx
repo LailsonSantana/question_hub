@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-
 interface InputAlternativaProps {
   register?: any; // Defina o tipo de register aqui, pode ser 'UseFormRegisterReturn' do react-hook-form
   name: string;
