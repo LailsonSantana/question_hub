@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/questionhub
+    url: jdbc:postgresql://ep-blue-thunder-a6edakx2-pooler.us-west-2.aws.neon.tech/questionhub?user=questionhub_owner&password=npg_geO7VY8SfXCo&sslmode=require
     username: postgres
     password: vasco123
   jpa:

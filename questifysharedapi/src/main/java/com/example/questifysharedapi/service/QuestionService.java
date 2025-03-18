@@ -42,6 +42,7 @@ public class QuestionService {
             Question question = new Question();
             question.setStatement(questionRecordDTO.statement());
             question.setDiscipline(questionRecordDTO.discipline());
+            question.setJustification(questionRecordDTO.justification());
             question.setCountRating(0);
             question.setTotalRating(0d);
             if(questionRecordDTO.userId() != null){
@@ -93,18 +94,6 @@ public class QuestionService {
 
     public Boolean verifyToxicty(String statement){
 
-        /*  Context saved on database
-        String context = contextService.getContext().get().getText();
-        String response = chatModel.call(context + "\n" + "[ENUNCIADO :" + statement + "]");
-        //String response = "ADEQUADO";
-        log.info("O enunciado é" , statement);
-        log.info("RESPOSTAAAAA GPT {}" , response);
-
-        if("ADEQUADO".equals(response)){
-            log.info("O RESULTADO FOI VERDADEIRO");
-            return true;
-        }
-        log.info("O RESULTADO FOI FALSOOOOOOO");*/
         return true;
     }
 
@@ -125,7 +114,7 @@ public class QuestionService {
                         question.getUser().getId(),
                         question.getUser().getName(),
                         question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-                        question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getPreviousVersion().getJustification(),
+                        question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getJustification(),
                         question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
                         question.getCountRating() == null? 0 : question.getCountRating(),
                         question.getTotalRating() == null? 0 : question.getTotalRating()
