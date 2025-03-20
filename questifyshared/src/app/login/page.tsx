@@ -24,7 +24,7 @@ export default function LoginPage() {
         if(token){
             router.push("/inicial");
         }
-    },[token])
+    },[])
 
 
     const { values, handleChange, handleSubmit, errors, resetForm } = useFormik<LoginForm>({
@@ -40,7 +40,7 @@ export default function LoginPage() {
         try {
             const accessToken: AccessToken = await auth.authenticate(credentials);
             auth.initSession(accessToken);
-            //router.push("/inicial")
+            router.push("/inicial")
             setLoading(false)
             setTimeout(() => {
                 notification.notify("LOGIN EFETUADO COM SUCESSO","success")
