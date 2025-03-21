@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import TableLine from './TableLine';
 import { Question } from '@/resources/question/question.resource';
 import { useQuestionService } from '@/resources/question/question.service';
+import { Skeleton } from '@mui/material';
+import { useAuth } from '@/resources/user/authentication.service';
 
 interface TableQuestionProps{
 
@@ -11,22 +13,26 @@ const TableQuestion: React.FC<TableQuestionProps> = () => {
 
     const useServiceQuestion = useQuestionService();
     const [questions , setQuestions] = useState<Question[]>([])
+    const [isLoading, setIsLoading] = useState(true);
     const [hasMounted, setHasMounted] = useState(false);
+    const auth = useAuth();
+    const user = auth.getUserSession()
     const rate = 0
 
     useEffect(() => {
             setHasMounted(true);
             questionByUser();
-        }, []);
+    }, []);
     
-        if (!hasMounted) {
-            return null; 
-        }
+    if (!hasMounted) {
+        return null;
+    }
 
     async function questionByUser(){
-        const result = await useServiceQuestion.getQuestionsByUser(1);
+        const result = await useServiceQuestion.getQuestionsByUser(user?.id!);
+        
         setQuestions(result);
-        console.table(result);
+        setIsLoading(false)
     }
 
 
@@ -43,9 +49,36 @@ const TableQuestion: React.FC<TableQuestionProps> = () => {
     }
     
     function mapperQuestions(){
+        
+        if (isLoading) {
+                    // Exibe Skeletons enquanto as questões estão sendo carregadas
+                    return Array.from({ length: 4 }).map((_, index) => (
+                        <tr key={index} className="animate-pulse">
+                          <td className="px-6 py-4">
+                            <Skeleton variant="rectangular" width={40} height={20} />
+                          </td>
+                      
+                          <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <Skeleton variant="rectangular" width={200} height={20} />
+                          </th>
+                      
+                          <td className="px-6 py-4">
+                            <Skeleton variant="rectangular" width={100} height={20} />
+                          </td>
+                      
+                          <td className="px-6 py-4">
+                            <Skeleton variant="rectangular" width={100} height={20} />
+                          </td>
+                      
+                          <td className="px-6 py-4">
+                            <Skeleton variant="rectangular" width={50} height={20} />
+                          </td>
+                        </tr>
+                      ));
+        } else {
         return(
             questions.map(mapperQuestion)
-        )
+        )}
     }
 
     return (
