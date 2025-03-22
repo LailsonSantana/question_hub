@@ -144,7 +144,7 @@ public class QuestionService {
                 question.getUser().getId(),
                 question.getUser().getName(),
                 question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-                question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getPreviousVersion().getJustification(),
+                question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getJustification(),
                 question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
                 question.getCountRating() == null? 0 : question.getCountRating(),
                 question.getTotalRating() == null? 0 : question.getTotalRating()
@@ -172,7 +172,7 @@ public class QuestionService {
             question.getUser().getId(),
             question.getUser().getName(),
             question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-            question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getPreviousVersion().getJustification(),
+            question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getJustification(),
             question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
             question.getCountRating() == null? 0 : question.getCountRating(),
             question.getTotalRating() == null? 0 : question.getTotalRating()
@@ -194,7 +194,7 @@ public class QuestionService {
         QuestionRecordDTO qdto = new QuestionRecordDTO(questionId, question.getStatement(), question.getDiscipline(), 
         answerRecordDTOs, question.getUser().getId(), question.getUser().getName() ,
         question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-        question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getPreviousVersion().getJustification(),
+        question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getJustification(),
         question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
         question.getCountRating() == null? 0 : question.getCountRating(),
         question.getTotalRating() == null? 0 : question.getTotalRating()
