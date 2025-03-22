@@ -4,6 +4,7 @@ import { Question } from '@/resources/question/question.resource';
 import { useQuestionService } from '@/resources/question/question.service';
 import { Skeleton } from '@mui/material';
 import { useAuth } from '@/resources/user/authentication.service';
+import { useNotification } from '@/components/notification';
 
 interface TableQuestionProps{
 
@@ -15,6 +16,7 @@ const TableQuestion: React.FC<TableQuestionProps> = () => {
     const [questions , setQuestions] = useState<Question[]>([])
     const [isLoading, setIsLoading] = useState(true);
     const [hasMounted, setHasMounted] = useState(false);
+    const notification = useNotification();
     const auth = useAuth();
     const user = auth.getUserSession()
     const rate = 0
@@ -29,10 +31,15 @@ const TableQuestion: React.FC<TableQuestionProps> = () => {
     }
 
     async function questionByUser(){
+
+      try{
         const result = await useServiceQuestion.getQuestionsByUser(user?.id!);
-        
         setQuestions(result);
         setIsLoading(false)
+      }catch(error: any){
+        setIsLoading(false)
+        notification.notify("Erro ao buscar questões do usuário","error")
+      }
     }
 
 

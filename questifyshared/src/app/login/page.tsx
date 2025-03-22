@@ -33,7 +33,6 @@ export default function LoginPage() {
         onSubmit: onSubmit
     });
 
-
     async function onSubmit(values: LoginForm){
         setLoading(true)
         const credentials: Credentials = { email: values.email, password: values.password }
