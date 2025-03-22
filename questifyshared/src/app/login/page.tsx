@@ -41,6 +41,7 @@ export default function LoginPage() {
             const accessToken: AccessToken = await auth.authenticate(credentials);
             auth.initSession(accessToken);
             router.push("/inicial")
+            router.refresh();
             setLoading(false)
             setTimeout(() => {
                 notification.notify("LOGIN EFETUADO COM SUCESSO","success")
