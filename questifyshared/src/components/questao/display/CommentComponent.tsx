@@ -17,7 +17,7 @@ export const CommentComponent: React.FC<CommentComponentProps> = ({text,name,idU
                 {firstLetter}
             </div>
         
-            <div className="flex flex-col w-full max-w-[320px] leading-1.5">
+            <div className="flex flex-col w-full max-w-[900px] leading-1.5">
                 <div className="flex items-center space-x-5 rtl:space-x-reverse">
                     <span className="text-sm font-semibold text-gray-900 dark:text-white">{name}</span>
                     <span className="text-sm font-normal text-gray-500 dark:text-gray-400">{date}</span>

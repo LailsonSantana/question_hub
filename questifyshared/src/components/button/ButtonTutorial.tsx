@@ -1,4 +1,3 @@
-import { Tooltip } from 'flowbite';
 import React from 'react';
 
 interface ButtonTutorialProps{
@@ -10,7 +9,7 @@ const ButtonTutorial: React.FC<ButtonTutorialProps> = () => {
         
         <div className='p-4'>
             <a
-                href="https://www.youtube.com/seu-link-do-tutorial" // Substitua pelo link do seu tutorial
+                href="https://youtu.be/t-Qew-clWJM" // Substitua pelo link do seu tutorial
                 target="_blank" // Abre o link em uma nova aba
                 rel="noopener noreferrer" // Boa prática de segurança para links externos
                 className="mb-12 inline-flex items-center bg-red-600 text-white py-3 px-6 rounded-lg hover:bg-red-700 transition-all duration-300 shadow-lg hover:shadow-xl"

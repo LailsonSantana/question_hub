@@ -6,7 +6,7 @@ interface ResultadoProps{
 
 const Resultado: React.FC<ResultadoProps> = ({isCorrect}) => {
     return(
-        <div className={`px-4 p-2.5 rounded-md flex items-center ${isCorrect ? 'bg-[#dcfce7] border-[#dcfce7] text-[#047857]' : 'bg-[#fda4af] border-[#fda4af] text-[#be123c]'}`}>
+        <div className={`px-4 p-2.5 rounded-md flex items-center ${isCorrect ? 'bg-[#dcfce7] border-2 border-[#047857] text-[#047857]' : 'bg-[#fda4af] border-2 border-[#be123c] text-[#be123c]'}`}>
         {isCorrect ? (
           <>
             <svg

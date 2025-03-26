@@ -38,10 +38,7 @@ export default function QuestoesPage() {
         setErros(Number(erros))
     }, []);
 
-    useEffect(() => {
-        localStorage.setItem("placarA", JSON.stringify({ count: acertos }));
-        localStorage.setItem("placarE", JSON.stringify({ count: erros }));
-      }, [acertos, erros]);
+    
 
     if (!hasMounted) {
         return null;
