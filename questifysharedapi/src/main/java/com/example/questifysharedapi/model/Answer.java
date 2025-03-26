@@ -23,7 +23,7 @@ public class Answer {
     private Boolean isCorrect;
 
     @ManyToOne
-    @JoinColumn(name = "question_id") // foreigner key
+    @JoinColumn(name = "question_id",nullable = false) // foreigner key
     @JsonIgnore // Used to resolve serialization problems
     private Question question;
 

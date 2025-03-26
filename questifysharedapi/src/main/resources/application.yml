@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://ep-divine-violet-a60j3p0h-pooler.us-west-2.aws.neon.tech/questionhub?user=questionhub_owner&password=npg_fObXv0LhjZ2n&sslmode=require
     username: postgres
-    password: vasco123
+    password: postgres
   jpa:
     database: POSTGRESQL
     hibernate:

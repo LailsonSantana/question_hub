@@ -23,7 +23,7 @@ public class Question {
     private Long id;
 
     @Lob
-    @Column(unique = true) // It say that this field is a data column
+    @Column(unique = true) // Set up this field like a data column
     private String statement;
 
     @Column(nullable = true)
