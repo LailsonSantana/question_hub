@@ -57,19 +57,18 @@ public class ClassificationService {
             // Save the classification or update
             return classificationRepository.save(classification);
         } else {
-            // Lidar com o caso em que o User ou Question não existe
+
+            // Handle with the case that User or Question not exist
             throw new EntityNotFoundException("User or Question not found");
         }
     }
 
     @Transactional
     public Double getClassificationByUserAndQuestion(Long questionId , Long userId){
-        log.info("CLASSSIFICATION CHAMADO");
         Optional<Classification> existingClassification = classificationRepository.findByUserIdAndQuestionId(userId,questionId);
 
         if(existingClassification.isPresent()){
             Classification classification = existingClassification.get();
-            log.info("Foi encontrada uma classificação de valor {}",classification.getRating());
             return classification.getRating();
         }
         log.info("NADA FOI ENCONTRADO {} - {}" , userId , questionId);

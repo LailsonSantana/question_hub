@@ -1,7 +1,5 @@
 package com.example.questifysharedapi.controller;
 
-
-
 import com.example.questifysharedapi.dto.QuestionRecordDTO;
 import com.example.questifysharedapi.exception.InappropriateContentException;
 import com.example.questifysharedapi.model.Question;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/api/questions")

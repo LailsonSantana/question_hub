@@ -24,7 +24,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-
     @Transactional
     public User saveUser(UserRecordDTO userRecordDTO) {
         
@@ -43,17 +42,6 @@ public class UserService {
         encodePassword(user);
         return userRepository.save(user);
     }
-
-
-    /*@Transactional
-    public User saveUser(UserRecordDTO userRecordDTO){
-        User user = new User();
-        user.setName(userRecordDTO.name());
-        user.setEmail(userRecordDTO.email());
-        user.setPassword(userRecordDTO.password());
-        user.setType(user.getType());
-        return userRepository.save(user);
-    }*/
 
     public List<User> getAllUsers(){
         return userRepository.findAll();

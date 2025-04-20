@@ -1,10 +1,9 @@
 package com.example.questifysharedapi.service;
 
-import com.example.questifysharedapi.dto.AnswerRecordDTO;
 import com.example.questifysharedapi.dto.QuestionRecordDTO;
 import com.example.questifysharedapi.exception.InappropriateContentException;
 import com.example.questifysharedapi.exception.InvalidVersionException;
-import com.example.questifysharedapi.mapper.MapperAnswer;
+import com.example.questifysharedapi.mapper.MapperQuestion;
 import com.example.questifysharedapi.model.Answer;
 import com.example.questifysharedapi.model.Question;
 import com.example.questifysharedapi.repository.AnswerRepository;
@@ -34,13 +33,13 @@ public class QuestionService {
     private final UserRepository userRepository;
     private final OpenAiChatModel chatModel;
     private final ContextService contextService;
-    private final MapperAnswer mapperAnswer;
+    private final MapperQuestion mapperQuestion;
 
 
     @Transactional
     public Question saveQuestion(QuestionRecordDTO questionRecordDTO){
         
-        if(verifyToxicty(questionRecordDTO.statement())){
+        if(verifyToxicity(questionRecordDTO.statement())){
             Question question = new Question();
             question.setStatement(questionRecordDTO.statement());
             question.setDiscipline(questionRecordDTO.discipline());
@@ -96,115 +95,43 @@ public class QuestionService {
         throw new InvalidVersionException("This question is a version of another question");
     }
 
-    public Boolean verifyToxicty(String statement){
+    public Boolean verifyToxicity(String statement){
 
         return true;
     }
 
     @Transactional
     public List<QuestionRecordDTO> getAllQuestions(){
-        List<Question> questions = new ArrayList<>();
-        questions = questionRepository.findAllByOrderByIdAsc();
-        return questions.stream()
-                .map(question -> new QuestionRecordDTO(
-                        question.getId(),
-                        question.getStatement(),
-                        question.getDiscipline(),
-                        question.getAnswers().stream()
-                                .map(answer -> new AnswerRecordDTO(
-                                        answer.getText(),
-                                        answer.getIsCorrect()
-                                )).collect(Collectors.toList()),
-                        question.getUser().getId(),
-                        question.getUser().getName(),
-                        question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-                        question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getJustification(),
-                        question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
-                        question.getCountRating() == null? 0 : question.getCountRating(),
-                        question.getTotalRating() == null? 0 : question.getTotalRating()
-                ))
-                .collect(Collectors.toList());
+
+        List<Question> questions = questionRepository.findAllByOrderByIdAsc();
+        return mapperQuestion.mapToQuestionsDTO(questions);
     }
 
     @Transactional
     public List<QuestionRecordDTO> filterQuestions(List<String> disciplines) {
         List<Question> questions = new ArrayList<>();
         //questions = questionRepository.findAllByDiscipline(disciplines);
-        for(String disciplina : disciplines){
-            questions.addAll(questionRepository.findAllByDiscipline(disciplina));
+        for(String discipline : disciplines){
+            questions.addAll(questionRepository.findAllByDiscipline(discipline));
         }
-        List<QuestionRecordDTO> qdto = new ArrayList<>();
-
-        qdto = questions.stream()
-                .map(question -> new QuestionRecordDTO(
-                    question.getId(),
-                    question.getStatement(),
-                    question.getDiscipline(),
-                    question.getAnswers().stream()
-                            .map(answer -> new AnswerRecordDTO(
-                                answer.getText(),
-                                answer.getIsCorrect()
-                                    )).collect(Collectors.toList()),
-                question.getUser().getId(),
-                question.getUser().getName(),
-                question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-                question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getJustification(),
-                question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
-                question.getCountRating() == null? 0 : question.getCountRating(),
-                question.getTotalRating() == null? 0 : question.getTotalRating()
-                )).collect(Collectors.toList());
-        log.info("OBJETO FINAL{}" ,qdto);
-        return qdto;
+        return mapperQuestion.mapToQuestionsDTO(questions);
     }
 
     @Transactional
     public List<QuestionRecordDTO> getAllByUser(Long userId){
-        List<Question> questions = new ArrayList<>();
-        questions = questionRepository.findAllByUser_id(userId);
-        List<QuestionRecordDTO> qdto = new ArrayList<>();
 
-        qdto = questions.stream()
-        .map(question -> new QuestionRecordDTO(
-            question.getId(),
-            question.getStatement(),
-            question.getDiscipline(),
-            question.getAnswers().stream()
-                    .map(answer -> new AnswerRecordDTO(
-                        answer.getText(),
-                        answer.getIsCorrect()
-                        )).collect(Collectors.toList()),
-            question.getUser().getId(),
-            question.getUser().getName(),
-            question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-            question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getJustification(),
-            question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
-            question.getCountRating() == null? 0 : question.getCountRating(),
-            question.getTotalRating() == null? 0 : question.getTotalRating()
-        )).collect(Collectors.toList());
-        log.info("QUESTÕES DO USUÁRIO: {}" ,qdto);
-        return qdto;
+        List<Question> questions = questionRepository.findAllByUser_id(userId);
+        return mapperQuestion.mapToQuestionsDTO(questions);
     }
 
     @Transactional 
     public QuestionRecordDTO getQuestionById(Long questionId){
 
-        Question question = new Question();
         Optional<Question> existingQuestion = questionRepository.findById(questionId);
-        question = existingQuestion.get();
-        List<AnswerRecordDTO> answerRecordDTOs = question.getAnswers().stream()
-        .map(answer -> new AnswerRecordDTO(answer.getText(), answer.getIsCorrect()))
-        .collect(Collectors.toList());
-        
-        QuestionRecordDTO qdto = new QuestionRecordDTO(questionId, question.getStatement(), question.getDiscipline(), 
-        answerRecordDTOs, question.getUser().getId(), question.getUser().getName() ,
-        question.getPreviousVersion() == null? 0 : question.getPreviousVersion().getId(),
-        question.getJustification() == null? "SEM JUSTIFICATIVA" : question.getJustification(),
-        question.getCreatedAt() == null? "Sem Data" : formatDate(question.getCreatedAt()),
-        question.getCountRating() == null? 0 : question.getCountRating(),
-        question.getTotalRating() == null? 0 : question.getTotalRating()
-        );
-        
-        return qdto;
+        List<Question> questions = new ArrayList<>();
+        questions.add(existingQuestion.get());
+
+        return mapperQuestion.mapToQuestionsDTO(questions).get(0);
     }
 
     @Transactional
@@ -223,12 +150,11 @@ public class QuestionService {
     @Transactional
     public Double updateRating(Double newRating, Long questionId){
 
-        Question question = new Question();
         Optional<Question> existingQuestion = questionRepository.findById(questionId);
-        question = existingQuestion.get();
+        Question question = existingQuestion.get();
 
         int newCount = question.getCountRating() == null? 0 : question.getCountRating() + 1;
-        Double newTotalRating = question.getTotalRating() == null? 0 : question.getTotalRating() + newRating;
+        double newTotalRating = question.getTotalRating() == null? 0 : question.getTotalRating() + newRating;
 
         question.setCountRating(newCount);
         question.setTotalRating(newTotalRating);
@@ -237,11 +163,10 @@ public class QuestionService {
 
         return newTotalRating / newCount ;
     }
-    
+
     public String formatDate(LocalDateTime date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String formattedDate = date.format(formatter);
 
-        return formattedDate;
+        return date.format(formatter);
     }
 }
