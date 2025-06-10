@@ -28,7 +28,7 @@ public class UserService {
     public User saveUser(UserRecordDTO userRecordDTO) {
         
         log.info("User {}" , userRecordDTO);
-        var possibleUser = getByEmail(userRecordDTO.email());
+        var possibleUser = userRepository.findByEmail(userRecordDTO.email());
         UserRole userRole = UserRole.valueOf(userRecordDTO.role().toUpperCase());
         
         if(possibleUser != null){
@@ -39,7 +39,7 @@ public class UserService {
         user.setRole(userRole);
         user.setEmail(userRecordDTO.email());
         user.setPassword(userRecordDTO.password());
-        encodePassword(user);
+        //encodePassword(user);
         return userRepository.save(user);
     }
 
