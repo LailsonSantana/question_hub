@@ -39,8 +39,12 @@ public class UserService {
         user.setRole(userRole);
         user.setEmail(userRecordDTO.email());
         user.setPassword(userRecordDTO.password());
-        //encodePassword(user);
+        encodePassword(user);
         return userRepository.save(user);
+    }
+
+    public void deleteById(Long id){
+        userRepository.deleteById(id);
     }
 
     public List<User> getAllUsers(){
