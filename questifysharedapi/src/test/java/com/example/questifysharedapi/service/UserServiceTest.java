@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -25,19 +26,28 @@ class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @Captor
     private ArgumentCaptor<User> userArgumentCaptor;
+
+    @Captor
+    private ArgumentCaptor<String> passwordCaptor;
 
     @Nested
     class saveUser{
         @Test
         void saveUserWithSuccess() {
             // ARRANGE
+
             var userRecordDTO = new UserRecordDTO(2L , "Lailson" , "lailsonbit@gmail.com",
                    "lailson123" , "STUDENT" , 1L);
 
-            var user = new User(2L, "Lailson" , "lailsonbit@gmail.com", "lailson123", LocalDateTime.now(),
+            var user = new User(2L, "Lailson" , "lailsonbit@gmail.com", "lailson123abc", LocalDateTime.now(),
                     UserRole.STUDENT, null , null , null);
+
+            Mockito.doReturn("lailson123abc").when(passwordEncoder).encode(passwordCaptor.capture());
 
             // ACT
             Mockito.doReturn(user).when(userRepository).save(userArgumentCaptor.capture());

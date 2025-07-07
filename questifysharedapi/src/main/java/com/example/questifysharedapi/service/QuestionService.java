@@ -1,8 +1,10 @@
 package com.example.questifysharedapi.service;
 
+import com.example.questifysharedapi.dto.AnswerRecordDTO;
 import com.example.questifysharedapi.dto.QuestionRecordDTO;
 import com.example.questifysharedapi.exception.InappropriateContentException;
 import com.example.questifysharedapi.exception.InvalidVersionException;
+import com.example.questifysharedapi.mapper.MapperAnswer2;
 import com.example.questifysharedapi.mapper.MapperQuestion;
 import com.example.questifysharedapi.model.Answer;
 import com.example.questifysharedapi.model.Question;
@@ -34,6 +36,7 @@ public class QuestionService {
     private final OpenAiChatModel chatModel;
     private final ContextService contextService;
     private final MapperQuestion mapperQuestion;
+    private final MapperAnswer2 mapperAnswer2;
 
 
     @Transactional
@@ -50,14 +53,8 @@ public class QuestionService {
                 question.setUser(userRepository.findById(questionRecordDTO.userId()).get());
             }
             Question questionSaved = questionRepository.save(question);
-            //List<Answer> answers = mapperAnswer.mapToAnswers(questionRecordDTO.answers(),questionSaved);
-            List<Answer> answers = questionRecordDTO.answers().stream().map(answerDTO -> {
-            Answer answer = new Answer();
-            answer.setText(answerDTO.text());
-            answer.setIsCorrect(answerDTO.isCorrect());
-            answer.setQuestion(questionSaved); // Related to answer at question
-            return answerRepository.save(answer); // save the answer
-            }).collect(Collectors.toList());
+            List<Answer> answers = mapperAnswer2.toAnswers(questionRecordDTO.answers());
+
             questionSaved.setAnswers(answers);
             return questionRepository.save(question);
         }
