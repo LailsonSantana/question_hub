@@ -19,7 +19,7 @@ export class Question{
     
 
     constructor(id: number,statement: string, discipline: string, answers: Answer[], userId: number, nameUser:string, previous: number, 
-        justification: string,dataCriacao: string, countRating: number, totalRating: number
+        justification: string, dataCriacao: string, countRating: number, totalRating: number
     ){
         this.id = id
         this.statement = statement

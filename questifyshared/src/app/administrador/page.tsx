@@ -84,7 +84,7 @@ export default function AdministradorPage() {
   }
 
   return (
-    <AuthenticatedPage>
+    
       <Template>
           <section className="container flex flex-col md:flex-row gap-12 w-full max-w-6xl p-4 m-auto">
             {/* Seção do formulário de cadastro de usuário */}
@@ -179,6 +179,6 @@ export default function AdministradorPage() {
           </section>
 
       </Template>
-    </AuthenticatedPage>
+    
   );
 }

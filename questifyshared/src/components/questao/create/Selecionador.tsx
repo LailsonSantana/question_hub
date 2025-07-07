@@ -14,8 +14,8 @@ const Selecionador: React.FC<SelecionadorProps> = ({ register, name }) => {
     };
 
     return (
-        <div>
-            <p className="text-sm text-gray-500 mb-2">Selecione a qual disciplina essa questão pertence.</p>
+        <div className='flex flex-col items-center'>
+            <p className="text-sm text-gray-500 mb-2">Disciplina da questão.</p>
             <select
                 id="disciplines"
                 onChange={handleSelectChange}

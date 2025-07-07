@@ -89,7 +89,7 @@ export default function LoginPage() {
                                        placeholder="•••••••••" />
                             </div>
 
-                            <Button label="Entrar" type="submit"/>
+                            <Button label="Entrar" type="submit" color="bg-[#5F53A0] hover:bg-[#362975]"/>
 
                             <div className="flex justify-center mb-6 mt-2">
                                 <a href="#" className="text-blue-600 hover:underline text-sm">Esqueceu a senha ?</a>

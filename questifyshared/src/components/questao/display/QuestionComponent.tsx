@@ -13,15 +13,15 @@ interface Answer{
     isCorrect: boolean;
 }
 interface QuestionComponentProps{
-    id: number;
-    enunciado: string;
-    answers: Answer[];
-    nameUser: string;
-    userId: number;
+    id?: number;
+    statement: string;
     discipline: string;
+    answers: Answer[];
+    userId: number;
+    nameUser: string;
     previousId?: number;
-    createdAt?: string;
     justification?: string;
+    createdAt?: string;
     countRating?: number;
     totalRating?: number;
 }
@@ -30,7 +30,7 @@ const indexToLetter = (index: number): string => {
     return String.fromCharCode(65 + index); // 65 é o código ASCII para 'A'
 };
 
-export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciado,answers,nameUser,userId,discipline,previousId,
+export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,statement,discipline,answers,userId,nameUser,previousId,
                                                                         justification,createdAt,countRating,totalRating
 } : QuestionComponentProps) => {
     const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
@@ -71,11 +71,11 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
 
         <div className="m-8">
             <div className='border border-gray-300 rounded p-4 shadow-md bg-containerColor'>
-                <Cabecalho id={id} assunto={discipline} autor={nameUser}/>
+                <Cabecalho id={id!} assunto={discipline} autor={nameUser}/>
             </div>
 
             <div className='border border-gray-300 rounded p-8 shadow-md bg-containerColor'>
-                <Enunciado text={`${enunciado}`}/>
+                <Enunciado text={`${statement}`}/>
                 <div className="pt-4">
                     <ul>
                         {answers?.map((answer, index) => (
@@ -109,7 +109,7 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,enunciad
             </div>
 
             <div className="border border-gray-300 rounded p-4 shadow-md bg-containerColor">
-                <BasicTabs question={new Question(id,enunciado,discipline,answers,userId,nameUser, previousId!,justification!,
+                <BasicTabs question={new Question(id!,statement,discipline,answers,userId,nameUser, previousId!,justification!,
                 createdAt!, countRating! , totalRating!
                 )} />
             </div>

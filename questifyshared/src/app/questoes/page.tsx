@@ -39,7 +39,6 @@ export default function QuestoesPage() {
     }, []);
 
     
-
     if (!hasMounted) {
         return null;
     }
@@ -80,7 +79,7 @@ export default function QuestoesPage() {
             <div key={question.id}>
                 <QuestionComponent
                     id={question.id!}
-                    enunciado={question.statement}
+                    statement={question.statement}
                     answers={question.answers}
                     discipline={question.discipline}
                     userId={question.userId!}

@@ -9,7 +9,7 @@ import Button from "@/components/button/Button";
 import Selecionador from "@/components/questao/create/Selecionador";
 import ContainerForm from "@/components/formulario/ContainerForm";
 import Tiptap from "@/components/questao/editor/Tiptap";
-import { FormProvider, useForm, useFormState } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useQuestionService } from "@/resources/question/question.service";
 import { useAuth } from "@/resources/user/authentication.service";
 import { AuthenticatedPage } from "@/components/AuthenticatedPage";
@@ -117,29 +117,26 @@ export default function FormularioPage() {
         };
 
         try{
-        if(id){
-            await service.saveNewVersion(dados , id);
-            notification.notify("Versão criada com sucesso!", "success");
+            if(id){
+                await service.saveNewVersion(dados , id);
+                notification.notify("Versão criada com sucesso!", "success");
+            }
+            else{
+                await service.save(dados);
+                notification.notify("Questão criada com sucesso!", "success"); 
+            }
             setLoading(false)
-        }
-        else{
-            await service.save(dados);
-            notification.notify("Questão criada com sucesso!", "success"); 
-            setLoading(false)
-        }
-        reset({ 
-            statement: "",
-            alt1: "",
-            alt2: "",
-            alt3: "",
-            alt4: "",
-            alt5: "",
-            select: "",
-            correctAnswer: ""
-        });
-        setJustification('');
-            // Reseta o formulário
-        setLoading(false)
+            reset({ 
+                statement: "",
+                alt1: "",
+                alt2: "",
+                alt3: "",
+                alt4: "",
+                alt5: "",
+                select: "",
+                correctAnswer: ""
+            });
+            setJustification('');
         }catch(error: any){
             setLoading(false)
             console.error('Erro ao salvar os dados:', error);
@@ -162,11 +159,12 @@ export default function FormularioPage() {
                             
                             <Selecionador register={methods.register} name="select" />
                         </span>
+
                         <section className="container flex flex-col md:flex-row gap-8 w-full  min-h-screen p-8 items-center sm:items-stretch"> 
                             
                             <ContainerForm>
 
-                                <Titulo titulo="Desenvolva o Enunciado" />
+                                <Titulo titulo="Escreva o Enunciado" />
 
                                 <div className="w-full">   
                                     <Tiptap value={watch("statement")} onChange={(value) => setValue("statement", value)} onKeyDown={(e) => e.stopPropagation()}/>
@@ -176,59 +174,61 @@ export default function FormularioPage() {
                         
                             <ContainerForm>
 
-                                <Titulo titulo="Desenvolva as Alternativas" />
+                                <Titulo titulo="Escreva as Alternativas" />
 
                                 <div className="px-4 space-y-6">
                                     
-                                        <InputAlternativa register={methods.register} name="alt1"
-                                            isSelected={correctAnswer === 'alt1'}
-                                            onSelect={() => onSelectAlternative('alt1')}
-                                            justification={correctAnswer === 'alt1' ? justification : ''}
-                                            setJustification={setJustification}
-                                        />
+                                    <InputAlternativa register={methods.register} name="alt1"
+                                        isSelected={correctAnswer === 'alt1'}
+                                        onSelect={() => onSelectAlternative('alt1')}
+                                        justification={correctAnswer === 'alt1' ? justification : ''}
+                                        setJustification={setJustification}
+                                    />
 
-                                        <InputAlternativa register={methods.register} name="alt2"
-                                            isSelected={correctAnswer === 'alt2'}
-                                            onSelect={() => onSelectAlternative('alt2')}
-                                            justification={correctAnswer === 'alt2' ? justification : ''}
-                                            setJustification={setJustification}
-                                        />
+                                    <InputAlternativa register={methods.register} name="alt2"
+                                        isSelected={correctAnswer === 'alt2'}
+                                        onSelect={() => onSelectAlternative('alt2')}
+                                        justification={correctAnswer === 'alt2' ? justification : ''}
+                                        setJustification={setJustification}
+                                    />
 
-                                        <InputAlternativa register={methods.register} name="alt3"
-                                            isSelected={correctAnswer === 'alt3'}
-                                            onSelect={() => onSelectAlternative('alt3')}
-                                            justification={correctAnswer === 'alt3' ? justification : ''}
-                                            setJustification={setJustification}
-                                        />
-                
-                                        <InputAlternativa register={methods.register} name="alt4"
-                                            isSelected={correctAnswer === 'alt4'}
-                                            onSelect={() => onSelectAlternative('alt4')}
-                                            justification={correctAnswer === 'alt4' ? justification : ''}
-                                            setJustification={setJustification}  
-                                        />
+                                    <InputAlternativa register={methods.register} name="alt3"
+                                        isSelected={correctAnswer === 'alt3'}
+                                        onSelect={() => onSelectAlternative('alt3')}
+                                        justification={correctAnswer === 'alt3' ? justification : ''}
+                                        setJustification={setJustification}
+                                    />
             
-                                        <InputAlternativa register={methods.register} name="alt5"
-                                            isSelected={correctAnswer === 'alt5'}
-                                            onSelect={() => onSelectAlternative('alt5')}
-                                            justification={correctAnswer === 'alt5' ? justification : ''}
-                                            setJustification={setJustification}
-                                        />
-                                        <div className="flex mt-8 justify-center">
-                                            <RenderIf condition={correctAnswer === undefined && isSubmitted}>
-                                                <span className="text-red-500 text-sm">
-                                                    Você deve selecionar uma das alternativas como correta 
-                                                </span>
-                                            </RenderIf>
-                                        </div>
+                                    <InputAlternativa register={methods.register} name="alt4"
+                                        isSelected={correctAnswer === 'alt4'}
+                                        onSelect={() => onSelectAlternative('alt4')}
+                                        justification={correctAnswer === 'alt4' ? justification : ''}
+                                        setJustification={setJustification}  
+                                    />
+        
+                                    <InputAlternativa register={methods.register} name="alt5"
+                                        isSelected={correctAnswer === 'alt5'}
+                                        onSelect={() => onSelectAlternative('alt5')}
+                                        justification={correctAnswer === 'alt5' ? justification : ''}
+                                        setJustification={setJustification}
+                                    />
+                                    <div className="flex mt-8 justify-center">
+                                        <RenderIf condition={correctAnswer === undefined && isSubmitted}>
+                                            <span className="text-red-500 text-sm">
+                                                Você deve selecionar uma das alternativas como correta 
+                                            </span>
+                                        </RenderIf>
+                                    </div>
                                 </div>
 
                                 <div className="flex flex-row items-center space-x-2 mb-4 mt-8">
-                                    
-                                    
-                                    <Button type="submit" label="Enviar" tooltipText="Clique para enviar o enunciado e as alternativas"/>
 
-                                    <Button type="button" label="Cancelar" tooltipText="Cancelar envio" onClick={cancelAction}/>
+                                    
+                                    <Button type="button" label="Cancelar" tooltipText="Cancelar envio" onClick={cancelAction} color="bg-[#958ACA] hover:bg-[#362975]"/>
+                                    
+                                    
+                                    <Button type="submit" label="Enviar" tooltipText="Clique para enviar o enunciado e as alternativas"  color="bg-[#5F53A0] hover:bg-[#362975]"/>
+                                    
                                     
                                 </div>
                             </ContainerForm>

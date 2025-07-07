@@ -7,18 +7,20 @@ interface ButtonProps{
     type?: "submit" | "button" | "reset" | undefined
     isTooltipOpen?: boolean
     tooltipText?: string
+    color?: string;
 
 }
-const Button: React.FC<ButtonProps> = ({onClick,label,type,isTooltipOpen, tooltipText} : ButtonProps) => {
+const Button: React.FC<ButtonProps> = ({onClick,label,type,isTooltipOpen, tooltipText, color} : ButtonProps) => {
     return(
         <Tooltip title={tooltipText} arrow open={isTooltipOpen}>
-            <button className="w-full text-white dark:text-dark-text bg-buttonColor dark:bg-dark-buttonColor hover:bg-[#362975] focus:ring-4 focus:ring-blue-300 rounded-lg text-md p-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            
+            <button className={`w-full text-white rounded-lg text-md p-2.5 focus:outline-none 
+                    ${color} hover:bg-${color}`}
                     type={type}
                     onClick={onClick}>
                     { label }
             </button>                                    
         </Tooltip>
-        
     );
 }
 
