@@ -33,8 +33,8 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
     private final UserRepository userRepository;
-    private final OpenAiChatModel chatModel;
-    private final ContextService contextService;
+    private final OpenAiService openAiService;
+    private final IAModeratorService moderatorService;
     private final MapperQuestion mapperQuestion;
     private final MapperAnswer2 mapperAnswer2;
 
@@ -42,7 +42,7 @@ public class QuestionService {
     @Transactional
     public Question saveQuestion(QuestionRecordDTO questionRecordDTO){
         
-        if(verifyToxicity(questionRecordDTO.statement())){
+        if(verifyStatement(questionRecordDTO.statement() ,0 )){
             Question question = new Question();
             question.setStatement(questionRecordDTO.statement());
             question.setDiscipline(questionRecordDTO.discipline());
@@ -92,9 +92,21 @@ public class QuestionService {
         throw new InvalidVersionException("This question is a version of another question");
     }
 
-    public Boolean verifyToxicity(String statement){
+    public Boolean verifyStatement(String statement, int model){
 
-        return true;
+        String response = "";
+
+        //Define model chosen
+        if(model == 0){
+            response = openAiService.getClassification(statement);
+        }
+        else{
+            response = moderatorService.generateResponse(statement);
+        }
+
+        log.info("Response of Model {}" , response);
+
+        return !response.equals("INADEQUADO");
     }
 
     @Transactional

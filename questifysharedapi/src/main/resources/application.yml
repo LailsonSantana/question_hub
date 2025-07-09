@@ -18,10 +18,16 @@ spring:
       chat:
         options:
           model: gpt-4-turbo
+          max-tokens: 5
+          temperature: 0.0
     ollama:
       chat:
         options:
           temperature: 0.0
+    huggingface:
+      chat:
+        api-key: ${HUGGINGFACE_API_KEY}
+        api-url: ${https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3}
 
 # Production
 ---

@@ -1,7 +1,9 @@
 package com.example.questifysharedapi.controller;
 
+import com.example.questifysharedapi.dto.ContextRecordDTO;
 import com.example.questifysharedapi.dto.CredentialsDTO;
 import com.example.questifysharedapi.dto.UserRecordDTO;
+import com.example.questifysharedapi.model.Context;
 import com.example.questifysharedapi.model.User;
 import com.example.questifysharedapi.service.ContextService;
 import com.example.questifysharedapi.service.UserService;
@@ -52,13 +54,8 @@ public class UserController {
 
     @PostMapping("/setContext")
     //@PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<String> setUserContext(@RequestBody String newContext) {
-        try {
-            contextService.saveContext(newContext);
-            return ResponseEntity.ok("Contexto definido com sucesso para o usuário!");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body("Erro ao definir o contexto: " + e.getMessage());
-        }
+    public ResponseEntity<Context> setUserContext(@RequestBody String newContext) {
+        ContextRecordDTO crdto = new ContextRecordDTO(newContext);
+        return ResponseEntity.status(HttpStatus.CREATED).body(contextService.saveContext(crdto));
     }
 }
