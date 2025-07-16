@@ -88,7 +88,7 @@ export default function AdministradorPage() {
       <Template>
           <section className="container flex flex-col md:flex-row gap-12 w-full max-w-6xl p-4 m-auto">
             {/* Seção do formulário de cadastro de usuário */}
-            <div className="flex-1 items-center bg-containerColor shadow-lg rounded-lg p-8 border border-gray-300">
+            <div className="flex-1 bg-containerColor shadow-lg rounded-lg p-8 border border-gray-300 content-evenly">
               <Titulo titulo="Cadasto de Usuário" />
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
@@ -148,9 +148,9 @@ export default function AdministradorPage() {
                       <option value="teacher">Professor</option>
                   </select>
                 </div>
-        
-                <Button type="submit" label="Adicionar"/>
-                
+                <div className="mt-8">
+                <Button type="submit" label="Adicionar" color="bg-[#5F53A0] hover:bg-[#362975]"/>
+                </div>
 
               </form>
             </div>
@@ -162,19 +162,18 @@ export default function AdministradorPage() {
             <div className="w-full flex-1 bg-containerColor shadow-lg rounded-lg p-8 border border-gray-300">
               <Titulo titulo="Definição de Contexto" />
               <InputContext context={context} setContext={setContext}/>
+              
               <div className="flex flex-col items-center mt-4">
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                       Selecione o modelo de IA que será usado.
                 </label>
               </div>
-              <div className="flex flex-col items-center mt-4">
-                <RadioButton></RadioButton>
+              <div className="flex flex-col items-center mt-4 mb-8">
+                <RadioButton />
               </div>
               
-              
-              <div className="mt-8">
-                <Button label="Definir" type="submit" onClick={defineContext}/>
-              </div>
+                <Button label="Definir" type="submit" onClick={defineContext} color="bg-[#5F53A0] hover:bg-[#362975]" />
+
             </div>
           </section>
 

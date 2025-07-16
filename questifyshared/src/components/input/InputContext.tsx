@@ -20,7 +20,7 @@ export const InputContext: React.FC<InputContextProps> = ({context, setContext} 
                         value={context}
                         onChange={(e) => setContext(e.target.value)}
                         rows={4} 
-                        className="w-full text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:placeholder-gray-400 px-4 py-2" 
+                        className="w-full h-full text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white dark:placeholder-gray-400 px-4 py-2" 
                         placeholder="Defina o contexto" 
                         required
                     ></textarea>

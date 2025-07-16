@@ -97,8 +97,7 @@ const TableQuestion: React.FC<TableQuestionProps> = () => {
                         <th scope="col" className="px-6 py-3">Enunciado</th>
                         <th scope="col" className="px-6 py-3">Data de Criação</th>
                         <th scope="col" className="px-6 py-3">Disciplina</th>
-                        <th scope="col" className="px-6 py-3">Rate</th>
-                        <th scope="col" className="px-6 py-3">Excluir</th>
+                        <th scope="col" className="px-6 py-3">Avaliação</th>
                     </tr>
                 </thead>
                 <tbody>
