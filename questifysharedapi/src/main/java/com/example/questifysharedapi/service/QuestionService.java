@@ -1,13 +1,13 @@
 package com.example.questifysharedapi.service;
 
-import com.example.questifysharedapi.dto.AnswerRecordDTO;
 import com.example.questifysharedapi.dto.QuestionRecordDTO;
 import com.example.questifysharedapi.exception.InappropriateContentException;
 import com.example.questifysharedapi.exception.InvalidVersionException;
-import com.example.questifysharedapi.mapper.MapperAnswer2;
+import com.example.questifysharedapi.exception.QuestionNotFound;
 import com.example.questifysharedapi.mapper.MapperQuestion;
 import com.example.questifysharedapi.model.Answer;
 import com.example.questifysharedapi.model.Question;
+import com.example.questifysharedapi.model.User;
 import com.example.questifysharedapi.repository.AnswerRepository;
 import com.example.questifysharedapi.repository.QuestionRepository;
 import com.example.questifysharedapi.repository.UserRepository;
@@ -34,32 +34,27 @@ public class QuestionService {
     private final AnswerRepository answerRepository;
     private final UserRepository userRepository;
     private final OpenAiService openAiService;
-    private final IAModeratorService moderatorService;
     private final MapperQuestion mapperQuestion;
-    private final MapperAnswer2 mapperAnswer2;
 
 
-    @Transactional
     public Question saveQuestion(QuestionRecordDTO questionRecordDTO){
-        
-        if(verifyStatement(questionRecordDTO.statement() ,0 )){
-            Question question = new Question();
-            question.setStatement(questionRecordDTO.statement());
-            question.setDiscipline(questionRecordDTO.discipline());
-            question.setJustification(questionRecordDTO.justification());
+
+        if(verifyStatement(questionRecordDTO.statement(), 0)){
+
+            Question question = mapperQuestion.toQuestion(questionRecordDTO);
+            if(questionRecordDTO.userId() != null){
+                Optional<User> possibleUser = userRepository.findById(questionRecordDTO.userId());
+                possibleUser.ifPresent(question::setUser);
+            }
             question.setCountRating(0);
             question.setTotalRating(0d);
-            if(questionRecordDTO.userId() != null){
-                question.setUser(userRepository.findById(questionRecordDTO.userId()).get());
-            }
+            question.getAnswers().forEach(answer -> answer.setQuestion(question));
             Question questionSaved = questionRepository.save(question);
-            List<Answer> answers = mapperAnswer2.toAnswers(questionRecordDTO.answers());
 
-            questionSaved.setAnswers(answers);
-            return questionRepository.save(question);
+            return questionRepository.save(questionSaved);
         }
-        
-        throw new InappropriateContentException("This content is Inappropriated."); 
+
+        throw new InappropriateContentException("This content is Unappropriated.");
     }
 
     @Transactional
@@ -87,7 +82,7 @@ public class QuestionService {
             return answerRepository.save(answer); // save the answer
             }).collect(Collectors.toList());
             questionSaved.setAnswers(answers);
-            return questionRepository.save(question);
+            return questionRepository.save(questionSaved);
         }
         throw new InvalidVersionException("This question is a version of another question");
     }
@@ -100,47 +95,46 @@ public class QuestionService {
         if(model == 0){
             response = openAiService.getClassification(statement);
         }
-        else{
-            response = moderatorService.generateResponse(statement);
-        }
 
         log.info("Response of Model {}" , response);
-
+        log.info("Response of equals {}" , response.equals("INADEQUADO"));
         return !response.equals("INADEQUADO");
+        //return true;
     }
 
     @Transactional
     public List<QuestionRecordDTO> getAllQuestions(){
 
         List<Question> questions = questionRepository.findAllByOrderByIdAsc();
-        return mapperQuestion.mapToQuestionsDTO(questions);
+        List<QuestionRecordDTO> qrd = mapperQuestion.toQuestionsDTO(questions);
+        log.info("Usuário xx {}" , qrd.get(0).nameUser());
+        return qrd;
     }
 
     @Transactional
     public List<QuestionRecordDTO> filterQuestions(List<String> disciplines) {
         List<Question> questions = new ArrayList<>();
-        //questions = questionRepository.findAllByDiscipline(disciplines);
         for(String discipline : disciplines){
             questions.addAll(questionRepository.findAllByDiscipline(discipline));
         }
-        return mapperQuestion.mapToQuestionsDTO(questions);
+        return mapperQuestion.toQuestionsDTO(questions);
     }
 
     @Transactional
     public List<QuestionRecordDTO> getAllByUser(Long userId){
 
         List<Question> questions = questionRepository.findAllByUser_id(userId);
-        return mapperQuestion.mapToQuestionsDTO(questions);
+        return mapperQuestion.toQuestionsDTO(questions);
     }
 
     @Transactional 
     public QuestionRecordDTO getQuestionById(Long questionId){
 
         Optional<Question> existingQuestion = questionRepository.findById(questionId);
-        List<Question> questions = new ArrayList<>();
-        questions.add(existingQuestion.get());
-
-        return mapperQuestion.mapToQuestionsDTO(questions).get(0);
+        if(existingQuestion.isPresent()){
+            return mapperQuestion.toQuestionDTO(existingQuestion.get());
+        }
+        throw new RuntimeException("Question Not Found");
     }
 
     @Transactional
@@ -160,7 +154,14 @@ public class QuestionService {
     public Double updateRating(Double newRating, Long questionId){
 
         Optional<Question> existingQuestion = questionRepository.findById(questionId);
-        Question question = existingQuestion.get();
+        Question question = new Question();
+        if(existingQuestion.isPresent()){
+            question = existingQuestion.get();
+        }
+        else{
+            throw new QuestionNotFound("Question Not Found");
+        }
+
 
         int newCount = question.getCountRating() == null? 0 : question.getCountRating() + 1;
         double newTotalRating = question.getTotalRating() == null? 0 : question.getTotalRating() + newRating;

@@ -39,7 +39,7 @@ public class Question {
     private List<Classification> classifications = new ArrayList<>();
 
     @JoinColumn(name = "user_id" , nullable = true)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private User user;
 

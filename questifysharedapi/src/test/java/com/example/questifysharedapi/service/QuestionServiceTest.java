@@ -30,8 +30,6 @@ class QuestionServiceTest {
     @Mock
     private UserRepository userRepository;
 
-
-
     @Mock
     private AnswerRepository answerRepository;
 
@@ -40,13 +38,20 @@ class QuestionServiceTest {
 
     @Nested
     class saveQuestion{
+
+        @Test
+        void testSaveQuestion_successful() {
+
+        }
+
+
         @Test
         void shouldSaveAQuestionWithSuccess() {
 
             // ARRANGE
-            var user = new User(3L, "Lailson" , "lailsonbit@gmail.com", "lailson123abc", LocalDateTime.now(),
+            var user = new User(3L, "Margaret" , "lailsonbit@gmail.com", "lailson123abc", LocalDateTime.now(),
                     UserRole.STUDENT, null , null , null);
-            var question = new Question(2L , "Teste" , "Física I" , null , null , null , user ,
+            var question = new Question(2L , "Teste" , "Physics I" , null , null , null , user ,
                     null , null , "Não Tem" , null , 3 , 4.6);
             var questionRecordDTO = new QuestionRecordDTO(2L , "Teste" , "Física I",
             null , 3L , "Jhon" , 1L , "Não Tem" , null , 3 ,

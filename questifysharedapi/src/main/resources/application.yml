@@ -24,10 +24,6 @@ spring:
       chat:
         options:
           temperature: 0.0
-    huggingface:
-      chat:
-        api-key: ${HUGGINGFACE_API_KEY}
-        api-url: ${https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.3}
 
 # Production
 ---
