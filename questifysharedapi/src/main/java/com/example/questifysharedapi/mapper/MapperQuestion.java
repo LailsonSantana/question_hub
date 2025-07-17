@@ -11,6 +11,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Mappings;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
@@ -18,7 +20,8 @@ public interface MapperQuestion {
 
     @Mappings({
             @Mapping(source = "user.id", target = "userId"),
-            @Mapping(source = "user.name", target = "nameUser")
+            @Mapping(source = "user.name", target = "nameUser"),
+            @Mapping(source = "createdAt", target = "createdAt", dateFormat = "dd/MM/yyyy")
     })
     QuestionRecordDTO toQuestionDTO(Question question);
 

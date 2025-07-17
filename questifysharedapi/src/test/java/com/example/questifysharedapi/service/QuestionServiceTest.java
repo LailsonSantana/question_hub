@@ -1,6 +1,7 @@
 package com.example.questifysharedapi.service;
 
 import com.example.questifysharedapi.dto.QuestionRecordDTO;
+import com.example.questifysharedapi.mapper.MapperQuestion;
 import com.example.questifysharedapi.model.Question;
 import com.example.questifysharedapi.model.User;
 import com.example.questifysharedapi.model.UserRole;
@@ -33,6 +34,12 @@ class QuestionServiceTest {
     @Mock
     private AnswerRepository answerRepository;
 
+    @Mock
+    private MapperQuestion mapperQuestion;
+
+    @Mock
+    private OpenAiService openAiService;
+
     @Captor
     private ArgumentCaptor<Question> questionArgumentCaptor;
 
@@ -58,6 +65,7 @@ class QuestionServiceTest {
                     4.6);
 
             Mockito.when(userRepository.findById(3L)).thenReturn(Optional.of(user));
+            Mockito.when(openAiService.getClassification(questionRecordDTO.statement())).thenReturn("ADEQUADO");
 
             // ACT
             Mockito.doReturn(question).when(questionRepository).save(questionArgumentCaptor.capture());

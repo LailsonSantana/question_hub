@@ -18,8 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -106,9 +104,7 @@ public class QuestionService {
     public List<QuestionRecordDTO> getAllQuestions(){
 
         List<Question> questions = questionRepository.findAllByOrderByIdAsc();
-        List<QuestionRecordDTO> qrd = mapperQuestion.toQuestionsDTO(questions);
-        log.info("Usuário xx {}" , qrd.get(0).nameUser());
-        return qrd;
+        return mapperQuestion.toQuestionsDTO(questions);
     }
 
     @Transactional
@@ -174,9 +170,4 @@ public class QuestionService {
         return newTotalRating / newCount ;
     }
 
-    public String formatDate(LocalDateTime date){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        return date.format(formatter);
-    }
 }

@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity autheticate(@RequestBody CredentialsDTO credentials){
+    public ResponseEntity<?> autheticate(@RequestBody CredentialsDTO credentials){
         var token = userService.authenticate(credentials.getEmail(), credentials.getPassword());
 
         if(token == null){
