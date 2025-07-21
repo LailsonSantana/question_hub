@@ -99,10 +99,10 @@ export const QuestionComponent: React.FC<QuestionComponentProps> = ({id,statemen
                         <Resultado isCorrect={isCorrect!}/> 
                     </RenderIf>
                     
-                    <RenderIf condition={previousId!=0}>
+                    <RenderIf condition={previousId != null}>
                         <div className="space-x-4 flex items-center">
                             <h2 className="ml-64">Versão da questão : </h2>
-                            <a href='' className="text-blue-600 hover:underline m-4">QN{previousId}</a>
+                            <a href='' className="text-blue-600 hover:underline m-4">{previousId}</a>
                         </div>
                     </RenderIf>
                 </div>

@@ -150,7 +150,7 @@ export default function BasicTabs({ question }: BasicTabsProps) {
       <CustomTabPanel value={value} index={0}>
 
         <div className='flex flex-col items-start space-y-4'>
-          <RenderIf condition={question.previousId == 0}>
+          <RenderIf condition={question.previousId == null}>
             <Informativo text='Você terá a possibilidade de fazer mudanças nessa questão , vale ressaltar que após às mudanças
             a sua versão será considerada uma versão alternativa da questão principal.'
             />

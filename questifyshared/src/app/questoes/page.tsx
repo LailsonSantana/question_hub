@@ -121,7 +121,7 @@ export default function QuestoesPage() {
                     
                 </div>
 
-                <div className="flex items-start mx-6 justify-between items-center">
+                <div className="flex items-start mx-6 justify-between">
 
                     <div className="flex items-center">
                         <MultipleSelectCheckmarks onDisciplinesChange={handleDisciplinesChange} />
