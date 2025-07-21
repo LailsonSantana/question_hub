@@ -15,7 +15,6 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,15 +28,14 @@ import java.util.stream.Collectors;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final AnswerRepository answerRepository;
     private final UserRepository userRepository;
     private final OpenAiService openAiService;
     private final MapperQuestion mapperQuestion;
 
-
+    @Transactional
     public Question saveQuestion(QuestionRecordDTO questionRecordDTO){
 
-        if(verifyStatement(questionRecordDTO.statement(), 0)){
+        if(verifyStatement(questionRecordDTO.statement())){
 
             Question question = mapperQuestion.toQuestion(questionRecordDTO);
             if(questionRecordDTO.userId() != null){
@@ -47,15 +45,43 @@ public class QuestionService {
             question.setCountRating(0);
             question.setTotalRating(0d);
             question.getAnswers().forEach(answer -> answer.setQuestion(question));
-            Question questionSaved = questionRepository.save(question);
 
-            return questionRepository.save(questionSaved);
+            return questionRepository.save(question);
         }
-
-        throw new InappropriateContentException("This content is Unappropriated.");
+        throw new InappropriateContentException("This content is Inappropriate.");
     }
 
     @Transactional
+    public Question saveNewVersion(QuestionRecordDTO questionRecordDTO , Long id){
+
+        Question previousQuestion = questionRepository.findById(id)
+                .orElseThrow(() -> new QuestionNotFound("Question Not Found"));
+
+        if (previousQuestion.getPreviousVersion() != null) {
+            throw new InvalidVersionException("This question is a version of another question");
+        }
+
+        boolean isValid = verifyStatement(questionRecordDTO.statement());
+        if (!isValid) {
+            throw new InappropriateContentException("This content is Inappropriate.");
+        }
+
+        Question question = mapperQuestion.toQuestion(questionRecordDTO);
+
+        if (questionRecordDTO.userId() != null) {
+            userRepository.findById(questionRecordDTO.userId())
+                    .ifPresent(question::setUser);
+        }
+
+        question.setCountRating(0);
+        question.setTotalRating(0d);
+        question.setPreviousVersion(previousQuestion);
+        question.getAnswers().forEach(answer -> answer.setQuestion(question));
+
+        return questionRepository.save(question);
+    }
+
+    /*@Transactional
     public Question saveNewVersion(QuestionRecordDTO questionRecordDTO , Long id){
         
         Optional<Question> previousQuestion = questionRepository.findById(id);
@@ -83,21 +109,15 @@ public class QuestionService {
             return questionRepository.save(questionSaved);
         }
         throw new InvalidVersionException("This question is a version of another question");
-    }
+    }*/
 
-    public Boolean verifyStatement(String statement, int model){
+    public Boolean verifyStatement(String statement){
 
-        String response = "";
-
-        //Define model chosen
-        if(model == 0){
-            response = openAiService.getClassification(statement);
-        }
+        String response = openAiService.getClassification(statement);
 
         log.info("Response of Model {}" , response);
         log.info("Response of equals {}" , response.equals("INADEQUADO"));
         return !response.equals("INADEQUADO");
-        //return true;
     }
 
     @Transactional

@@ -21,6 +21,7 @@ public interface MapperQuestion {
     @Mappings({
             @Mapping(source = "user.id", target = "userId"),
             @Mapping(source = "user.name", target = "nameUser"),
+            @Mapping(source = "previousVersion.id", target = "previousId"),
             @Mapping(source = "createdAt", target = "createdAt", dateFormat = "dd/MM/yyyy")
     })
     QuestionRecordDTO toQuestionDTO(Question question);
@@ -45,4 +46,5 @@ public interface MapperQuestion {
         user.setId(id);
         return user;
     }
+
 }
