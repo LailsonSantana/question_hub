@@ -81,36 +81,6 @@ public class QuestionService {
         return questionRepository.save(question);
     }
 
-    /*@Transactional
-    public Question saveNewVersion(QuestionRecordDTO questionRecordDTO , Long id){
-        
-        Optional<Question> previousQuestion = questionRepository.findById(id);
-        Question question = new Question();
-        if(previousQuestion.get().getPreviousVersion() == null){
-
-            question.setStatement(questionRecordDTO.statement());
-            question.setDiscipline(questionRecordDTO.discipline());
-            question.setPreviousVersion(previousQuestion.get());
-
-            if(questionRecordDTO.userId() != null){
-                question.setUser(userRepository.findById(questionRecordDTO.userId()).get());
-            }
-
-            Question questionSaved = questionRepository.save(question);
-            //List<Answer> answers = mapperAnswer.mapToAnswers(questionRecordDTO.answers(),questionSaved);
-            List<Answer> answers = questionRecordDTO.answers().stream().map(answerDTO -> {
-            Answer answer = new Answer();
-            answer.setText(answerDTO.text());
-            answer.setIsCorrect(answerDTO.isCorrect());
-            answer.setQuestion(questionSaved); // Related to answer at question
-            return answerRepository.save(answer); // save the answer
-            }).collect(Collectors.toList());
-            questionSaved.setAnswers(answers);
-            return questionRepository.save(questionSaved);
-        }
-        throw new InvalidVersionException("This question is a version of another question");
-    }*/
-
     public Boolean verifyStatement(String statement){
 
         String response = openAiService.getClassification(statement);
@@ -150,7 +120,7 @@ public class QuestionService {
         if(existingQuestion.isPresent()){
             return mapperQuestion.toQuestionDTO(existingQuestion.get());
         }
-        throw new RuntimeException("Question Not Found");
+        throw new QuestionNotFound("Question Not Found");
     }
 
     @Transactional

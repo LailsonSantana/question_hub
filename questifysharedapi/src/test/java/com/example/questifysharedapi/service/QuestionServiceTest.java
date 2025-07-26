@@ -21,9 +21,14 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class QuestionServiceTest {
@@ -45,6 +50,9 @@ class QuestionServiceTest {
 
     @Captor
     private ArgumentCaptor<Question> questionArgumentCaptor;
+
+    @Captor
+    private ArgumentCaptor<Long> questionIdArgumentCaptor;
 
     private QuestionFactory questionFactory;
 
@@ -152,7 +160,7 @@ class QuestionServiceTest {
 
         @Test
         @DisplayName("")
-        void shouldSaveANewVersionOfAQuestionWithSuccessful(){
+        void shouldSaveANewVersionOfAQuestionWithSuccess(){
             // ARRANGE
 
             // Version
@@ -182,4 +190,65 @@ class QuestionServiceTest {
         }
 
     }
+
+    @Nested
+    class getAllQuestions{
+
+        @Test
+        void shouldReturnAllQuestionsWithSuccess(){
+
+            // ARRANGE
+            var question = questionFactory.createValidQuestion();
+            var questionRecordDTO = questionFactory.createValidQuestionDTO();
+
+
+            Mockito.when(questionRepository.findAllByOrderByIdAsc()).thenReturn(List.of(question));
+            Mockito.when(mapperQuestion.toQuestionsDTO(List.of(question))).thenReturn(List.of(questionRecordDTO));
+
+            // ACT
+            var output = questionService.getAllQuestions();
+            System.out.println("Output =" + output);
+            // ASSERT
+            assertNotNull(output);
+            assertEquals(1 , output.size());
+
+        }
+    }
+
+    @Nested
+    class getQuestionById{
+
+        @Test
+        void shouldReturnAQuestionWithSuccess(){
+            // ARRANGE
+            var question = questionFactory.createValidQuestion();
+            var questionRecordDTO = questionFactory.createValidQuestionDTO();
+
+            when(questionRepository.findById(questionIdArgumentCaptor.capture())).thenReturn(Optional.of(question));
+            when(mapperQuestion.toQuestionDTO(question)).thenReturn(questionRecordDTO);
+
+            // ACT
+            var output = questionService.getQuestionById(3L);
+            var idCaptured = questionIdArgumentCaptor.getValue();
+
+            // ASSERT
+            assertEquals(output.id() , idCaptured);
+            assertEquals(output.statement() , questionRecordDTO.statement());
+        }
+
+        @Test
+        void shouldReturnQuestionNotFound(){
+
+            // ARRANGE
+            when(questionRepository.findById(questionIdArgumentCaptor.capture())).thenReturn(Optional.empty());
+
+            // ACT
+            Executable action = () -> questionService.getQuestionById(3L);
+
+            //ASSERT
+            assertThrows(QuestionNotFound.class, action);
+        }
+    }
+
+
 }

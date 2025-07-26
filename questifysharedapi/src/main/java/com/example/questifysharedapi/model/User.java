@@ -15,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "TB_USER")
-@Data // Generate getters , setters and constructors
+@Data // Generate getters, setters, constructors, equals, hashcode
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)

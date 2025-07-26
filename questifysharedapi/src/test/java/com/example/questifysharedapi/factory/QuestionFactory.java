@@ -32,7 +32,7 @@ public class QuestionFactory {
     }
 
     public static QuestionRecordDTO createValidQuestionDTO(){
-        return new QuestionRecordDTO(3L, "Teste", "Math", null, 3L, "Margaret",
+        return new QuestionRecordDTO(3L, "Teste", "Math", createValidAnswersDTO(), 3L, "Margaret",
             4L, "Não Tem", null, 3, 4.6);
     }
 
@@ -57,7 +57,7 @@ public class QuestionFactory {
         return answers;
     }
 
-    public List<AnswerRecordDTO> createValidAnswersDTO(){
+    public static List<AnswerRecordDTO> createValidAnswersDTO(){
         AnswerRecordDTO answerRecordDTO1 = new AnswerRecordDTO("Teste1", false);
         AnswerRecordDTO answerRecordDTO2 = new AnswerRecordDTO("Teste2", false);
         AnswerRecordDTO answerRecordDTO3 = new AnswerRecordDTO("Teste3", false);
