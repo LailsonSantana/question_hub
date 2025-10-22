@@ -2,6 +2,7 @@ import React from 'react';
 import Button from '../button/Button';
 import styles from '../Wrapper';
 
+
 interface ClassCardProps {
   label: string;
   title: string;
@@ -18,6 +19,7 @@ const ClassCard: React.FC<ClassCardProps> = ({ title, label, imageUrl, onClick, 
         <h3 className="flex justify-center text-base md:text-lg font-bold mb-4 text-titlleColor dark:text-dark-titlleColor">{title}</h3>
         {/* Imagem */}
         <div className="w-full h-3/4 overflow-hidden shadow-md border border-gray-200 bg-white">
+        
           <img src={imageUrl} alt={title} className="w-full h-auto object-fit"/> 
         </div>
 

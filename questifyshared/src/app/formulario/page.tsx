@@ -140,7 +140,8 @@ export default function FormularioPage() {
         }catch(error: any){
             setLoading(false)
             console.error('Erro ao salvar os dados:', error);
-            alert(`Erro 1 : ${error.message}`);
+            notification.notify(error.message, "error")
+            //alert(`Erro Capturado : ${error.message}`);
         }
     };
 
