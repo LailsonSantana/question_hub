@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -48,7 +47,7 @@ public class QuestionService {
 
             return questionRepository.save(question);
         }
-        throw new InappropriateContentException("This content is Inappropriate.");
+        throw new InappropriateContentException("Esse conteúdo é irrelevante ou inapropriado.");
     }
 
     @Transactional
@@ -86,7 +85,7 @@ public class QuestionService {
         String response = openAiService.getClassification(statement);
 
         log.info("Response of Model {}" , response);
-        log.info("Response of equals {}" , response.equals("INADEQUADO"));
+        log.info("Response of equals {}" , !response.equals("INADEQUADO"));
         return !response.equals("INADEQUADO");
     }
 

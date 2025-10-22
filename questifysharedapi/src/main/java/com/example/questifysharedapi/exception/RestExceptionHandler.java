@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 // Indicate to spring that this is class to exception treatment
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -26,10 +29,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(InappropriateContentException.class)
+    public ResponseEntity<Map<String, String>> inappropriateContentHandler(InappropriateContentException exception) {
+        Map<String, String> response = new HashMap<>();
+        response.put("error", "Esse conteúdo é irrelevante ou inapropriado");
+        response.put("message", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    /*@ExceptionHandler(InappropriateContentException.class)
     private ResponseEntity<String> inappropriateContentHandler(InappropriateContentException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O conteúdo da questão contém termos inadequados ou foi mau formulado, tente\" +\n" +
                 "                    \" modificar o seu enunciado e envie novamente");
-    }
+    }*/
 
     @ExceptionHandler(UserNotExist.class)
     private ResponseEntity<String> userNotExistHandler(UserNotExist exception){
