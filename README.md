@@ -24,13 +24,14 @@ a criação de um banco de dados com os mais diversos estilos de questões.
 - Possibilidade de avaliar e comentar as questões disponíveis
 
 ### 🖧 Estrutura do Backend
+```txt
 src/
  ├── main/
  │   ├── java/com/example/questifysharedapi/
  │   │   ├── config/                → Configuração
  │   │   ├── controller/            → Tratamento de requisições
  │   │   ├── dto/                   → Objetos DTO
- │   │   ├── exception/             → Excessões personalizadas
+ │   │   ├── exception/             → Exceções personalizadas
  │   │   ├── mapper/                → Mapeamento de objetos
  │   │   ├── model/                 → Entidades da aplicação
  │   │   ├── repository/            → Camada de persistência
@@ -39,9 +40,11 @@ src/
  │   └── resources/
  │       ├── application.yml
  │       └── schema.sql (opcional)
- └── test/                        → Testes unitários
+ └── test/                          → Testes unitários
+```
 
- ### 🖧 Estrutura do Frontend
+### 🖧 Estrutura do Frontend
+```txt
 src/
  ├── app/
  │   │   ├── administrador/        → Módulo da página do administrador
@@ -69,10 +72,9 @@ src/
  │   │   ├── contextgpt/ 
  │   │   ├── question/
  │   │   ├── user/
- 
+ ```
 
  
-
 ## 📦 Mais informações  
 ```bash
 git clone https://github.com/LailsonSantana/question_hub.git
