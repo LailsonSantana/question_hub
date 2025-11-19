@@ -6,11 +6,13 @@ objetivas como forma de exercitar a construção de conhecimento e colaborar par
 a criação de um banco de dados com os mais diversos estilos de questões.
   
 
-## 🚀 Tecnologias Utilizadas  
-- ⚛️ **Front-end**: React, Tailwind CSS , Next e Material UI.  
-- ⚙️ **Back-end**: Spring Boot e PostgreSQL.  
+## 🚀 Tecnologias Utilizadas 
+- ⚙️ **Back-end**: Java e Spring Boot. 
+- 🖥️ **Front-end**: React, Tailwind CSS, Next e Material UI.
+- 🛠️ **Outros**: Docker e PostgresSQL.
+ 
 
-## 📦 Instalação  
+## 📦 Funcionalidades Principais  
 ```bash
 git clone https://github.com/LailsonSantana/question_hub.git
 npm install
