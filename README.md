@@ -1,6 +1,10 @@
 # 📌 Plataforma Question Hub  
 
-Uma aplicação para criar, responder e avaliar questões objetivas, moderada por IA.  
+Question Hub é uma plataforma web criada como parte do meu projeto de 
+conclusão de curso, a ideia principal é permitir que alunos criem suas próprias questões
+objetivas como forma de exercitar a construção de conhecimento e colaborar para 
+a criação de um banco de dados com os mais diversos estilos de questões.
+  
 
 ## 🚀 Tecnologias Utilizadas  
 - ⚛️ **Front-end**: React, Tailwind CSS , Next e Material UI.  
