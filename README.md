@@ -23,7 +23,8 @@ a criação de um banco de dados com os mais diversos estilos de questões.
 - Possibilidade de responder as questões disponíveis
 - Possibilidade de avaliar e comentar as questões disponíveis
 
-### 🖧 Estrutura do Backend
+
+## 🖧 Estrutura do Backend
 ```txt
 src/
  ├── main/
@@ -43,7 +44,7 @@ src/
  └── test/                          → Testes unitários
 ```
 
-### 🖧 Estrutura do Frontend
+## 🖧 Estrutura do Frontend
 ```txt
 src/
  ├── app/
