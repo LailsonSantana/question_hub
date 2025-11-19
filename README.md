@@ -10,14 +10,71 @@ a criação de um banco de dados com os mais diversos estilos de questões.
 - ⚙️ **Back-end**: Java e Spring Boot. 
 - 🖥️ **Front-end**: React, Tailwind CSS, Next e Material UI.
 - 🛠️ **Outros**: Docker e PostgresSQL.
+
+## 💡 Funcionalidades principais
+
+### 👤 Autenticação de usuários
+- Login com senhas criptografadas 
+- Geração de token JWT 
+
+### 🎓 Questões
+- Possibilidade de criar questões informando o enunciado e cinco alternativas  
+- Possiblidade de vizualizar todas a questões criadas
+- Possibilidade de responder as questões disponíveis
+- Possibilidade de avaliar e comentar as questões disponíveis
+
+### 🖧 Estrutura do Backend
+src/
+ ├── main/
+ │   ├── java/com/example/questifysharedapi/
+ │   │   ├── config/                → Configuração
+ │   │   ├── controller/            → Tratamento de requisições
+ │   │   ├── dto/                   → Objetos DTO
+ │   │   ├── exception/             → Excessões personalizadas
+ │   │   ├── mapper/                → Mapeamento de objetos
+ │   │   ├── model/                 → Entidades da aplicação
+ │   │   ├── repository/            → Camada de persistência
+ │   │   ├── service/               → Lógica da aplicação
+ │   │   └── QuestifysharedapiApplication.java
+ │   └── resources/
+ │       ├── application.yml
+ │       └── schema.sql (opcional)
+ └── test/                        → Testes unitários
+
+ ### 🖧 Estrutura do Frontend
+src/
+ ├── app/
+ │   │   ├── administrador/        → Módulo da página do administrador
+ │   │   ├── ajuda/                → Módulo da página de ajuda
+ │   │   ├── avaliacoes/           → Módulo da página de avaliações
+ │   │   ├── contato/              → Módulo da página de contato
+ │   │   ├── formulario/           → Módulo da página de criação de questões
+ │   │   ├── inicial/              → Módulo da página inicial
+ │   │   ├── login/                → Módulo da página de login
+ │   │   ├── questoes/             → Módulo da página de questões
+ │   │   ├── questoes.criadas/     → Módulo da página de questões criadas
+ │   │   ├── sobre/                → Módulo da página sobre
+ ├── components/
+ │   │   ├── about/ 
+ │   │   ├── button/              → Componentes do tipo button
+ │   │   ├── feedback/ 
+ │   │   ├── formulario/ 
+ │   │   ├── inicial/ 
+ │   │   ├── input/ 
+ │   │   ├── notification/
+ │   │   ├── questao/
+ ├── resources/
+ │   │   ├── classification/ 
+ │   │   ├── comment/ 
+ │   │   ├── contextgpt/ 
+ │   │   ├── question/
+ │   │   ├── user/
  
 
-## 📦 Funcionalidades Principais  
+ 
+
+## 📦 Mais informações  
 ```bash
 git clone https://github.com/LailsonSantana/question_hub.git
-npm install
-npm run dev
-📌 Como Usar
-Faça o login com uma das contas abaixo
 📝 Licença
 Este projeto está sob a licença MIT.
